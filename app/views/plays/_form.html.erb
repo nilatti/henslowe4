@@ -1,0 +1,16 @@
+<%= semantic_form_for [@author, @play] do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :title %>
+    <%= f.input :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
+    <div class="acts">
+    <%= f.semantic_fields_for :acts do |act| %>
+    
+      <%= render 'shared_partials/act_fields', f: act %>
+    <% end %>
+    <%= link_to_add_association 'add act', f, :acts, partial: 'shared_partials/act_fields' %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

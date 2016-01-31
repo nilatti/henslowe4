@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rehearsals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Act</th>
+      <th>Scene</th>
+      <th>French scene</th>
+      <th>Space</th>
+      <th>Production</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rehearsals.each do |rehearsal| %>
+      <tr>
+        <td><%= rehearsal.start_time %></td>
+        <td><%= rehearsal.end_time %></td>
+        <td><%= rehearsal.act %></td>
+        <td><%= rehearsal.scene %></td>
+        <td><%= rehearsal.french_scene %></td>
+        <td><%= rehearsal.space %></td>
+        <td><%= rehearsal.production %></td>
+        <td><%= link_to 'Show', rehearsal %></td>
+        <td><%= link_to 'Edit', edit_rehearsal_path(rehearsal) %></td>
+        <td><%= link_to 'Destroy', rehearsal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rehearsal', new_rehearsal_path %>

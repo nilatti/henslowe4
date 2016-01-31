@@ -1,0 +1,14 @@
+<div class="nested-fields"> 
+	<hr />
+<%= f.inputs do %>
+  <%= f.input :act_number %>
+   <div class="scenes">
+   <%= f.semantic_fields_for :scenes do |scene| %>
+   
+      <%= render "shared_partials/scene_fields", f: scene %>
+    <% end %>
+    <%= link_to_add_association 'add scene', f, :scenes, partial: 'shared_partials/scene_fields'  %>
+</div>
+  <%= link_to_remove_association "remove act", f %>
+<% end %>
+</div>

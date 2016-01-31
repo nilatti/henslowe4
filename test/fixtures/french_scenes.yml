@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  french_scene_number: MyString
+  scene_id: 
+
+two:
+  french_scene_number: MyString
+  scene_id: 

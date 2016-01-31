@@ -1,0 +1,32 @@
+<p>
+  <strong>First name:</strong>
+  <%= @author.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @author.last_name %>
+</p>
+
+<p>
+  <strong>Dates:</strong>
+  b. <%= @author.birth_date %><% if @author.death_date %>, d. <%= @author.death_date %> <% end %>
+</p>
+
+<p>
+  <strong>Bio:</strong>
+  <%= @author.bio %>
+</p>
+
+<p>
+  <strong>Plays:</strong>
+  <ul>
+    <% @author.plays.each do |play| %>
+      <li><%= link_to "#{play.title}", play_path(play) %></li>
+    <% end %>
+  </ul>
+  <%= link_to "Add a play", new_author_play_path(@author) %>
+</p>
+
+<%= link_to 'Edit', edit_author_path(@author) %> |
+<%= link_to 'Back', authors_path %>

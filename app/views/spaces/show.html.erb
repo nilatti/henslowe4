@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @space.name %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @space.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @space.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @space.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @space.zip %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= phone_number_link("#{@space.phone_number}") %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= link_to @space.website, "http://#{@space.website}" %>
+</p>
+
+<p>
+  <strong>Seating capacity:</strong>
+  <%= @space.seating_capacity %>
+</p>
+
+<p>
+  <strong>Calendar:</strong>
+  <%= @space.calendar %>
+</p>
+
+<p>
+  <strong>Theater:</strong>
+  <%= @space.theater.name %>
+</p>
+
+<%= link_to 'Edit', edit_space_path(@space) %> 

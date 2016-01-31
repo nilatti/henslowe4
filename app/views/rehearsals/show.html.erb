@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @rehearsal.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @rehearsal.end_time %>
+</p>
+
+<p>
+  <strong>Act:</strong>
+  <%= @rehearsal.act %>
+</p>
+
+<p>
+  <strong>Scene:</strong>
+  <%= @rehearsal.scene %>
+</p>
+
+<p>
+  <strong>French scene:</strong>
+  <%= @rehearsal.french_scene %>
+</p>
+
+<p>
+  <strong>Space:</strong>
+  <%= @rehearsal.space %>
+</p>
+
+<p>
+  <strong>Production:</strong>
+  <%= @rehearsal.production %>
+</p>
+
+<%= link_to 'Edit', edit_rehearsal_path(@rehearsal) %> |
+<%= link_to 'Back', rehearsals_path %>

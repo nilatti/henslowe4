@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2015-12-30 14:53:51
+  end_time: 2015-12-30 14:53:51
+  act_id: 
+  scene_id: 
+  french_scene_id: 
+  space_id: 
+  production_id: 
+
+two:
+  start_time: 2015-12-30 14:53:51
+  end_time: 2015-12-30 14:53:51
+  act_id: 
+  scene_id: 
+  french_scene_id: 
+  space_id: 
+  production_id: 

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing French Scenes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>French scene number</th>
+      <th>Scene</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @french_scenes.each do |french_scene| %>
+      <tr>
+        <td><%= french_scene.french_scene_number %></td>
+        <td><%= french_scene.scene %></td>
+        <td><%= link_to 'Show', french_scene %></td>
+        <td><%= link_to 'Edit', edit_french_scene_path(french_scene) %></td>
+        <td><%= link_to 'Destroy', french_scene, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New French scene', new_french_scene_path %>

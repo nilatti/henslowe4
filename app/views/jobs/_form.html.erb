@@ -1,0 +1,14 @@
+<%= semantic_form_for @job do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :user %>
+    <%= f.input :specialization %>
+    <%= f.input :production %>
+    <%= f.input :theater %>
+    <%= f.input :start_date %>
+    <%= f.input :end_date %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

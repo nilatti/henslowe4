@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @theater.name %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @theater.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @theater.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @theater.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @theater.zip %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @theater.phone_number %>
+</p>
+
+<p>
+  <strong>Mission statement:</strong>
+  <%= @theater.mission_statement %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= @theater.website %>
+</p>
+
+<p>
+  <strong>Calendar:</strong>
+  <%= @theater.calendar %>
+</p>
+
+<p>
+  <strong>Spaces:</strong>
+  <ul>
+  <% @theater.spaces.each do |space| %>
+    <li><%= link_to "#{space.name}", space_url(space) %>
+  <% end %>
+  </ul>
+  <%= link_to 'Add new space', new_theater_space_path(@theater) %>
+</p>
+
+<p>Associated users:
+</p>
+
+<%= link_to 'Edit', edit_theater_path(@theater) %> |
+<%= link_to 'Back', theaters_path %>

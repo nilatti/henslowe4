@@ -1,0 +1,12 @@
+<div class="nested-fields"> 
+<%= f.inputs do %>
+  <%= f.input :scene_number %>
+  <div class="french-scenes">
+   <%= f.semantic_fields_for :french_scenes do |french_scene| %>
+    
+      <%= render 'shared_partials/french_scene_fields', f: french_scene %>
+    <% end %>
+    <%= link_to_add_association 'add french scene', f, :french_scenes, partial: 'shared_partials/french_scene_fields' %></div>
+  <%= link_to_remove_association "remove scene", f %>
+<% end %>
+</div>

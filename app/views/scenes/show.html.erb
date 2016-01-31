@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<p>
+	<%= link_to "#{@scene.act.play.title}", play_path(@scene.act.play) %>, by <%= link_to "#{@scene.act.play.author.name}", author_path(@scene.act.play.author) %>
+</p>
+<p>
+	<strong>Act:</strong>
+	<%= link_to "#{@scene.act.act_number}", act_path(@scene.act) %>
+</p>
+<p>
+  <strong>Scene:</strong>
+  <%= @scene.pretty_name %>
+</p>
+
+<p>
+	<strong>French Scenes:</strong>
+	<ul>
+		<% @scene.french_scenes.each do |french_scene| %>
+		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>
+		<% end %>
+	</ul>
+
+<%= link_to 'Edit', edit_scene_path(@scene) %> |
+<%= link_to 'Back', act_path(@scene.act) %>

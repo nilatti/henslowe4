@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= @play.title %></strong> by <%= link_to "#{@play.author.name}", author_path(@play.author) %><br />
+  <% if @play.date %><%= @play.date %><% end %>
+</p>
+
+<p>
+	<strong>Acts:</strong>
+	<ul>
+    <% @play.acts.each do |act| %>
+	  <li><%= link_to "#{act.act_number}", act_path(act) %>
+	  	<ul>
+	  	<% act.scenes.each do |scene| %>
+        	<li><%= link_to "#{scene.pretty_name}", scene_path(scene) %>
+        		<ul>
+        		<% scene.french_scenes.each do |french_scene| %>
+        		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %></li>
+        		<% end %>
+        	</ul>
+        	</li>
+        <% end %>
+    	</ul>
+	  </li>
+	
+	<% end %>
+</ul>
+</p>
+
+<p>
+    <strong>Characters:</strong>
+    <% if @play.characters %>
+      <ul>
+      <% @play.characters.each do |character| %>
+        <li><%= link_to "#{character.name}", character_path(character) %></li>
+      <% end %>
+    </ul>
+    <% end %>
+    <%= link_to "Add Character", new_play_character_path(@play) %>
+</p>
+<%= link_to 'Edit', edit_play_path(@play) %> |
+<%= link_to 'Back', author_path(@play.author) %>

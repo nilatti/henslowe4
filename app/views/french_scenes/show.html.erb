@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+<p><%= link_to "#{@french_scene.scene.act.play.title}", play_path(@french_scene.scene.act.play) %>, by <%= link_to "#{@french_scene.scene.act.play.author.name}", author_path(@french_scene.scene.act.play.author) %>
+</p>
+<p>
+	<strong>Act:</strong>
+	<%= link_to "#{@french_scene.scene.act.act_number}", act_path(@french_scene.scene.act) %>
+<p>
+  <strong>Scene:</strong>
+  <%= link_to "#{@french_scene.scene.scene_number}", scene_path(@french_scene.scene) %>
+</p>
+<p>
+  <strong>French scene number:</strong>
+  <%= @french_scene.french_scene_number %>
+</p>
+
+<%= link_to 'Edit', edit_french_scene_path(@french_scene) %> |
+<%= link_to 'Back', scene_path(@french_scene.scene) %>

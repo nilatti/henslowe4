@@ -1,0 +1,6 @@
+<%= semantic_form_for [@act, @scene] do |f| %>
+      <%= render 'shared_partials/scene_fields', f: f %>
+	  <%= f.actions do %>
+	    <%= f.action :submit, :as => :input %>
+	  <% end %>
+<% end %>

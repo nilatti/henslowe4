@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @job.user %>
+</p>
+
+<p>
+  <strong>Specialization:</strong>
+  <%= @job.specialization %>
+</p>
+
+<p>
+  <strong>Production:</strong>
+  <%= @job.production %>
+</p>
+
+<p>
+  <strong>Theater:</strong>
+  <%= @job.theater %>
+</p>
+
+<p>
+	<strong>Dates:</strong>
+	<%= @job.start_date %> - <%= @job.end_date %>
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>
