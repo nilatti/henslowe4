@@ -4,4 +4,6 @@ class Act < ActiveRecord::Base
   accepts_nested_attributes_for :scenes, allow_destroy: true
   
   validates :play, presence: true
+
+  default_scope { order(:act_number) }
 end

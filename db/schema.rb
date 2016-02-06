@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160118165845) do
+ActiveRecord::Schema.define(version: 20160205025841) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 20160118165845) do
   add_index "jobs", ["specialization_id"], name: "index_jobs_on_specialization_id", using: :btree
   add_index "jobs", ["theater_id"], name: "index_jobs_on_theater_id", using: :btree
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
+
+  create_table "on_stages", force: :cascade do |t|
+    t.integer  "character_id",    limit: 4
+    t.integer  "french_scene_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "on_stages", ["character_id"], name: "index_on_stages_on_character_id", using: :btree
+  add_index "on_stages", ["french_scene_id"], name: "index_on_stages_on_french_scene_id", using: :btree
 
   create_table "plays", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -181,6 +191,8 @@ ActiveRecord::Schema.define(version: 20160118165845) do
   add_foreign_key "jobs", "specializations"
   add_foreign_key "jobs", "theaters"
   add_foreign_key "jobs", "users"
+  add_foreign_key "on_stages", "characters"
+  add_foreign_key "on_stages", "french_scenes"
   add_foreign_key "plays", "authors"
   add_foreign_key "productions", "plays"
   add_foreign_key "productions", "theaters"

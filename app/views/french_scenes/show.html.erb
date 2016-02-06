@@ -12,6 +12,11 @@
   <strong>French scene number:</strong>
   <%= @french_scene.french_scene_number %>
 </p>
-
-<%= link_to 'Edit', edit_french_scene_path(@french_scene) %> |
-<%= link_to 'Back', scene_path(@french_scene.scene) %>
+<p>
+	<strong>Characters:</strong>
+	<ul>
+	<% @french_scene.characters.each do |character| %>
+	<li><%= link_to "#{character.name}", character_path(character) %></li> 
+	<% end %>
+    </ul>
+<%= link_to 'Edit', edit_french_scene_path(@french_scene) %>

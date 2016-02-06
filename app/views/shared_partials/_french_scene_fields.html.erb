@@ -1,6 +1,7 @@
 <div class="nested-fields"> 
 <%= f.inputs do %>
   <%= f.input :french_scene_number %>
+  <%= f.input :characters, :as => :check_boxes, :collection => @play.characters.all %>
   <%= link_to_remove_association "remove french scene", f %>
 <% end %>
 </div>

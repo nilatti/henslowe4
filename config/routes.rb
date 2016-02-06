@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root 'theaters#index'
+
   resources :authors, shallow: true do
     resources :plays do
       resources :characters
@@ -21,14 +23,20 @@ Rails.application.routes.draw do
     end
   end
   
+ 
+
+  resources :specializations
+  
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
+  match 'users/:id' => 'users#show', via: :get
+
   resources :users do
     resources :jobs
   end
 
-  resources :specializations
-  
-  devise_for :users
-  root to: 'pages#index'
 
   get '/secret', to: 'pages#secret', as: :secret
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,10 +1,11 @@
 class ProductionsController < ApplicationController
   before_action :set_production, only: [:show, :edit, :update, :destroy]
+  before_action :set_theater
 
   # GET /productions
   # GET /productions.json
   def index
-    @productions = Production.all
+    @productions = Production.where("theater_id = #{@theater.id}")
   end
 
   # GET /productions/1
@@ -24,8 +25,7 @@ class ProductionsController < ApplicationController
   # POST /productions
   # POST /productions.json
   def create
-    @production = Production.new(production_params)
-
+    @production = @theater.productions.build(production_params)
     respond_to do |format|
       if @production.save
         format.html { redirect_to @production, notice: 'Production was successfully created.' }
@@ -65,6 +65,12 @@ class ProductionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_production
       @production = Production.find(params[:id])
+    end
+
+    def set_theater
+      if params[:theater_id]
+        @theater = Theater.find(params[:theater_id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

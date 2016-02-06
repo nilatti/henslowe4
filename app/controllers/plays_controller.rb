@@ -82,6 +82,6 @@ class PlaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def play_params
-      params.require(:play).permit(:title, :date, :author_id, acts_attributes: [:id, :act_number, :_destroy, scenes_attributes: [:id, :scene_number, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :_destroy]]])
+      params.require(:play).permit(:title, :date, :author_id, acts_attributes: [:id, :act_number, :_destroy, scenes_attributes: [:id, :scene_number, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :_destroy, character_ids: []]]])
     end
 end

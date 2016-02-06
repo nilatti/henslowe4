@@ -55,7 +55,16 @@
   <%= link_to 'Add new space', new_theater_space_path(@theater) %>
 </p>
 
-<p>Associated users:
+<p>
+  <strong>Productions:</strong>
+  <ul>
+    <% @theater.productions.each do |prod| %>
+    <li><%= link_to "#{prod.play.title}", production_url(prod) %>, <%= prod.start_date.strftime("%Y") %></li>
+      <% end %>
+  </ul>
+  <%= link_to 'Add new production', new_theater_production_path(@theater) %>
+<p>
+  <strong>Associated users:</strong>
 </p>
 
 <%= link_to 'Edit', edit_theater_path(@theater) %> |

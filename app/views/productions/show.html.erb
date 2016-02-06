@@ -1,24 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Start date:</strong>
-  <%= @production.start_date %>
-</p>
-
-<p>
-  <strong>End date:</strong>
-  <%= @production.end_date %>
+  <strong>Dates:</strong>
+  <%= @production.start_date.strftime("%b %d, %Y") %> - <%= @production.end_date.strftime("%b %d, %Y") %> 
 </p>
 
 <p>
   <strong>Play:</strong>
-  <%= @production.play %>
+  <%= link_to "#{@production.play.title}", play_path(@production.play) %>
 </p>
 
 <p>
   <strong>Theater:</strong>
-  <%= @production.theater %>
+  <%= link_to "#{@production.theater.name}", theater_path(@production.theater) %>
 </p>
 
-<%= link_to 'Edit', edit_production_path(@production) %> |
-<%= link_to 'Back', productions_path %>
+<%= link_to 'Edit', edit_production_path(@production) %>
