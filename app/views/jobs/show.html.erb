@@ -2,27 +2,27 @@
 
 <p>
   <strong>User:</strong>
-  <%= @job.user %>
+  <%= link_to "#{@job.user.name}", user_path(@job.user) %>
 </p>
 
 <p>
   <strong>Specialization:</strong>
-  <%= @job.specialization %>
+  <%= @job.specialization.title %>
 </p>
 
 <p>
   <strong>Production:</strong>
-  <%= @job.production %>
+  <%= link_to "#{@job.production.pretty_name}", production_path(@job.production) %>
 </p>
 
 <p>
   <strong>Theater:</strong>
-  <%= @job.theater %>
+  <%= link_to "#{@job.theater.name}", theater_path(@job.theater) %>
 </p>
 
 <p>
 	<strong>Dates:</strong>
-	<%= @job.start_date %> - <%= @job.end_date %>
+	<% if @job.start_date %><%= @job.start_date.strftime("%b %d, %Y") %><% end %> - <% if @job.end_date %><%= @job.end_date.strftime("%b %d, %Y") %> <% end %>
+</p>
 
-<%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Back', jobs_path %>
+<%= link_to 'Edit', edit_job_path(@job) %>

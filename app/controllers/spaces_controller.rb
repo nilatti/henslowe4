@@ -26,9 +26,13 @@ class SpacesController < ApplicationController
   # POST /spaces.json
   def create
     @space = @theater.spaces.build(space_params)
+    
 
     respond_to do |format|
       if @space.save
+        if params[:theater_id]
+          @space_agreement = SpaceAgreement.create({ :space_id => @space.id, :theater_id => params[:theater_id]})
+        end
         format.html { redirect_to @space, notice: 'Space was successfully created.' }
         format.json { render :show, status: :created, location: @space }
       else

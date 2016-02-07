@@ -2,10 +2,10 @@
   <%= f.inputs do %>
     <%= f.input :user %>
     <%= f.input :specialization %>
-    <%= f.input :production %>
+    <%= f.input :production, :member_label => :pretty_name %>
     <%= f.input :theater %>
-    <%= f.input :start_date %>
-    <%= f.input :end_date %>
+    <%= f.input :start_date, :as => :date_picker %>
+    <%= f.input :end_date, :as => :date_picker %>
   <% end %>
 
   <%= f.actions do %>

@@ -17,11 +17,11 @@
   <tbody>
     <% @jobs.each do |job| %>
       <tr>
-        <td><%= job.user %></td>
-        <td><%= job.specialization %></td>
-        <td><%= job.production %></td>
-        <td><%= job.theater %></td>
-        <td><%= job.start_date %> - <%= job.end_date %>
+        <td><%= job.user.try(:name) %></td>
+        <td><%= job.specialization.try(:title) %></td>
+        <td><%= job.production.play.try(:title) %></td>
+        <td><%= job.theater.try(:name) %></td>
+        <td><%= job.try(:start_date) %> - <%= job.try(:end_date) %>
         <td><%= link_to 'Show', job %></td>
         <td><%= link_to 'Edit', edit_job_path(job) %></td>
         <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>

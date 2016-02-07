@@ -15,6 +15,17 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     @job = Job.new
+    if params[:production_id]
+      prod = Production.find(params[:production_id])
+      @job.production = prod
+      @job.start_date = prod.start_date
+      @job.end_date = prod.end_date
+      @job.theater = prod.theater
+    end
+
+    if params[:user_id]
+      @job.user = User.find(params[:user_id])
+    end
   end
 
   # GET /jobs/1/edit
@@ -28,7 +39,7 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
+        format.html { redirect_to @job.production, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
         format.html { render :new }
@@ -56,7 +67,7 @@ class JobsController < ApplicationController
   def destroy
     @job.destroy
     respond_to do |format|
-      format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
+      format.html { redirect_to @job.production, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

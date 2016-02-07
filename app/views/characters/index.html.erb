@@ -1,14 +1,16 @@
+<% content_for :head do %>
+  <title><%= "Characters in #{@play.title}" %></title>
+<% end %>
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Characters</h1>
 
-<table>
+<table class="table-striped">
   <thead>
     <tr>
       <th>Name</th>
       <th>Age</th>
-      <th>Is female</th>
-      <th>Play</th>
+      <th>Gender</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +18,9 @@
   <tbody>
     <% @characters.each do |character| %>
       <tr>
-        <td><%= character.name %></td>
+        <td><%= link_to "#{character.name}", character_path(character) %></td>
         <td><%= character.age %></td>
-        <td><%= character.is_female %></td>
-        <td><%= character.play %></td>
+        <td><%= character.gender %></td>
         <td><%= link_to 'Show', character %></td>
         <td><%= link_to 'Edit', edit_character_path(character) %></td>
         <td><%= link_to 'Destroy', character, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -30,4 +31,4 @@
 
 <br>
 
-<%= link_to 'New Character', new_character_path %>
+<%= link_to 'New Character', new_play_character_path(@play) %>

@@ -15,6 +15,14 @@
 //= require tether
 //= require bootstrap-sprockets
 //= require jquery_ujs
+//= require best_in_place
 //= require turbolinks
+//= require jquery-ui
+//= require best_in_place.jquery-ui
 //= require cocoon
 //= require_tree .
+
+$(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});

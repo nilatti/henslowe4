@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <title><%= "Editing #{@french_scene.scene.act.play.title}, #{@french_scene.pretty_name}" %></title>
+<% end %>
 <h1>Editing French Scene</h1>
 
 <%= render 'form' %>

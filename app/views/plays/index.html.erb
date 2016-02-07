@@ -10,20 +10,20 @@
   <thead>
     <tr>
       <th>Title</th>
+      <th>Author</th>
       <th>Date</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @plays.each do |play| %>
-      <tr>
-        <td><%= play.title %></td>
-        <td><% if play.date %><%= play.date.strftime("%Y") %><% end %></td>
-        <td><%= link_to 'Show', play %></td>
-        <td><%= link_to 'Edit', edit_play_path(play) %></td>
-        <td><%= link_to 'Destroy', play, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <% @plays.canonical.each do |play| %>
+        <tr>
+          <td><%= link_to "#{play.title}", play_path(play) %></td>
+          <td><%= play.author.name %></td>
+          <td><% if play.date %><%= play.date.strftime("%Y") %><% end %></td>
+          <td><%= link_to 'Destroy', play, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
     <% end %>
   </tbody>
 </table>

@@ -2,7 +2,7 @@
   <%= f.inputs do %>
     <%= f.input :start_date, :as => :date_picker %>
     <%= f.input :end_date, :as => :date_picker %>
-    <%= f.input :play %> <strong>Is the play you are looking for not here? <%= link_to "Request a new play", "mailto:henslowescloud@gmail.com" %></strong>
+    <%= f.input :play, :as => :select, :collection => Play.canonical %> <strong>Is the play you are looking for not here? <%= link_to "Request a new play", "mailto:henslowescloud@gmail.com" %></strong>
   <% end %>
 
   <%= f.actions do %>

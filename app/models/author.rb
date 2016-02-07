@@ -3,6 +3,8 @@ class Author < ActiveRecord::Base
   validate :death_after_birth
   has_many :plays
 
+  default_scope { order(:last_name) }
+
   def name
   	first_name + " " + last_name
   end

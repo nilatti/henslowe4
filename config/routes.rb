@@ -13,13 +13,17 @@ Rails.application.routes.draw do
       end
     end
   end
-
+  resources :jobs, only: [:edit, :update, :new, :create]
   resources :plays
 
   resources :theaters, shallow: true do
     resources :spaces
     resources :productions do
       resources :rehearsals
+      resources :jobs
+      member do 
+        get 'edit_casting'
+      end
     end
   end
   
@@ -36,8 +40,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :jobs
   end
-
-
+  
   get '/secret', to: 'pages#secret', as: :secret
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,8 +1,11 @@
+<% content_for :head do %>
+  <title><%= "#{@character.name} from #{@character.play.title}" %></title>
+<% end %>
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Name:</strong>
-  <%= @character.name %>
+  <%= best_in_place @character, :name %>
 </p>
 
 <p>
@@ -11,14 +14,15 @@
 </p>
 
 <p>
-  <strong>Is female:</strong>
-  <%= @character.is_female %>
+  <strong>Gender:</strong>
+  <%= @character.gender %>
 </p>
 
 <p>
   <strong>Play:</strong>
-  <%= @character.play.title %>
+  <%= link_to "#{@character.play.title}", play_path(@character.play) %>
 </p>
 
-<%= link_to 'Edit', edit_character_path(@character) %> |
-<%= link_to 'Back', play_path(@character.play) %>
+<p>
+	<%= link_to "Edit", edit_character_path(@character) %>
+</p>

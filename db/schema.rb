@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205025841) do
+ActiveRecord::Schema.define(version: 20160207012709) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -34,11 +34,11 @@ ActiveRecord::Schema.define(version: 20160205025841) do
 
   create_table "characters", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.integer  "age",        limit: 4
-    t.boolean  "is_female"
+    t.string   "age",        limit: 255
+    t.text     "gender",     limit: 65535
     t.integer  "play_id",    limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   add_index "characters", ["play_id"], name: "index_characters_on_play_id", using: :btree
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160205025841) do
     t.datetime "updated_at",                  null: false
     t.date     "start_date"
     t.date     "end_date"
+    t.integer  "character_id",      limit: 4
   end
 
   add_index "jobs", ["production_id"], name: "index_jobs_on_production_id", using: :btree
@@ -84,6 +85,7 @@ ActiveRecord::Schema.define(version: 20160205025841) do
     t.integer  "author_id",  limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.boolean  "canonical"
   end
 
   add_index "plays", ["author_id"], name: "index_plays_on_author_id", using: :btree
@@ -127,6 +129,16 @@ ActiveRecord::Schema.define(version: 20160205025841) do
   end
 
   add_index "scenes", ["play_id"], name: "index_scenes_on_play_id", using: :btree
+
+  create_table "space_agreements", force: :cascade do |t|
+    t.integer  "theater_id", limit: 4
+    t.integer  "space_id",   limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "space_agreements", ["space_id"], name: "index_space_agreements_on_space_id", using: :btree
+  add_index "space_agreements", ["theater_id"], name: "index_space_agreements_on_theater_id", using: :btree
 
   create_table "spaces", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -202,5 +214,7 @@ ActiveRecord::Schema.define(version: 20160205025841) do
   add_foreign_key "rehearsals", "scenes"
   add_foreign_key "rehearsals", "spaces"
   add_foreign_key "scenes", "plays"
+  add_foreign_key "space_agreements", "spaces"
+  add_foreign_key "space_agreements", "theaters"
   add_foreign_key "spaces", "theaters"
 end

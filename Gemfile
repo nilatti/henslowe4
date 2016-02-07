@@ -9,6 +9,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'formtastic', '~> 3.0'
 gem 'formtastic-bootstrap'
 gem 'cocoon'
+#choose either deep_cloneable or amoeba
+gem 'rails_deep_copy'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -18,11 +20,13 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
+gem 'best_in_place', '~> 3.1'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise', '3.5.3'

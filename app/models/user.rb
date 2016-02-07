@@ -7,6 +7,5 @@ class User < ActiveRecord::Base
   has_many :specializations, through: :jobs
   has_many :productions, through: :jobs
   has_many :theaters, through: :jobs
-  
 
 end

@@ -1,3 +1,5 @@
 class Space < ActiveRecord::Base
-  belongs_to :theater
+  has_many :space_agreements, dependent: :destroy
+  has_many :theaters, through: :space_agreements
+  
 end

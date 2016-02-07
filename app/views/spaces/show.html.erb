@@ -2,27 +2,27 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @space.name %>
+  <%= best_in_place @space, :name %>
 </p>
 
 <p>
   <strong>Street address:</strong>
-  <%= @space.street_address %>
+  <%= best_in_place @space, :street_address %>
 </p>
 
 <p>
   <strong>City:</strong>
-  <%= @space.city %>
+  <%= best_in_place @space, :city %>
 </p>
 
 <p>
   <strong>State:</strong>
-  <%= @space.state %>
+  <%= best_in_place @space, :state %>
 </p>
 
 <p>
   <strong>Zip:</strong>
-  <%= @space.zip %>
+  <%= best_in_place @space, :zip %>
 </p>
 
 <p>
@@ -37,17 +37,21 @@
 
 <p>
   <strong>Seating capacity:</strong>
-  <%= @space.seating_capacity %>
+  <%= best_in_place @space, :seating_capacity %>
 </p>
 
 <p>
   <strong>Calendar:</strong>
-  <%= @space.calendar %>
+  <%= best_in_place @space, :calendar %>
 </p>
 
 <p>
-  <strong>Theater:</strong>
-  <%= @space.theater.name %>
+  <strong>Theaters:</strong>
+  <ul>
+  <% @space.theaters.each do |theater| %>
+  <li><%= link_to "#{theater.name}", theater %></li>
+  <% end %>
+  </ul>
 </p>
 
 <%= link_to 'Edit', edit_space_path(@space) %> 

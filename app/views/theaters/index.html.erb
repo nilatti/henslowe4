@@ -14,14 +14,14 @@
       <th>Mission statement</th>
       <th>Website</th>
       <th>Calendar</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @theaters.each do |theater| %>
       <tr>
-        <td><%= theater.name %></td>
+        <td><%= link_to "#{theater.name}", theater_path(theater) %></td>
         <td><%= theater.street_address %></td>
         <td><%= theater.city %></td>
         <td><%= theater.state %></td>
@@ -30,8 +30,6 @@
         <td><%= theater.mission_statement %></td>
         <td><%= theater.website %></td>
         <td><%= theater.calendar %></td>
-        <td><%= link_to 'Show', theater %></td>
-        <td><%= link_to 'Edit', edit_theater_path(theater) %></td>
         <td><%= link_to 'Destroy', theater, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

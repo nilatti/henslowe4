@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <title><%= "#{@act.play.title}, Act #{@act.act_number}" %></title>
+<% end %>
 <p id="notice"><%= notice %></p>
 <p>
   <%= link_to "#{@act.play.title}", play_path(@act.play) %> by <%= link_to "#{@act.play.author.name}", author_path(@act.play.author) %>

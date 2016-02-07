@@ -1,5 +1,5 @@
 class ProductionsController < ApplicationController
-  before_action :set_production, only: [:show, :edit, :update, :destroy]
+  before_action :set_production, only: [:show, :edit, :update, :destroy, :edit_casting]
   before_action :set_theater
 
   # GET /productions
@@ -25,7 +25,15 @@ class ProductionsController < ApplicationController
   # POST /productions
   # POST /productions.json
   def create
+    @orig_play = Play.find(production_params[:play_id])
+    @dup_play = RailsDeepCopy::Duplicate.create(@orig_play)
+    
     @production = @theater.productions.build(production_params)
+    @production.play = @dup_play
+    @production.play.characters.each do |character|
+      @production.jobs.build(:character_id => character.id, :specialization_id => 2, :theater_id => @production.theater.id, :start_date => @production.start_date, :end_date => @production.end_date) # THIS VALUE FOR ACTOR IS HARD CODED AND THAT IS BAD. In current instance, Specialization.find(2) = Actor. How can I make this dynamic without querying it constantly?
+    end
+
     respond_to do |format|
       if @production.save
         format.html { redirect_to @production, notice: 'Production was successfully created.' }
@@ -56,9 +64,12 @@ class ProductionsController < ApplicationController
   def destroy
     @production.destroy
     respond_to do |format|
-      format.html { redirect_to productions_url, notice: 'Production was successfully destroyed.' }
+      format.html { redirect_to theater_path(@production.theater), notice: 'Production was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def edit_casting
   end
 
   private
@@ -75,6 +86,6 @@ class ProductionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def production_params
-      params.require(:production).permit(:start_date, :end_date, :play_id, :theater_id)
+      params.require(:production).permit(:start_date, :end_date, :play_id, :theater_id, jobs_attributes: [:id, :production_id, :specialization_id, :user_id, :theater_id, :character_id])
     end
 end

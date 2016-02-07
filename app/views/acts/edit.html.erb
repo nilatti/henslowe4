@@ -1,4 +1,8 @@
-<h1>Editing Act</h1>
+<% content_for :head do %>
+  <title><%= "Editing #{@act.play.title}, Act #{@act.act_number}" %>
+<% end %>
+
+<h1>Editing Act <%= @act.act_number %></h1>
 
 <%= render 'form' %>
 

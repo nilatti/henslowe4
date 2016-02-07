@@ -1,32 +1,32 @@
+<% content_for :head do %>
+  <title><%= "#{@author.name}" %></title>
+<% end %>
 <p>
   <strong>First name:</strong>
-  <%= @author.first_name %>
+  <%= best_in_place @author, :first_name, :as => :input %>
 </p>
 
 <p>
   <strong>Last name:</strong>
-  <%= @author.last_name %>
+  <%= best_in_place @author, :last_name, :as => :input %>
 </p>
 
 <p>
   <strong>Dates:</strong>
-  b. <%= @author.birth_date %><% if @author.death_date %>, d. <%= @author.death_date %> <% end %>
+  b. <%= best_in_place @author, :birth_date, :as => :date %><% if @author.death_date %>, d. <%= best_in_place @author, :death_date, :as => :date %> <% end %>
 </p>
 
 <p>
   <strong>Bio:</strong>
-  <%= @author.bio %>
+  <%= best_in_place @author, :bio, :as => :textarea %>
 </p>
 
 <p>
   <strong>Plays:</strong>
   <ul>
-    <% @author.plays.each do |play| %>
+    <% @author.plays.canonical.each do |play| %>
       <li><%= link_to "#{play.title}", play_path(play) %></li>
     <% end %>
   </ul>
   <%= link_to "Add a play", new_author_play_path(@author) %>
 </p>
-
-<%= link_to 'Edit', edit_author_path(@author) %> |
-<%= link_to 'Back', authors_path %>

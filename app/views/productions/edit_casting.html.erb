@@ -1,0 +1,14 @@
+<%= semantic_form_for @production do |f| %>
+  <%= f.inputs do %>
+  <% @production.jobs.acting.each do |casting| %>
+    <% if casting.character %>
+	    <%= f.semantic_fields_for :jobs, casting do |c| %>
+	      <%= c.input :user, :as => :select, :collection => @production.users.uniq, :label => casting.character.name %>
+	      <% end %>
+	    <% end %>
+    <% end %>
+    <% end %>
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

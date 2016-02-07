@@ -1,8 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= @play.title %></strong> by <%= link_to "#{@play.author.name}", author_path(@play.author) %><br />
-  <% if @play.date %><%= @play.date %><% end %>
+  <strong><%= best_in_place @play, :title %></strong> by <%= link_to "#{@play.author.name}", author_path(@play.author) %><br />
+  <% if @play.date %><%= @play.date.strftime("%Y") %><% end %><br />
+  <% if @play.canonical %>This is the canonical version of the play.<% end %>
 </p>
 
 <p>
@@ -38,5 +39,4 @@
     <% end %>
     <%= link_to "Add Character", new_play_character_path(@play) %>
 </p>
-<%= link_to 'Edit', edit_play_path(@play) %> |
-<%= link_to 'Back', author_path(@play.author) %>
+<%= link_to 'Edit', edit_play_path(@play) %> 

@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <title><%= "#{@act.play.title}, New Act" %></title>
+<% end %>
+
 <h1>New Act</h1>
 
 <%= render 'form' %>

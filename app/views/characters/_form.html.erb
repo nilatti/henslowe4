@@ -1,8 +1,8 @@
 <%= semantic_form_for [@play, @character] do |f| %>
   <%= f.inputs do %>
     <%= f.input :name %>
-    <%= f.input :age %>
-    <%= f.input :is_female %>
+    <%= f.input :age, :as => :select, collection: ["Baby","Child","Teen","Young Adult","Adult","Senior"] %>
+    <%= f.input :gender, :as => :select, collection: ["Male","Female","Neutral"] %>
   <% end %>
 
   <%= f.actions do %>

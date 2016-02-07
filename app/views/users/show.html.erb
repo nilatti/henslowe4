@@ -10,4 +10,31 @@
   <%= link_to "#{@user.email}", "mailto:#{@user.email}" %>
 </p>
 
+<p>
+	<strong>Jobs:</strong>
+	<ul><% @user.jobs.sort { |a, b| a.specialization_id <=> b.specialization_id } %>
+    	<% @user.jobs.each do |job| %>
+    	  <li><%= job.specialization.title %>
+          <% if job.specialization.id == 2 %> 
+            as <%= job.character.name %> in
+          <% else %>
+            on
+          <% end %>
+    	    <% if job.production %>
+    	      <%= link_to "#{job.production.play.title}", production_path(job.production) %>
+    	    <% end %> 
+    	    at <%= link_to "#{job.theater.name}", theater_path(job.theater) %>, 
+          <% if job.start_date %>
+            <%= job.start_date.strftime("%b %d, %Y") %>
+          <% end %> 
+          - 
+          <% if job.end_date %>
+            <%= job.end_date.strftime("%b %d, %Y") %>
+          <% end %>
+        </li>
+    	<% end %>
+    </ul> 
+    <%= link_to "Add new job", new_job_path(:user_id => @user.id) %>
+</p>
+
 <%= link_to 'Edit', edit_user_path(@user) %>

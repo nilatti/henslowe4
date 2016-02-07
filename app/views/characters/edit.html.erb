@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <title><%= "Editing #{@character.name}" %></title>
+<% end %>
 <h1>Editing Character</h1>
 
 <%= render 'form' %>

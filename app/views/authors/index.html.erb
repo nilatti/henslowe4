@@ -1,27 +1,26 @@
+<% content_for :head do %>
+  <title>All Authors</title>
+<% end %>
 <h1>Listing Authors</h1>
 
 <table class="table">
   <thead>
     <tr>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Name</th>
       <th>Birth date</th>
       <th>Death date</th>
       <th>Bio</th>
-      <th colspan="3"></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @authors.each do |author| %>
       <tr>
-        <td><%= author.first_name %></td>
-        <td><%= author.last_name %></td>
+        <td><%= link_to "#{author.name}", author_path(author) %></td>
         <td><%= author.birth_date %></td>
         <td><%= author.death_date %></td>
         <td><%= author.bio %></td>
-        <td><%= link_to 'Show', author %></td>
-        <td><%= link_to 'Edit', edit_author_path(author) %></td>
         <td><%= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

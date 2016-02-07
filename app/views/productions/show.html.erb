@@ -1,8 +1,12 @@
+<% content_for :head do %>
+  <title><%= "#{@production.play.title} at #{@production.theater.name}" %></title>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Dates:</strong>
-  <%= @production.start_date.strftime("%b %d, %Y") %> - <%= @production.end_date.strftime("%b %d, %Y") %> 
+  <% if @production.start_date && @production.end_date %><%= best_in_place @production, :start_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %> - <%= best_in_place @production, :end_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %><% else %><%= best_in_place @production, :start_date, :as => :date %> - <%= best_in_place @production, :end_date, :as => :date %><% end %>
 </p>
 
 <p>
@@ -13,6 +17,26 @@
 <p>
   <strong>Theater:</strong>
   <%= link_to "#{@production.theater.name}", theater_path(@production.theater) %>
+</p>
+<p>
+  <strong>Casting:</strong>
+  <ul>
+    <% @production.jobs.acting.each do |casting| %>
+      <% if casting.character %><li><%= casting.character.name %> &mdash; <% if casting.user %><%= link_to "#{casting.user.name}", casting.user %><% end %><% end %></li><% end %>
+  </ul>
+  <%= link_to "Edit casting", edit_casting_production_path %>
+</p>
+<p>
+	<strong>Tech and directing:</strong>
+	<ul>
+	<% @production.jobs.each do |job| %>
+      <% unless job.acting? %>
+       <li><%= job.specialization.title %> &mdash; <% if job.user %><%= job.user.name %><% end %></li>
+      <% end %>
+    <% end %>
+    </ul>
+
+    <%= link_to "Add new job", new_job_path(production_id: @production.id) %>
 </p>
 
 <%= link_to 'Edit', edit_production_path(@production) %>

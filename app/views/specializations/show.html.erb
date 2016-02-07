@@ -2,13 +2,10 @@
 
 <p>
   <strong>Title:</strong>
-  <%= @specialization.title %>
+  <%= best_in_place @specialization, :title %>
 </p>
 
 <p>
   <strong>Description:</strong>
-  <%= @specialization.description %>
+  <%= best_in_place @specialization, :description, as: :textarea %>
 </p>
-
-<%= link_to 'Edit', edit_specialization_path(@specialization) %> |
-<%= link_to 'Back', specializations_path %>
