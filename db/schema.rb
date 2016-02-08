@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160207012709) do
+ActiveRecord::Schema.define(version: 20160208011209) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
     t.integer  "play_id",    limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "summary",    limit: 65535
+    t.integer  "start_page", limit: 4
+    t.integer  "end_page",   limit: 4
   end
 
   add_index "acts", ["play_id"], name: "index_acts_on_play_id", using: :btree
@@ -48,6 +51,8 @@ ActiveRecord::Schema.define(version: 20160207012709) do
     t.integer  "scene_id",            limit: 4
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "start_page",          limit: 4
+    t.integer  "end_page",            limit: 4
   end
 
   add_index "french_scenes", ["scene_id"], name: "index_french_scenes_on_scene_id", using: :btree
@@ -74,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160207012709) do
     t.integer  "french_scene_id", limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.boolean  "nonspeaking"
   end
 
   add_index "on_stages", ["character_id"], name: "index_on_stages_on_character_id", using: :btree
@@ -83,9 +89,11 @@ ActiveRecord::Schema.define(version: 20160207012709) do
     t.string   "title",      limit: 255
     t.date     "date"
     t.integer  "author_id",  limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.boolean  "canonical"
+    t.text     "summary",    limit: 65535
+    t.text     "text_notes", limit: 65535
   end
 
   add_index "plays", ["author_id"], name: "index_plays_on_author_id", using: :btree
@@ -122,13 +130,13 @@ ActiveRecord::Schema.define(version: 20160207012709) do
 
   create_table "scenes", force: :cascade do |t|
     t.integer  "scene_number", limit: 4
-    t.integer  "play_id",      limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.integer  "act_id",       limit: 4
+    t.text     "summary",      limit: 65535
+    t.integer  "start_page",   limit: 4
+    t.integer  "end_page",     limit: 4
   end
-
-  add_index "scenes", ["play_id"], name: "index_scenes_on_play_id", using: :btree
 
   create_table "space_agreements", force: :cascade do |t|
     t.integer  "theater_id", limit: 4
@@ -150,12 +158,9 @@ ActiveRecord::Schema.define(version: 20160207012709) do
     t.string   "website",          limit: 255
     t.integer  "seating_capacity", limit: 4
     t.string   "calendar",         limit: 255
-    t.integer  "theater_id",       limit: 4
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
   end
-
-  add_index "spaces", ["theater_id"], name: "index_spaces_on_theater_id", using: :btree
 
   create_table "specializations", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -213,8 +218,6 @@ ActiveRecord::Schema.define(version: 20160207012709) do
   add_foreign_key "rehearsals", "productions"
   add_foreign_key "rehearsals", "scenes"
   add_foreign_key "rehearsals", "spaces"
-  add_foreign_key "scenes", "plays"
   add_foreign_key "space_agreements", "spaces"
   add_foreign_key "space_agreements", "theaters"
-  add_foreign_key "spaces", "theaters"
 end

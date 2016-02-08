@@ -1,6 +1,5 @@
 class Scene < ActiveRecord::Base
   belongs_to :act
-  belongs_to :play
   has_many :french_scenes
 
   accepts_nested_attributes_for :french_scenes, allow_destroy: true

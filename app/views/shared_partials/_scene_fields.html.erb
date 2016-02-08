@@ -1,6 +1,9 @@
 <div class="nested-fields"> 
 <%= f.inputs do %>
   <%= f.input :scene_number %>
+  <%= f.input :summary %>
+  <%= f.input :start_page %>
+  <%= f.input :end_page %>
   <div class="french-scenes">
    <%= f.semantic_fields_for :french_scenes do |french_scene| %>
     

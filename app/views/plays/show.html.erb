@@ -5,21 +5,21 @@
   <% if @play.date %><%= @play.date.strftime("%Y") %><% end %><br />
   <% if @play.canonical %>This is the canonical version of the play.<% end %>
 </p>
+<p>
+  <%= best_in_place @play, :text_notes, :as => :textarea %>
+</p>
+<p> 
+  <%= best_in_place @play, :summary, :as => :textarea %>
+</p>
 
 <p>
 	<strong>Acts:</strong>
 	<ul>
     <% @play.acts.each do |act| %>
-	  <li><%= link_to "#{act.act_number}", act_path(act) %>
+	  <li><%= link_to "#{act.act_number}", act_path(act) %> &mdash; <%= act.try(:summary) %>
 	  	<ul>
 	  	<% act.scenes.each do |scene| %>
-        	<li><%= link_to "#{scene.pretty_name}", scene_path(scene) %>
-        		<ul>
-        		<% scene.french_scenes.each do |french_scene| %>
-        		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %></li>
-        		<% end %>
-        	</ul>
-        	</li>
+        	<li><%= link_to "#{scene.pretty_name}", scene_path(scene) %> &mdash; <%= scene.try(:summary) %></li>
         <% end %>
     	</ul>
 	  </li>

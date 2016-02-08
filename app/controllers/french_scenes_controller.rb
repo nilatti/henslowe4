@@ -1,6 +1,7 @@
 class FrenchScenesController < ApplicationController
   before_action :set_french_scene, only: [:show, :edit, :update, :destroy]
   before_action :set_scene
+  before_action :set_play, only: [:edit]
 
   # GET /french_scenes
   # GET /french_scenes.json
@@ -11,6 +12,14 @@ class FrenchScenesController < ApplicationController
   # GET /french_scenes/1
   # GET /french_scenes/1.json
   def show
+    french_scenes = @french_scene.scene.act.play.french_scenes
+    french_scenes = french_scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
+    index = french_scenes.index { |fs| fs.id == @french_scene.id }
+    
+    @next = french_scenes[index + 1]
+    if index > 0
+      @previous = french_scenes[index-1]
+    end
   end
 
   # GET /french_scenes/new
@@ -43,7 +52,7 @@ class FrenchScenesController < ApplicationController
   def update
     respond_to do |format|
       if @french_scene.update(french_scene_params)
-        format.html { redirect_to @french_scene.scene, notice: 'French scene was successfully updated.' }
+        format.html { redirect_to @french_scene, notice: 'French scene was successfully updated.' }
         format.json { render :show, status: :ok, location: @french_scene }
       else
         format.html { render :edit }
@@ -74,8 +83,12 @@ class FrenchScenesController < ApplicationController
       end
     end
 
+    def set_play
+      @play = Play.find(@french_scene.scene.act.play)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def french_scene_params
-      params.require(:french_scene).permit(:french_scene_number, :scene_id)
+      params.require(:french_scene).permit(:french_scene_number, :scene_id,  :start_page, :end_page, character_ids: [], on_stages_attributes: [:id, :necessary, :_destroy])
     end
 end

@@ -1,6 +1,7 @@
 class ScenesController < ApplicationController
   before_action :set_scene, only: [:show, :edit, :update, :destroy]
   before_action :set_act
+  before_action :set_play, only: [:edit]
 
   # GET /scenes
   # GET /scenes.json
@@ -11,6 +12,14 @@ class ScenesController < ApplicationController
   # GET /scenes/1
   # GET /scenes/1.json
   def show
+    scenes = @scene.act.play.scenes
+    scenes = scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
+    index = scenes.index { |s| s.id == @scene.id }
+    
+    @next = scenes[index + 1]
+    if index > 0
+      @previous = scenes[index-1]
+    end
   end
 
   # GET /scenes/new
@@ -73,9 +82,12 @@ class ScenesController < ApplicationController
         @act = Act.find(params[:act_id])
       end
     end
+    def set_play
+      @play = @scene.act.play
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def scene_params
-      params.require(:scene).permit(:scene_number, :play_id)
+      params.require(:scene).permit(:scene_number, :summary,  :start_page, :end_page, :play_id, french_scenes_attributes: [:id,  :start_page, :end_page, :french_scene_number, :_destroy, character_ids: []])
     end
 end

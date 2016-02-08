@@ -8,7 +8,9 @@ Rails.application.routes.draw do
       resources :productions  
       resources :acts do
         resources :scenes do
-          resources :french_scenes
+          resources :french_scenes do
+            resources :on_stages
+          end
         end
       end
     end

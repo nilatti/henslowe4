@@ -3,4 +3,5 @@ class Character < ActiveRecord::Base
   has_many :on_stages
   has_many :french_scenes, through: :on_stages, dependent: :destroy
 
+  default_scope { order('name') }
 end

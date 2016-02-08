@@ -3,7 +3,10 @@
 <%= semantic_form_for @play do |f| %>
   <%= f.inputs do %>
     <%= f.input :title %>
+    <%= f.input :canonical %>
     <%= f.input :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
+    <%= f.input :text_notes, :hint => "Information about the edition you used, like the press, editor, ISBN, etc." %>
+    <%= f.input :summary %>
     <div class="acts">
     <%= f.semantic_fields_for :acts do |act| %>
       <%= render 'shared_partials/act_fields', :f => act %>

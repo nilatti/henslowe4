@@ -1,3 +1,10 @@
 // Place all the styles related to the FrenchScenes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.previous {     float: left;     display: inline; }
+
+.next {
+	float: right;
+	display: inline;
+}

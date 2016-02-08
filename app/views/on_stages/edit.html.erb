@@ -1,0 +1,7 @@
+<h1>Editing <%= @on_stage.character.name %>'s presence in <%= @on_stage.french_scene.pretty_name %></h1>
+<%= semantic_form_for @on_stage do |f| %>
+	<%= f.inputs do %>
+	  <%= f.input :nonspeaking, :label => "Nonspeaking character?" %>
+	<% end %>
+	<%= f.actions %>
+<% end %>

@@ -3,21 +3,23 @@
 	<%= link_to "#{@scene.act.play.title}", play_path(@scene.act.play) %>, by <%= link_to "#{@scene.act.play.author.name}", author_path(@scene.act.play.author) %>
 </p>
 <p>
-	<strong>Act:</strong>
-	<%= link_to "#{@scene.act.act_number}", act_path(@scene.act) %>
+	<strong><%= link_to "Act #{@scene.act.act_number}", act_path(@scene.act) %>, Scene <%= @scene.pretty_name %></strong>, pages <%= best_in_place @scene, :start_page %> - <%= best_in_place @scene, :end_page %>
 </p>
 <p>
-  <strong>Scene:</strong>
-  <%= @scene.pretty_name %>
-</p>
-
+	<strong>Summary:</strong>
+	<%= best_in_place @scene, :summary, :as => :textarea, :place_holder => "Click here to add summary." %>
 <p>
 	<strong>French Scenes:</strong>
 	<ul>
 		<% @scene.french_scenes.each do |french_scene| %>
-		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>
+		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>, pages <%= best_in_place french_scene, :start_page %> - <%= best_in_place french_scene, :end_page %>
+			<ul>
+              <% french_scene.on_stages.each do |on_stage| %>
+                <li><% if on_stage.nonspeaking %>(<% end %><%= link_to "#{on_stage.character.name}", edit_on_stage_path(on_stage) %><% if on_stage.nonspeaking %>)<% end %></li>
+              <% end %></ul>
+		</li>
 		<% end %>
 	</ul>
 
-<%= link_to 'Edit', edit_scene_path(@scene) %> |
-<%= link_to 'Back', act_path(@scene.act) %>
+<%= link_to 'Edit', edit_scene_path(@scene) %>
+<% if @previous %><div class="previous"><%= link_to "#{@previous.pretty_name}", @previous %><% end %></div><% if @next %><div class="next"><%= link_to "#{@next.pretty_name}", @next %></div><% end %>

@@ -8,6 +8,7 @@
 
 .checkbox {
 	margin-left: 2.5rem;
+	display:inline-block !important;
 }
 
 .table {

@@ -11,6 +11,14 @@ class ActsController < ApplicationController
   # GET /acts/1
   # GET /acts/1.json
   def show
+    acts = @act.play.acts
+    acts = acts.sort { |a, b| a.act_number <=> b.act_number }
+    index = acts.index { |a| a.id == @act.id }
+    
+    @next = acts[index + 1]
+    if index > 0
+      @previous = acts[index-1]
+    end
   end
 
   # GET /acts/new
@@ -71,11 +79,13 @@ class ActsController < ApplicationController
     def set_play
       if params[:play_id]
         @play = Play.find(params[:play_id])
+      else
+        @play = Play.find(@act.play.id)
       end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def act_params
-      params.require(:act).permit(:act_number, :play_id, scenes_attributes: [:id, :scene_number, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :_destroy]])
+      params.require(:act).permit(:act_number, :summary, :start_page, :end_page, :play_id, scenes_attributes: [:id, :scene_number,  :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number,  :start_page, :end_page, :_destroy, character_ids: []]])
     end
 end
