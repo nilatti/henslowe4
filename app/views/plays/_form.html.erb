@@ -1,17 +1,16 @@
-<%= semantic_form_for [@author, @play] do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :title %>
-    <%= f.input :canonical %>
-    <%= f.input :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
-    <div class="acts">
-    <%= f.semantic_fields_for :acts do |act| %>
-    
-      <%= render 'shared_partials/act_fields', f: act %>
-    <% end %>
-    <%= link_to_add_association 'add act', f, :acts, partial: 'shared_partials/act_fields' %>
-  <% end %>
+<p>
+<%= bootstrap_form_for([@author, @play], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+  <%= f.text_field :title %>
+  <%= f.check_box :canonical, label: "Is this the canonical version of the play?" %>
+  <%= f.date_select :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
 
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
+  <div class="acts">
+  <%= f.fields_for :acts do |act| %>
+  
+    <%= render 'shared_partials/act_fields', f: act %>
   <% end %>
-<% end %>
+  <%= link_to_add_association 'add act', f, :acts, partial: 'shared_partials/act_fields' %>
+</p>
+
+  <%= f.submit %>
+  <% end %>

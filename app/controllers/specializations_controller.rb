@@ -43,10 +43,10 @@ class SpecializationsController < ApplicationController
     respond_to do |format|
       if @specialization.update(specialization_params)
         format.html { redirect_to @specialization, notice: 'Specialization was successfully updated.' }
-        format.json { render :show, status: :ok, location: @specialization }
+        format.json { respond_with_bip(@specialization) }
       else
         format.html { render :edit }
-        format.json { render json: @specialization.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@specialization) }
       end
     end
   end
@@ -69,6 +69,6 @@ class SpecializationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def specialization_params
-      params.require(:specialization).permit(:title, :description)
+      params.require(:specialization).permit(:title, :description, :production_admin, :theater_admin)
     end
 end

@@ -1,0 +1,8 @@
+<li>
+	<%= link_to "#{author.name}", author_path(author) %>
+	<ul>
+		<% author.plays.each do |play| %>
+		<li><%= link_to "#{play.title}", play_path(play) %></li>
+		<% end %>
+	</ul>
+</li>

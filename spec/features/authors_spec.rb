@@ -1,4 +1,9 @@
+require 'rails_helper'
+
 describe "index of authors", :type => :feature do
+	before do
+	  login
+  end
 	it "shows me authors" do
 		visit '/authors'
 		expect(current_path).to eq(authors_path)
@@ -6,6 +11,9 @@ describe "index of authors", :type => :feature do
 end
 
 describe "create new author" do
+	before do
+	  login_as_superadmin
+  end
 	let(:author) { FactoryGirl.build(:author)}
 
 	before(:each) do

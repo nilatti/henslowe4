@@ -1,14 +1,10 @@
-<%= semantic_form_for @production do |f| %>
-  <%= f.inputs do %>
+<%= bootstrap_form_for(@production, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
   <% @production.jobs.acting.each do |casting| %>
     <% if casting.character %>
-	    <%= f.semantic_fields_for :jobs, casting do |c| %>
-	      <%= c.input :user, :as => :select, :collection => @production.users.uniq, :label => casting.character.name %>
+	    <%= f.fields_for :jobs, casting do |c| %>
+	      <%= c.select :user, @production.users.uniq.collect {|u| [u.name, u.id]}, :label => casting.character.name, include_blank: true %>
 	      <% end %>
 	    <% end %>
     <% end %>
-    <% end %>
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
-  <% end %>
+  <%= f.submit %>
 <% end %>

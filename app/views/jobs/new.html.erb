@@ -1,5 +1,5 @@
 <h1>New Job</h1>
-
-<%= render 'form' %>
-
+<%= bootstrap_form_for(@job, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+<%= render 'shared_partials/job_form' %>
+<%= f.submit %>
 <%= link_to 'Back', jobs_path %>

@@ -1,4 +1,5 @@
 class Author < ActiveRecord::Base
+
   include Timely
   validate :death_after_birth
   has_many :plays

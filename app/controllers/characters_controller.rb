@@ -44,10 +44,10 @@ class CharactersController < ApplicationController
     respond_to do |format|
       if @character.update(character_params)
         format.html { redirect_to @character, notice: 'Character was successfully updated.' }
-        format.json { render :show, status: :ok, location: @character }
+        format.json { respond_with_bip(@character) }
       else
         format.html { render :edit }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@character) }
       end
     end
   end

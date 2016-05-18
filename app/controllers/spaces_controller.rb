@@ -5,7 +5,11 @@ class SpacesController < ApplicationController
   # GET /spaces
   # GET /spaces.json
   def index
-    @spaces = Space.where("theater_id = #{@theater.id}")
+    if @theater
+      @spaces = Space.where("theater_id = #{@theater.id}")
+    else
+      @spaces = Space.all
+    end
   end
 
   # GET /spaces/1
@@ -48,10 +52,10 @@ class SpacesController < ApplicationController
     respond_to do |format|
       if @space.update(space_params)
         format.html { redirect_to @space, notice: 'Space was successfully updated.' }
-        format.json { render :show, status: :ok, location: @space }
+        format.json { respond_with_bip(@space) }
       else
         format.html { render :edit }
-        format.json { render json: @space.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@space) }
       end
     end
   end

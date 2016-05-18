@@ -1,7 +1,7 @@
 class PlaysController < ApplicationController
+  load_and_authorize_resource
   before_action :set_play, only: [:show, :edit, :update, :destroy]
   before_action :set_author
-
   # GET /plays
   # GET /plays.json
   def index
@@ -15,6 +15,9 @@ class PlaysController < ApplicationController
   # GET /plays/1
   # GET /plays/1.json
   def show
+    if @play.production_id
+      @production = Production.find(@play.production_id)
+    end
   end
 
   # GET /plays/new
@@ -24,7 +27,9 @@ class PlaysController < ApplicationController
 
   # GET /plays/1/edit
   def edit
-
+    if @play.production_id
+      @production = Production.find(@play.production_id)
+    end
   end
 
   # POST /plays
@@ -50,10 +55,10 @@ class PlaysController < ApplicationController
     respond_to do |format|
       if @play.update(play_params)
         format.html { redirect_to play_path(@play), notice: 'Play was successfully updated.' }
-        format.json { render :show, status: :ok, location: @play }
+        format.json { respond_with_bip(@play) }
       else
         format.html { render :edit }
-        format.json { render json: @play.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@play) }
       end
     end
   end
@@ -82,6 +87,6 @@ class PlaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def play_params
-      params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, characters_attributes: [:id, :name, :age, :gender, :_destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
+      params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, :script, characters_attributes: [:id, :name, :age, :gender, :_destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
     end
 end

@@ -1,0 +1,9 @@
+<%= semantic_form_for @space_agreement do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :space, :as => :select, :collection => Space.all %>
+    <%= f.input :theater_id, :as => :hidden, :value => :theater_id %>
+  <% end %>
+  <%= f.actions %>
+<% end %>
+
+Don't see the space you want to work with? <%= link_to "Add a new space", new_theater_space_path(@theater) %>

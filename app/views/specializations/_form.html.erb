@@ -1,10 +1,8 @@
-<%= semantic_form_for @specialization do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :title %>
-    <%= f.input :description %>
-  <% end %>
+<%= bootstrap_form_for @specialization do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_area :description %>
+  <%= f.check_box :production_admin, label: "This is a production administrator job." %><br>
+  <%= f.check_box :theater_admin, label: "This is a theater administrator job." %><br>
 
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
-  <% end %>
+  <%= f.submit %>
 <% end %>

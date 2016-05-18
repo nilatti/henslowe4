@@ -7,6 +7,8 @@
     <tr>
       <th>Title</th>
       <th>Description</th>
+      <th>Production admin?</th>
+      <th>Theater admin?</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +18,8 @@
       <tr>
         <td><%= specialization.title %></td>
         <td><%= specialization.description %></td>
+        <td><%= specialization.production_admin %></td>
+        <td><%= specialization.theater_admin %></td>
         <td><%= link_to 'Show', specialization %></td>
         <td><%= link_to 'Edit', edit_specialization_path(specialization) %></td>
         <td><%= link_to 'Destroy', specialization, method: :delete, data: { confirm: 'Are you sure?' } %></td>

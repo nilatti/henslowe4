@@ -15,6 +15,6 @@ describe FrenchScene do
 	end
 
 	it 'returns a pretty name' do
-		expect(build(:french_scene).pretty_name).to eq ("a")
+		expect(build(:french_scene).pretty_name).to eq ("1.1.a")
 	end
 end

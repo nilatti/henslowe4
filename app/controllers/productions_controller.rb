@@ -1,4 +1,5 @@
 class ProductionsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_production, only: [:show, :edit, :update, :destroy, :edit_casting]
   before_action :set_theater
 
@@ -26,9 +27,10 @@ class ProductionsController < ApplicationController
   # POST /productions.json
   def create
     @orig_play = Play.find(production_params[:play_id])
-    @dup_play = RailsDeepCopy::Duplicate.create(@orig_play)
-    
     @production = @theater.productions.build(production_params)
+        
+    @dup_play = RailsDeepCopy::Duplicate.create(@orig_play, changes: { canonical: false, production_id: @production.id })
+
     @production.play = @dup_play
     @production.play.characters.each do |character|
       @production.jobs.build(:character_id => character.id, :specialization_id => 2, :theater_id => @production.theater.id, :start_date => @production.start_date, :end_date => @production.end_date) # THIS VALUE FOR ACTOR IS HARD CODED AND THAT IS BAD. In current instance, Specialization.find(2) = Actor. How can I make this dynamic without querying it constantly?
@@ -51,10 +53,10 @@ class ProductionsController < ApplicationController
     respond_to do |format|
       if @production.update(production_params)
         format.html { redirect_to @production, notice: 'Production was successfully updated.' }
-        format.json { render :show, status: :ok, location: @production }
+        format.json { respond_with_bip(@production) }
       else
         format.html { render :edit }
-        format.json { render json: @production.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@production) }
       end
     end
   end

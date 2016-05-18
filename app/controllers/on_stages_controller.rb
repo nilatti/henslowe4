@@ -16,12 +16,12 @@ class OnStagesController < ApplicationController
     
 
     respond_to do |format|
-      if @space.save
+      if @on_stage.save
         format.html { redirect_to @on_stage.french_scene, notice: 'Space was successfully created.' }
-        format.json { render :show, status: :created, location: @space }
+        format.json { render :show, status: :created, location: @on_stage }
       else
         format.html { render :new }
-        format.json { render json: @space.errors, status: :unprocessable_entity }
+        format.json { render json: @on_stage.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -32,10 +32,10 @@ class OnStagesController < ApplicationController
     respond_to do |format|
       if @on_stage.update(on_stage_params)
         format.html { redirect_to @on_stage.french_scene, notice: 'Space was successfully updated.' }
-        format.json { render :show, status: :ok, location: @space }
+        format.json { respond_with_bip(@on_stage) }
       else
         format.html { render :edit }
-        format.json { render json: @space.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@on_stage) }
       end
     end
   end

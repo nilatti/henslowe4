@@ -1,0 +1,10 @@
+<%= bootstrap_form_for @user do |f| %>
+  <%= f.text_field :first_name %>
+  <%= f.text_field :last_name %>
+  <%= f.email_field :email %>
+  <% if can? :manage, User %>
+	  <%= f.select :role, User::ROLES %>
+	<% end %>
+  
+  <%= f.submit %>
+<% end %>

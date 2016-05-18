@@ -1,4 +1,5 @@
 class TheatersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_theater, only: [:show, :edit, :update, :destroy]
 
   # GET /theaters
@@ -43,10 +44,10 @@ class TheatersController < ApplicationController
     respond_to do |format|
       if @theater.update(theater_params)
         format.html { redirect_to @theater, notice: 'Theater was successfully updated.' }
-        format.json { render :show, status: :ok, location: @theater }
+        format.json { respond_with_bip(@theater) }
       else
         format.html { render :edit }
-        format.json { render json: @theater.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@theater) }
       end
     end
   end

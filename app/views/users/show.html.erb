@@ -5,6 +5,9 @@
   <%= @user.name %> 
 </p>
 
+<p>Role:</p>
+<%= @user.role %>
+
 <p>
   <strong>Email:</strong>
   <%= link_to "#{@user.email}", "mailto:#{@user.email}" %>
@@ -15,7 +18,7 @@
 	<ul><% @user.jobs.sort { |a, b| a.specialization_id <=> b.specialization_id } %>
     	<% @user.jobs.each do |job| %>
     	  <li><%= job.specialization.title %>
-          <% if job.specialization.id == 2 %> 
+          <% if job.specialization.id == 2 && job.character %> 
             as <%= job.character.name %> in
           <% else %>
             on
@@ -30,7 +33,7 @@
           - 
           <% if job.end_date %>
             <%= job.end_date.strftime("%b %d, %Y") %>
-          <% end %>
+          <% end %> <%= link_to "Remove job", job, method: :delete, data: { confirm: "Are you sure?"} %>
         </li>
     	<% end %>
     </ul> 

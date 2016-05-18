@@ -1,15 +1,11 @@
-<%= semantic_form_for @rehearsal do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :start_time %>
-    <%= f.input :end_time %>
-    <%= f.input :act %>
-    <%= f.input :scene %>
-    <%= f.input :french_scene %>
-    <%= f.input :space %>
-    <%= f.input :production %>
-  <% end %>
+<%= bootstrap_form_for(@rehearsal, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+  <%= f.time_picker :start_time %>
+  <%= f.time_picker :end_time %>
+  <%= f.input :act %>
+  <%= f.input :scene %>
+  <%= f.input :french_scene %>
+  <%= f.input :space %>
+  <%= f.input :production %>
 
-  <%= f.actions do %>
     <%= f.action :submit, :as => :input %>
-  <% end %>
 <% end %>

@@ -1,19 +1,16 @@
-
-
 <h1>New Play</h1>
 
-<%= semantic_form_for [@author, @play] do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :title %>
-    <%= f.input :canonical %>
-    <%= f.input :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
-    <%= f.input :text_notes, :hint => "Information about the edition you used, like the press, editor, ISBN, etc." %>
-    <%= f.input :summary %>
-  <% end %>
+
+<%= bootstrap_form_for([@author, @play], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+  <%= f.text_field :title %>
+  <%= f.check_box :canonical, label: "Is this the canonical version of the play?" %>
+  <%= f.date_select :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
+  <%= f.text_area :text_notes, :hint => "Information about the edition you used, like the press, editor, ISBN, etc." %>
+  <%= f.file_field :script, label: "If you have a version of the script that is a *.txt file, we will try to parse it and do line counts and other cool stuff." %>
+  <%= f.text_area :summary %>
   
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
-  <% end %>
+  <%= f.submit %>
+
 <% end %>
 
 <%= link_to 'Back', author_plays_path(@author) %>

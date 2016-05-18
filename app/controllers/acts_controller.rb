@@ -1,4 +1,6 @@
 class ActsController < ApplicationController
+  load_and_authorize_resource :play
+  load_and_authorize_resource :act, :through => :play, :shallow => true
   before_action :set_act, only: [:show, :edit, :update, :destroy]
   before_action :set_play
 
@@ -52,10 +54,10 @@ class ActsController < ApplicationController
     respond_to do |format|
       if @act.update(act_params)
         format.html { redirect_to @act.play, notice: 'Act was successfully updated.' }
-        format.json { render :show, status: :ok, location: @act }
+        format.json { respond_with_bip(@act) }
       else
         format.html { render :edit }
-        format.json { render json: @act.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@act) }
       end
     end
   end

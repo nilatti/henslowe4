@@ -1,15 +1,17 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '~>4.2.5'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.3.13', '< 0.5'
+
+gem 'seed_dump'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'formtastic', '~> 3.0'
 gem 'formtastic-bootstrap'
 gem 'cocoon'
-#choose either deep_cloneable or amoeba
+
 gem 'rails_deep_copy'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -29,9 +31,15 @@ gem 'jbuilder', '~> 2.0'
 gem 'best_in_place', '~> 3.1'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'devise', '3.5.3'
-gem 'bootstrap', '~> 4.0.0.alpha3'
-gem 'bootstrap-sass'
+gem 'devise', '~>3.5.3'
+gem 'devise_invitable', '~> 1.5.2'
+gem 'cancancan', '~> 1.13.0'
+
+gem 'bootstrap_form'
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+gem 'bootstrap-datepicker-rails'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
@@ -39,6 +47,7 @@ gem 'execjs'
 gem 'turbolinks'
 gem 'therubyracer'
 gem 'sprockets-rails', '~> 2.1.4'
+gem 'paperclip'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -9,12 +9,13 @@
 </p>
 <p>
 	<strong><%= link_to 'Add or remove characters', edit_french_scene_path(@french_scene) %> <br /></strong>
-	<em>To mark a character as nonspeaking, click their name.</em>
+	To edit speaking/nonspeaking, click that word next to the character's name.
+</p>
 <p>
 	<strong>Characters:</strong>
 	<ul>
 	<% @french_scene.on_stages.each do |on_stage| %>
-	<li><% if on_stage.nonspeaking %>(<% end %><%= link_to "#{on_stage.character.name}", edit_on_stage_path(on_stage) %><% if on_stage.nonspeaking %>)<% end %></li> 
+	<li><% if on_stage.nonspeaking %>(<% end %><%= on_stage.character.name %><% if on_stage.nonspeaking %>)<% end %> <%= best_in_place on_stage, :nonspeaking, as: :checkbox, collection: ["Speaking", "Nonspeaking"] %></li> 
 	<% end %>
     </ul>
 

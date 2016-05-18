@@ -14,7 +14,6 @@
       <th>Website</th>
       <th>Seating capacity</th>
       <th>Calendar</th>
-      <th>Theater</th>
       <th></th>
     </tr>
   </thead>
@@ -31,13 +30,8 @@
         <td><%= space.website %></td>
         <td><%= space.seating_capacity %></td>
         <td><%= space.calendar %></td>
-        <td><%= space.theater %></td>
         <td><%= link_to 'Destroy', space, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Space', new_space_path %>

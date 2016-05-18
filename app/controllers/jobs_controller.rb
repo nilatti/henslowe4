@@ -1,5 +1,7 @@
 class JobsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_job, only: [:show, :edit, :update, :destroy]
+
 
   # GET /jobs
   # GET /jobs.json
@@ -39,7 +41,7 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
-        format.html { redirect_to @job.production, notice: 'Job was successfully created.' }
+        format.html { redirect_to @job.theater, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
       else
         format.html { render :new }
@@ -67,7 +69,7 @@ class JobsController < ApplicationController
   def destroy
     @job.destroy
     respond_to do |format|
-      format.html { redirect_to @job.production, notice: 'Job was successfully destroyed.' }
+      format.html { redirect_to @job.theater, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

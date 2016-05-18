@@ -1,0 +1,1 @@
+<li><% if specialization.production_admin %><strong><% end %><% if specialization.theater_admin %><em><% end %><%= link_to "#{specialization.title}", specialization_path(specialization) %><% if specialization.theater_admin %></em><% end %><% if specialization.production_admin %></strong><% end %></li>

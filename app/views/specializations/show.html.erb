@@ -9,3 +9,11 @@
   <strong>Description:</strong>
   <%= best_in_place @specialization, :description, as: :textarea %>
 </p>
+<p>
+	<% if @specialization.production_admin %>
+	  This is a production administrator position.
+	<% end %>
+	<% if @specialization.theater_admin %>
+	  This is a theater administrator position.
+	<% end %>
+</p>

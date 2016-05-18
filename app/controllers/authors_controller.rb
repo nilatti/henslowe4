@@ -1,4 +1,5 @@
 class AuthorsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_author, only: [:show, :edit, :update, :destroy]
 
   # GET /authors
@@ -43,10 +44,10 @@ class AuthorsController < ApplicationController
     respond_to do |format|
       if @author.update(author_params)
         format.html { redirect_to @author, notice: 'Author was successfully updated.' }
-        format.json { render :show, status: :ok, location: @author }
+        format.json { respond_with_bip(@author) }
       else
         format.html { render :edit }
-        format.json { render json: @author.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@author) }
       end
     end
   end

@@ -1,4 +1,7 @@
 class FrenchScenesController < ApplicationController
+  load_and_authorize_resource :scene
+  load_and_authorize_resource :french_scene, :through => :scene, :shallow => true
+
   before_action :set_french_scene, only: [:show, :edit, :update, :destroy]
   before_action :set_scene
   before_action :set_play, only: [:edit]
@@ -53,10 +56,10 @@ class FrenchScenesController < ApplicationController
     respond_to do |format|
       if @french_scene.update(french_scene_params)
         format.html { redirect_to @french_scene, notice: 'French scene was successfully updated.' }
-        format.json { render :show, status: :ok, location: @french_scene }
+        format.json { respond_with_bip(@french_scene) }
       else
         format.html { render :edit }
-        format.json { render json: @french_scene.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@french_scene) }
       end
     end
   end

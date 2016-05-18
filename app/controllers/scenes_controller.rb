@@ -1,4 +1,7 @@
 class ScenesController < ApplicationController
+  load_and_authorize_resource :act
+  load_and_authorize_resource :scene, :through => :act, :shallow => true
+
   before_action :set_scene, only: [:show, :edit, :update, :destroy]
   before_action :set_act
   before_action :set_play, only: [:edit]
@@ -53,10 +56,10 @@ class ScenesController < ApplicationController
     respond_to do |format|
       if @scene.update(scene_params)
         format.html { redirect_to @scene.act, notice: 'Scene was successfully updated.' }
-        format.json { render :show, status: :ok, location: @scene }
+        format.json { respond_with_bip(@scene) }
       else
         format.html { render :edit }
-        format.json { render json: @scene.errors, status: :unprocessable_entity }
+        format.json { respond_with_bip(@scene) }
       end
     end
   end
