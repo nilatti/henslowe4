@@ -12,14 +12,11 @@
  *
  */
 /*
-*= require formtastic-bootstrap
-*= require formtastic
-*= require my_formtastic_changes
 *= require jquery-ui
 */
-
+@import "bootstrap-sprockets";
 @import "bootstrap";
-
+@import "rails_bootstrap_forms";
 
 .alert-alert {
   @extend .alert-warning;

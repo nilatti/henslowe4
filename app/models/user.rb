@@ -37,7 +37,17 @@ class User < ActiveRecord::Base
   end
 
   def theater_jobs(theater)
-    self.jobs.select { |job| job.theater_id == theater.id }
+    jobs.select { |job| job.theater_id == theater.id }
+  end
+
+  def list_theater_jobs(theater)
+    job_titles = []
+    jobs = theater_jobs(theater)
+    specializations = jobs.map(&:specialization_id).uniq
+    specializations.each do |spec|
+      job_titles << Specialization.find(spec).title
+    end
+    specializations.join(", ")
   end
 
   def theater_admin?(theater)

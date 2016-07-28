@@ -1,6 +1,7 @@
 <h1>Editing Job</h1>
 <%= bootstrap_form_for(@job, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
-<%= render 'shared_partials/job_form' %>
-<%= f.submit %>
+	<%= render 'shared_partials/job_form', f: f %>
+	<%= f.submit %>
+<% end %>
 <%= link_to 'Show', @job %> |
 <%= link_to 'Back', jobs_path %>

@@ -12,9 +12,10 @@ describe "with users and roles" do
   let(:user) { User.create(email: "test@example.com", password: "password", role: "regular") }
   let(:superuser) { User.create(email: "super@example.com", password: "password", role: "superadmin") }
   let(:user_2) { User.create(email: "stooge@example.com", password: "password", role: "regular")}
+  let(:author) {Author.create}
 
   it "redirects a not-logged-in-user to welcome page" do
-    visit(authors_path)
+    visit(author_path(author))
     expect(current_path).to eq("/")
   end
   
@@ -35,7 +36,6 @@ describe "with users and roles" do
     expect(current_path).to eq("/")
   end
 
-describe "roles" do 
   let(:play) { FactoryGirl.create(:play, :canonical => true) }
   let(:theater) { FactoryGirl.create(:theater) }
   let(:production) { FactoryGirl.create(:production, :theater => theater, :play => play) }
@@ -74,17 +74,19 @@ describe "roles" do
   end
 
   it "allows a user who is a theater admin but not part of production to see production." do
+    log_in_as(user)
+    
     specialization = create(:specialization, :executive_director)
     production.theater.jobs.create(user: user, specialization: specialization)
-    log_in_as(user)
     visit(production_path(production))
     expect(current_path).to eq(production_path(production))
   end
 
   it "does not allow a user who is part of another production at the theater but not a theater admin to see the production" do
+    log_in_as(user)
     specialization = create(:specialization, :actor)
     job = FactoryGirl.create(:job, user: user, specialization: specialization)
-    log_in_as(user)
+    
     visit(production_path(production))
     expect(current_path).to eq("/")
   end
@@ -177,6 +179,4 @@ describe "roles" do
     expect(current_path).to eq("/")
   end
 
-end
-  
 end

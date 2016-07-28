@@ -8,7 +8,6 @@ class Ability
     if user.superadmin?
       can :manage, :all
 
-
     elsif user.regular?
       can :manage, Theater do |theater|
         user.theater_admin?(theater)
@@ -22,9 +21,13 @@ class Ability
         if play.canonical? 
           false
         else
-          user.production_admin?(play.production) || user.theater_admin?(play.production.theater)
+          puts play.production_id
+          production = Production.find(play.production_id)
+          user.production_admin?(production) || user.theater_admin?(production.theater)
         end
       end
+
+      can :read, Play
       can :manage, Job do |job|
         user.theater_admin?(job.theater) || user.production_admin?(job.production)
       end
@@ -34,19 +37,14 @@ class Ability
       
       can :read, [Act, Scene, FrenchScene, Character] 
       can :read, Author
-      #can :read, Play
+      
       can [:show], User
       cannot :index, User
       can :manage, User, :id => user.id
       cannot :read, Job
       can :read, Job, :user_id => user.id
-      
-     elsif user.role == nil
-       
+    else
       can :read, Welcome
-      #generic welcome page is all they can see
-     end
-
-
-   end
+    end
+  end
 end

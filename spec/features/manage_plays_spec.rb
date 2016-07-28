@@ -34,28 +34,34 @@ describe "with logged in user" do
 
   it "allows theater manager to edit non-canonical play" do
     prod = create(:production, :theater => theater, :play => noncanonical_play)
-    noncanonical_play.production_id = prod.id
+    play = create(:play, :canonical => false, :production_id => prod.id)
     specialization = create(:specialization, :executive_director)
     Job.create(user: user, specialization: specialization, theater: theater)
     log_in_as(user)
-    visit(edit_play_path(noncanonical_play))
-    expect(current_path).to eq(edit_play_path(noncanonical_play))
+    visit(edit_play_path(play))
+    expect(current_path).to eq(edit_play_path(play))
   end
 
   it "allows production manager to edit non-canonical play" do
-    noncanonical_play.production_id = production.id
+    prod = create(:production, :theater => theater, :play => noncanonical_play)
+    play = create(:play, :canonical => false, :production_id => prod.id)
     specialization = create(:specialization, :production_manager)
+    user = create(:user, :role => "regular")
+    puts user.production_admin?(prod)
+    puts specialization.production_admin
     production.theater.jobs.create(user: user, specialization: specialization)
     log_in_as(user)
-    visit(edit_play_path(noncanonical_play))
-    expect(current_path).to eq(edit_play_path(noncanonical_play))
+    visit(edit_play_path(play))
+    expect(current_path).to eq(edit_play_path(play))
   end
 
   it "allows all users to view but not edit all plays" do
+    prod = create(:production, :theater => theater, :play => noncanonical_play)
+    play = create(:play, :canonical => false, :production_id => prod.id)
     log_in_as(user)
-    visit(play_path(noncanonical_play))
-    expect(current_path).to eq(play_path(noncanonical_play))
-    visit(edit_play_path(noncanonical_play))
+    visit(play_path(play))
+    expect(current_path).to eq(play_path(play))
+    visit(edit_play_path(play))
     expect(current_path).to eq("/")
   end
 end

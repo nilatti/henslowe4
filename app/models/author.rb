@@ -7,7 +7,7 @@ class Author < ActiveRecord::Base
   default_scope { order(:last_name) }
 
   def name
-  	first_name + " " + last_name
+    "#{first_name} #{last_name}"
   end
 
 private
