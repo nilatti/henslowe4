@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @line.text %>
+</p>
+
+<p>
+  <strong>Belongs to:</strong>
+  <%= @line.belongs_to %>
+</p>
+
+<p>
+  <strong>Belongs to:</strong>
+  <%= @line.belongs_to %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @line.type %>
+</p>
+
+<p>
+  <strong>Cut:</strong>
+  <%= @line.cut %>
+</p>
+
+<%= link_to 'Edit', edit_line_path(@line) %> |
+<%= link_to 'Back', lines_path %>

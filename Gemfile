@@ -6,6 +6,7 @@ gem 'rails', '~>4.2.5'
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 
 gem 'seed_dump'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'formtastic', '~> 3.0'
@@ -35,6 +36,8 @@ gem 'devise', '~>3.5.3'
 gem 'devise_invitable', '~> 1.5.2'
 gem 'cancancan', '~> 1.13.0'
 
+gem 'seed-fu', '~> 2.3'
+
 gem 'bootstrap_form'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
@@ -63,7 +66,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails', '~> 3.0.0'
-  gem 'factory_girl_rails', "~> 4.0"
+  gem 'factory_girl_rails', "~> 4.0", :require => false
   gem 'capybara'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
@@ -76,4 +79,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

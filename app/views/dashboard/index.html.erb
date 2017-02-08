@@ -34,13 +34,7 @@
 	    <ul>
 		  	<% t.users.uniq.each do |user| %>
 		  	  <li>
-		  	  	<% if user.in_progress %>
-		  	  		<em>
-		  	  	<% end %>
-		  	  	<%= link_to "#{user.name}", user %>&mdash;<em><%= user.theater_jobs(t).map(&:specialization.title).join(", ") %></em>  <% if can? :destroy, user %><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
-		  	  	<% if user.in_progress %>
-		  				</em>
-		  			<% end %>
+		  	  	<%= link_to "#{user.name}", user %>&mdash;  <% if can? :destroy, user %><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
 		  		</li>
 		  	<% end %>
 	  	</ul>
@@ -84,4 +78,3 @@
 	</ul>
 	<%= link_to "Add Specialization", new_specialization_path %>
 <% end %>
-

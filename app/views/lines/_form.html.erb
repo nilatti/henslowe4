@@ -1,0 +1,13 @@
+<%= semantic_form_for @line do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :text %>
+    <%= f.input :belongs_to %>
+    <%= f.input :belongs_to %>
+    <%= f.input :type %>
+    <%= f.input :cut %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

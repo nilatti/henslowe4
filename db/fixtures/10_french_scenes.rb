@@ -1,0 +1,3 @@
+# FrenchScene.seed(:id,
+#
+# )

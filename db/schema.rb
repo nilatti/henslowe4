@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512203839) do
+ActiveRecord::Schema.define(version: 20170208040206) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -73,6 +73,16 @@ ActiveRecord::Schema.define(version: 20160512203839) do
   add_index "jobs", ["specialization_id"], name: "index_jobs_on_specialization_id", using: :btree
   add_index "jobs", ["theater_id"], name: "index_jobs_on_theater_id", using: :btree
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
+
+  create_table "lines", force: :cascade do |t|
+    t.string   "text",            limit: 255
+    t.integer  "french_scene_id", limit: 4
+    t.integer  "character_id",    limit: 4
+    t.string   "type",            limit: 255
+    t.boolean  "cut"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "on_stages", force: :cascade do |t|
     t.integer  "character_id",    limit: 4
