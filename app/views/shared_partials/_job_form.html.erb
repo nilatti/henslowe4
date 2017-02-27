@@ -1,13 +1,13 @@
-  <%= f.select :specialization, Specialization.all.collect {|p| [p.title, p.id]} %>
+  <%= f.select :specialization_id, Specialization.all.collect {|p| [p.title, p.id]} %>
+
   <% if current_user.superadmin? %>
-  	<%= f.select :production, Production.all.collect { |p| [p.play.title, p.id] } %>
+  	<%= f.select :production_id, Production.all.collect { |p| [p.play.title, p.id] } %>
+    <%= f.select :theater_id, Theater.all.collect { |t| [t.name, t.id]} %>
+    <%= f.select :user_id, User.all.collect {|p| [p.name, p.id]} %>
   <% else %>
-  	<%= f.select :production, current_user.productions.collect { |p| [p.play.title, p.id] } %>
-  <% end %>
-  <% if current_user.superadmin? %>
-  	<%= f.select :theater, Theater.all.collect { |t| [t.name, t.id]} %>
-  <% else %>
-  	<%= f.select :theater, current_user.theaters.collect { |t| [t.name, t.id]} %>
+  	<%= f.select :production_id, current_user.productions.collect { |p| [p.play.title, p.id] } %>
+  	<%= f.select :theater_id, current_user.theaters.collect { |t| [t.name, t.id]} %>
+    <%= f.select :user_id, User.all.collect {|p| [p.name, p.id]} %>
   <% end %>
   <%= f.date_field :start_date %>
   <%= f.date_field :end_date %>

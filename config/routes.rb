@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :jobs
       member do
         get 'edit_casting'
+        get 'doubling'
       end
     end
   end
@@ -50,7 +51,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
-
   end
 
   resources :users, :controller => "users" do

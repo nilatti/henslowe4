@@ -27,11 +27,14 @@ protected
       u.permit(:password, :password_confirmation, :invitation_token)
     end
     devise_parameter_sanitizer.for(:invite).concat [:first_name, :last_name, jobs_attributes: [:id, :specialization_id, :theater_id, :start_date, :end_date, :production_id, :_destroy]]
+    devise_parameter_sanitizer.for(:account_update).concat [:first_name, :last_name, jobs_attributes: [:id, :specialization_id, :theater_id, :start_date, :end_date, :production_id, :_destroy]]
+    devise_parameter_sanitizer.for(:sign_up).concat [:first_name, :last_name, :email]
+
   end
 
   def store_location
   # store last url - this is needed for post-login redirect to whatever the user last visited.
-    return unless request.get? 
+    return unless request.get?
     if (request.path != "/users/sign_in" &&
       request.path != "/users/sign_up" &&
       request.path != "/users/password/new" &&
@@ -39,7 +42,7 @@ protected
       request.path != "/users/confirmation" &&
       request.path != "/users/sign_out" &&
       !request.xhr?) # don't store ajax calls
-      session[:previous_url] = request.fullpath 
+      session[:previous_url] = request.fullpath
     end
   end
 

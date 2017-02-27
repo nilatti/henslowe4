@@ -1,6 +1,6 @@
 class ProductionsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_production, only: [:show, :edit, :update, :destroy, :edit_casting]
+  before_action :set_production, only: [:show, :edit, :update, :destroy, :edit_casting, :doubling]
   before_action :set_theater
 
   # GET /productions
@@ -12,6 +12,9 @@ class ProductionsController < ApplicationController
   # GET /productions/1
   # GET /productions/1.json
   def show
+  end
+
+  def doubling
   end
 
   # GET /productions/new
@@ -28,7 +31,7 @@ class ProductionsController < ApplicationController
   def create
     @orig_play = Play.find(production_params[:play_id])
     @production = @theater.productions.build(production_params)
-        
+
     @dup_play = RailsDeepCopy::Duplicate.create(@orig_play, changes: { canonical: false, production_id: @production.id })
 
     @production.play = @dup_play

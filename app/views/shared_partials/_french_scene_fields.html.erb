@@ -1,7 +1,7 @@
-<div class="nested-fields"> 
-<%= f.number_field :french_scene_number %>
+<div class="nested-fields">
+<%= f.text_field :french_scene_number %>
 <%= f.number_field :start_page %>
 <%= f.number_field :end_page %>
-<%= f.collection_check_boxes :characters, @play.characters.all, :id, :name %>
+<%= f.collection_check_boxes :character_ids, @play.characters.all, :id, :name, label: "Characters" %>
   <%= link_to_remove_association "remove french scene", f %>
 </div>

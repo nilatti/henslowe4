@@ -1,7 +1,7 @@
 <%= bootstrap_form_for([@theater, @production], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
  <%= f.date_field :start_date, :hint => "Use the date of the first production meeting, or whenever you have people actively working on the project." %>
   <%= f.date_field :end_date, :hint => "Use your strike date, or whenever people STOP actively working on the production." %>
-  <%= f.select :play, Play.canonical.collect {|p| [p.title, p.id]} %> <strong>Is the play you are looking for not here? <%= link_to "Request a new play", "mailto:henslowescloud@gmail.com" %></strong>
+  <%= f.select :play_id, Play.canonical.collect {|p| [p.title, p.id]} %> <strong>Is the play you are looking for not here? <%= link_to "Request a new play", "mailto:henslowescloud@gmail.com" %></strong>
 
   <%= f.submit %>
 <% end %>

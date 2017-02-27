@@ -19,7 +19,9 @@
       <tr>
         <td><%= job.user.try(:name) %></td>
         <td><%= job.specialization.try(:title) %></td>
-        <td><%= job.production.play.try(:title) %></td>
+        <% if job.production %>
+          <td><%= job.production.play.try(:title) %></td>
+        <% end %>
         <td><%= job.theater.try(:name) %></td>
         <td><%= job.try(:start_date) %> - <%= job.try(:end_date) %>
         <td><%= link_to 'Show', job %></td>

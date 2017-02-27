@@ -2,7 +2,7 @@
   <% @production.jobs.acting.each do |casting| %>
     <% if casting.character %>
 	    <%= f.fields_for :jobs, casting do |c| %>
-	      <%= c.select :user, @production.users.uniq.collect {|u| [u.name, u.id]}, :label => casting.character.name, include_blank: true %>
+	      <%= c.select :user_id, @production.users.uniq.collect {|u| [u.name, u.id]}, :label => casting.character.name, include_blank: true %>
 	      <% end %>
 	    <% end %>
     <% end %>

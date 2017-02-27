@@ -8,7 +8,7 @@
 <p>
   <%= best_in_place @play, :text_notes, :as => :textarea %>
 </p>
-<p> 
+<p>
   <%= best_in_place @play, :summary, :as => :textarea %>
 </p>
 <p>
@@ -26,7 +26,7 @@
         <% end %>
     	</ul>
 	  </li>
-	
+
 	<% end %>
 </ul>
 </p>
@@ -36,11 +36,10 @@
     <% if @play.characters %>
       <ul>
       <% @play.characters.each do |character| %>
-        <li><%= link_to "#{character.name}", character_path(character) %></li>
+        <li><%= link_to "#{character.name}", character_path(character) %><% if character.gender == "Female" %> (F) <% elsif character.gender == "Male" %> (M) <% end %></li>
       <% end %>
     </ul>
     <% end %>
     <%= link_to "Add Character", new_play_character_path(@play) %>
 </p>
-<%= link_to 'Edit', edit_play_path(@play) %> 
-
+<%= link_to 'Edit', edit_play_path(@play) %>

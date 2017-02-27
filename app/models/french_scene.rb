@@ -6,9 +6,12 @@ class FrenchScene < ActiveRecord::Base
   has_many :characters, through: :on_stages
 
   default_scope { order(:french_scene_number) }
- 
+
   def pretty_name
-  	
     scene.act.act_number.to_s + "." + scene.scene_number.to_s + "." + french_scene_number
+  end
+
+  def actors_called(production)
+    WhoIsOnStage.new([self], production).actors
   end
 end

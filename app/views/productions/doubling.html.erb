@@ -1,0 +1,47 @@
+<table border = "1">
+    <tr><td></td>
+    <% @production.play.acts.each do |a| %>
+       <% a.scenes.each do |s| %>
+          <% s.french_scenes.each do |fs| %>
+            <td><%= a.act_number %>.<%= s.scene_number %>.<%= fs.french_scene_number %></td>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tr>
+<% @production.users.uniq.each do |user| %>
+      <tr><td><%= user.name %><% user_doubling_problems = FindDoublingProblems.new(user, @production).doubling_problems %></td><% @production.play.acts.each do |act| %>
+        <% act.scenes.each do |scene| %>
+          <% scene.french_scenes.each do |fs| %>
+            <% if user_doubling_problems.include?(fs) %><td bgcolor = "red"><% else %><td><% end %>
+              <% characters = user.castings_for_production(@production) %>
+              <% characters.each do |character| %>
+                <% if fs.characters.include?(character) %>
+                 <%= character.name %>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+        <% end %>
+      <% end %></tr>
+
+<% end %>
+</table>
+
+Cast list by scene:
+<strong>Acts:</strong><br />
+  <ul>
+  <% for act in @production.play.acts %>
+    <li>Act <%= act.act_number %> <br /><ul>
+    <% for scene in act.scenes %>
+      <li><%= act.act_number %>.<%= scene.scene_number %> -- (<%= scene.start_page %>-<%= scene.end_page %>)<br /><ul>
+    <% for french_scene in scene.french_scenes %>
+      <li><%= act.act_number %>.<%= scene.scene_number %>.<%= french_scene.french_scene_number %> (<%= french_scene.start_page %>-<%= french_scene.end_page %>)<ul><% french_scene.actors_called(@production).each do |actor| %><li><%= link_to "#{actor.name}", actor %>
+      <% end %></ul></li>
+
+      <% end %></ul>
+    <% end %></ul>
+  <% end %></ul>
+</p>
+<p>
+<%= link_to "Back to #{@production.play.title}", production_path %>
+<p>
