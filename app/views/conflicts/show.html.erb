@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<% if @conflict.user %>
+  <p>
+    <strong>User:</strong>
+    <%= @conflict.user.name %>
+  </p>
+<% end %>
+<% if @conflict.space %>
+  <p>
+    <strong>Space:</strong>
+    <%= @conflict.space.name %>
+  </p>
+<% end %>
+
+<p>
+  <strong>Start:</strong>
+  <%= @conflict.start %>
+</p>
+
+<p>
+  <strong>End:</strong>
+  <%= @conflict.end %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @conflict.category %>
+</p>
+
+<%= link_to 'Edit', edit_conflict_path(@conflict) %> |
+<%= link_to 'Back', conflicts_path %>

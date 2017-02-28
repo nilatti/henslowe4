@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208040206) do
+ActiveRecord::Schema.define(version: 20170227223918) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -45,6 +45,19 @@ ActiveRecord::Schema.define(version: 20170208040206) do
   end
 
   add_index "characters", ["play_id"], name: "index_characters_on_play_id", using: :btree
+
+  create_table "conflicts", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "category",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "space_id",   limit: 4
+  end
+
+  add_index "conflicts", ["space_id"], name: "index_conflicts_on_space_id", using: :btree
+  add_index "conflicts", ["user_id"], name: "index_conflicts_on_user_id", using: :btree
 
   create_table "french_scenes", force: :cascade do |t|
     t.string   "french_scene_number", limit: 255
@@ -233,6 +246,8 @@ ActiveRecord::Schema.define(version: 20170208040206) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "characters", "plays"
+  add_foreign_key "conflicts", "spaces"
+  add_foreign_key "conflicts", "users"
   add_foreign_key "french_scenes", "scenes"
   add_foreign_key "jobs", "productions"
   add_foreign_key "jobs", "specializations"

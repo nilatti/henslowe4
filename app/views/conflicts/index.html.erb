@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Conflicts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User or Space</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @conflicts.each do |conflict| %>
+      <tr>
+        <td><% if conflict.user %><%= conflict.user.name %><% elsif conflict.space %><%= conflict.space.name %><% end %></td>
+        <td><%= conflict.start %></td>
+        <td><%= conflict.end %></td>
+        <td><%= conflict.category %></td>
+        <td><%= link_to 'Show', conflict %></td>
+        <td><%= link_to 'Edit', edit_conflict_path(conflict) %></td>
+        <td><%= link_to 'Destroy', conflict, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Conflict', new_conflict_path %>

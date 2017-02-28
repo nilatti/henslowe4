@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :conflicts
   resources :lines
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root
