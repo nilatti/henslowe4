@@ -1,0 +1,42 @@
+<%= bootstrap_form_for([@production, @rehearsal_schedule], layout: :inline) do |f| %>
+<div>
+  <div>
+    What are the dates of your rehearsal process?
+  </div>
+  <%= f.date_field :start_date %>
+  <%= f.date_field :end_date %>
+</div>
+<div>
+  <div>
+    What time do you usually rehearse?
+  </div>
+  <%= f.time_select :start_time %>
+  <%= f.time_select :end_time %>
+</div>
+<div>
+  <div>
+    How many minutes per rehearsal block?
+  </div>
+  <%= f.number_field :interval, hide_label: true %>
+</div>
+<div>
+  <div>
+    What is your default rehearsal space?
+  </div>
+  <%= f.select :space_id, @production.theater.spaces.collect {|s| [s.name, s.id]}, hide_label: true %>
+</div>
+
+<div>
+  <div>
+    Which days of the week do you rehearse?
+  </div>
+    <%= f.check_box :sunday %>
+    <%= f.check_box :monday %>
+    <%= f.check_box :tuesday %>
+    <%= f.check_box :wednesday %>
+    <%= f.check_box :thursday %>
+    <%= f.check_box :friday %>
+    <%= f.check_box :saturday %>
+</div>
+    <%= f.submit %>
+<% end %>

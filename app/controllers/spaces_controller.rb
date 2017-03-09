@@ -2,8 +2,6 @@ class SpacesController < ApplicationController
   before_action :set_space, only: [:show, :edit, :update, :destroy]
   before_action :set_theater
 
-  # GET /spaces
-  # GET /spaces.json
   def index
     if @theater
       @spaces = Space.where("theater_id = #{@theater.id}")
@@ -12,31 +10,22 @@ class SpacesController < ApplicationController
     end
   end
 
-  # GET /spaces/1
-  # GET /spaces/1.json
   def show
   end
 
-  # GET /spaces/new
   def new
     @space = Space.new
   end
 
-  # GET /spaces/1/edit
   def edit
   end
 
-  # POST /spaces
-  # POST /spaces.json
   def create
-    @space = @theater.spaces.build(space_params)
-    
+    @space = Space.create(space_params)
+
 
     respond_to do |format|
       if @space.save
-        if params[:theater_id]
-          @space_agreement = SpaceAgreement.create({ :space_id => @space.id, :theater_id => params[:theater_id]})
-        end
         format.html { redirect_to @space, notice: 'Space was successfully created.' }
         format.json { render :show, status: :created, location: @space }
       else
@@ -46,8 +35,6 @@ class SpacesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /spaces/1
-  # PATCH/PUT /spaces/1.json
   def update
     respond_to do |format|
       if @space.update(space_params)
@@ -60,8 +47,6 @@ class SpacesController < ApplicationController
     end
   end
 
-  # DELETE /spaces/1
-  # DELETE /spaces/1.json
   def destroy
     @space.destroy
     respond_to do |format|
@@ -71,7 +56,6 @@ class SpacesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_space
       @space = Space.find(params[:id])
     end
@@ -82,7 +66,6 @@ class SpacesController < ApplicationController
       end
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def space_params
       params.require(:space).permit(:name, :street_address, :city, :state, :zip, :phone_number, :website, :seating_capacity, :calendar, :theater_id)
     end

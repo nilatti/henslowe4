@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Production:</strong>
+  <%= @rehearsal_schedule.production.play.title %> at <%= @rehearsal_schedule.production.theater.name %>
+</p>
+<p>
+  <table class="table table-bordered table-striped">
+  <% @rehearsal_schedule.dailies.each do |day, rehearsals| %>
+    <tr>
+      <td colspan="3">
+        <strong>
+          <%= day %>
+        </strong>
+      </td>
+    </tr>
+    <% rehearsals.each do |rehearsal| %>
+    <tr>
+      <td>
+        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>
+      </td>
+      <td>
+        Material:
+        <% unless rehearsal.notes.blank? %>
+          (<%= rehearsal.notes %>)
+        <% end %>
+        <ul>
+        <% rehearsal.material.each do |item| %>
+          <li><%= item %></li>
+        <% end %>
+        </ul>
+      </td>
+      <td>
+        Actors:
+        <ul>
+          <% rehearsal.actors_called.each do |actor| %>
+            <li>
+              <%= actor.name %>
+            </li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+    <% end %>
+  <% end %>
+  </table>
+</p>

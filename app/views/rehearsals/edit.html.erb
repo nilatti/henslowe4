@@ -1,6 +1,100 @@
-<h1>Editing Rehearsal</h1>
-
+<h1>Editing Rehearsal
+  <% if @rehearsal.start_time && @rehearsal.end_time %>
+    for <%= @rehearsal.start_time.strftime("%A, %b %-d, %-l:%M %P") %>-<%= @rehearsal.end_time.strftime("%-l:%M %P") %>
+  <% end %>
+</h1>
+<div class="row">
+  <div class="col-md-12">
+    Actor conflicts:<br>
+    <% @conflicts.each do |conflict| %>
+      <%= conflict.user.name %> has a conflict, <%= conflict.start_time.strftime("%-l:%M %P") %>-<%= conflict.end_time.strftime("%-l:%M %P") %>
+    <% end %>
+  </div>
+  <div class="col-md-12">
+    Unavailable actors = <%= @unavailable_actors.size %><br>
+    Unavailable french_scenes = <%= @unavailable_french_scenes.size %><br>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <h2>
+      Actors are unavailable for:
+    </h2>
+  <div>
+    Unavailable french scenes:
+    <% @unavailable_french_scenes.each do |french_scene, unavailable_actors| %>
+      <ul>
+        <li><%= french_scene %> (<%= "#{unavailable_actors.map(&:name).join(", ")}" %>)</li>
+      </ul>
+    <% end %>
+  </div>
+  <div>
+    Unavailable scenes:
+    <% @unavailable_scenes.each do |scene, unavailable_actors | %>
+      <ul>
+        <li><%= link_to "#{scene}" %> (<%= "#{unavailable_actors.map(&:name).join(", ")}" %>)</li>
+      </ul>
+    <% end %>
+  </div>
+  <div>
+    Unavailable acts:
+    <% @unavailable_acts.each do |act, unavailable_actors| %>
+      <ul>
+        <li><%= link_to "#{act}" %> (<%= "#{unavailable_actors.map(&:name).join(", ")}" %>)</li>
+      </ul>
+    <% end %>
+  </div>
+</div>
+  <div class="col-md-3">
+    <h2>
+      Actors are available for:
+    </h2>
+    <div>
+      Available French scenes:
+      <% @available_french_scenes.each do |french_scene| %>
+        <ul>
+          <li><%= french_scene.pretty_name %> (<%= french_scene.actors_called(@production).map(&:name).join(', ') %>)</li>
+        </ul>
+      <% end %>
+    </div>
+    <div>
+      Available scenes:
+      <% @available_scenes.each do |scene| %>
+        <ul>
+          <li><%= scene.pretty_name %> (<%= scene.actors_called(@production).map(&:name).join(', ') %>)</li>
+        </ul>
+      <% end %>
+    </div>
+    <div>
+      Available acts:
+      <% @available_acts.each do |act| %>
+        <ul>
+          <li><%= act.act_number %></li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <h2>
+      Recommended
+    </h2>
+    <% if @rehearsal.find_previous_rehearsal %>
+      <%= @rehearsal.generate_previous_recommendation %>
+    <% end %>
+  </div>
+  <div class="col-md-3">
+    <h2>
+      Also scheduled for today
+    </h2>
+    <ul>
+      <% @rehearsal.also_scheduled_today.each do |rehearsal| %>
+      <li>
+        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>: <%= rehearsal.material.join(", ") %> (<%= rehearsal.actors_called.map(&:name).join(", ") %>) <%= link_to "Show", rehearsal_path(rehearsal) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div> <!-- row -->
 <%= render 'form' %>
 
-<%= link_to 'Show', @rehearsal %> |
-<%= link_to 'Back', rehearsals_path %>
+<%= link_to 'Show', @rehearsal %>

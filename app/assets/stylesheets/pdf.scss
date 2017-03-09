@@ -1,0 +1,111 @@
+/* COLORS  and FONTS */
+@import "bootstrap";
+/* FONTS */
+body {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.5em;
+}
+
+/* THINGS THAT SHOULD HAVE A PRETTY SERIF FONT */
+
+h1, h2, h3, h4 {
+ font-family: 'Bitter', serif;
+}
+
+/* ALL FONT SIZES ORDERED FROM SMALLEST TO BIGGEST */
+
+h3 {
+  font-size:1.5em;
+}
+
+/* FONT COLORS */
+
+/* THINGS THAT SHOULD BE WHITE */
+
+a, a:visited, header a, .common thead tr, .common tr:nth-child(even), .card-header {
+  color: #fff;
+}
+
+/* THINGS THAT SHOULD BE LIGHT GRAY */
+.common tr:nth-child(odd), #main {
+  background-color:#D1D3D4;
+}
+
+/* THINGS THAT SHOULD BE DARK GRAY */
+
+body, .best_in_place, .common tr:nth-child(even), .common tr:nth-child(odd) a, #schedules a {
+  color: #393939;
+}
+
+/* THINGS THAT SHOULD HAVE SIF ORANGE BACKGROUNDS */
+header {
+  background-color: #fe5000;
+}
+
+/* THINGS THAT SHOULD HAVE LIGHT ORANGE 2 BACKGROUNDS */
+.delay {
+  background: #ffa880;
+}
+
+/* THINGS THAT SHOULD HAVE SIF KELLY GREEN BACKGROUND
+ {
+  background-color: #009639;
+}
+*/
+
+/* THINGS THAT SHOULD HAVE SIF ROYAL BLUE BACKGROUND */
+footer, .common thead tr th {
+  background-color: #10069F;
+}
+
+/* H1 H2 ETC */
+
+h2,h3 {
+  text-transform:uppercase;
+}
+
+h2 {
+  margin: 0 0 5px 0;
+}
+
+h3 {
+  padding-bottom:20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* HEADER AND NAV */
+header {
+  padding: 15px;
+  height: 150px;
+}
+
+/*tables*/
+
+table{
+  width: 100%;
+}
+
+.common td, th {
+  padding-top: 2px!important;
+  padding-bottom: 2px!important;
+  padding-left: 15px!important;
+  padding-right: 15px!important;
+  text-align:center;
+}
+
+tr {
+  page-break-inside: avoid;
+}
+
+.top-buffer {
+  margin-top:20px;
+}
+
+/*footer*/
+footer {
+  padding:50px 0;
+  text-align:right;
+}

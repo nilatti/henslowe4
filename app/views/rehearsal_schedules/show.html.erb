@@ -1,0 +1,87 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Production:</strong>
+  <%= @rehearsal_schedule.production.play.title %> at <%= @rehearsal_schedule.production.theater.name %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @rehearsal_schedule.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @rehearsal_schedule.end_date %>
+</p>
+<p>
+  <strong>Rehearsal Days:</strong>
+  <%= @rehearsal_schedule.rehearsal_days.join(", ") %>
+</p>
+
+<p>
+  <strong>Default start time:</strong>
+  <%= @rehearsal_schedule.start_time %>
+</p>
+
+<p>
+  <strong>Default end time:</strong>
+  <%= @rehearsal_schedule.end_time %>
+</p>
+<p>
+  <strong>Default space:</strong>
+  <%= @rehearsal_schedule.space.name %>
+</p>
+
+<p>
+  <strong>Length of rehearsal block:</strong>
+  <%= @rehearsal_schedule.interval %> minutes
+</p>
+<p>
+  <strong>Dailies:</strong>
+  <table class="table table-bordered table-striped">
+  <% @rehearsal_schedule.dailies.each do |day, rehearsals| %>
+    <tr>
+      <td colspan="4">
+        <strong>
+          <%= day %>
+        </strong>
+      </td>
+    </tr>
+    <% rehearsals.each do |rehearsal| %>
+    <tr>
+      <td>
+        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>
+      </td>
+      <td>
+        Material: <%= rehearsal.material.join(", ") %>
+        <% unless rehearsal.notes.blank? %>
+          (<%= rehearsal.notes %>)
+        <% end %>
+      </td>
+      <td>
+        Actors:
+        <ul>
+          <% rehearsal.actors_called.each do |actor| %>
+            <li>
+              <%= actor.name %>
+            </li>
+          <% end %>
+        </ul>
+      </td>
+      <td>
+        Pages:<%= rehearsal.pages %>
+      </td>
+      <td>
+        <%= link_to "Edit", edit_rehearsal_path(rehearsal) %> | <%= link_to 'Destroy', rehearsal, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </td>
+    </tr>
+    <% end %>
+  <% end %>
+  </table>
+</p>
+<p>
+  <%= link_to "Add rehearsal", new_rehearsal_schedule_rehearsal_path(@rehearsal_schedule) %>
+</p>
+<p>
+  <%= link_to "Download rehearsal schedule pdf", rehearsal_schedule_path(@rehearsal_schedule, format: :pdf) %>

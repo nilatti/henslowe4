@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227223918) do
+ActiveRecord::Schema.define(version: 20170305032711) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20170227223918) do
 
   create_table "conflicts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.string   "category",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -69,6 +69,17 @@ ActiveRecord::Schema.define(version: 20170227223918) do
   end
 
   add_index "french_scenes", ["scene_id"], name: "index_french_scenes_on_scene_id", using: :btree
+
+  create_table "french_scenes_rehearsals", force: :cascade do |t|
+    t.integer  "rehearsal_id",    limit: 4
+    t.integer  "french_scene_id", limit: 4
+    t.string   "process",         limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "french_scenes_rehearsals", ["french_scene_id"], name: "index_french_scenes_rehearsals_on_french_scene_id", using: :btree
+  add_index "french_scenes_rehearsals", ["rehearsal_id"], name: "index_french_scenes_rehearsals_on_rehearsal_id", using: :btree
 
   create_table "jobs", force: :cascade do |t|
     t.integer  "user_id",           limit: 4
@@ -138,22 +149,39 @@ ActiveRecord::Schema.define(version: 20170227223918) do
   add_index "productions", ["play_id"], name: "index_productions_on_play_id", using: :btree
   add_index "productions", ["theater_id"], name: "index_productions_on_theater_id", using: :btree
 
+  create_table "rehearsal_schedules", force: :cascade do |t|
+    t.integer  "production_id", limit: 4
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "interval",      limit: 255
+    t.boolean  "sunday"
+    t.boolean  "monday"
+    t.boolean  "tuesday"
+    t.boolean  "wednesday"
+    t.boolean  "thursday"
+    t.boolean  "friday"
+    t.boolean  "saturday"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "space_id",      limit: 4
+  end
+
+  add_index "rehearsal_schedules", ["production_id"], name: "index_rehearsal_schedules_on_production_id", using: :btree
+  add_index "rehearsal_schedules", ["space_id"], name: "index_rehearsal_schedules_on_space_id", using: :btree
+
   create_table "rehearsals", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "act_id",          limit: 4
-    t.integer  "scene_id",        limit: 4
-    t.integer  "french_scene_id", limit: 4
-    t.integer  "space_id",        limit: 4
-    t.integer  "production_id",   limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "space_id",              limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "rehearsal_schedule_id", limit: 4
+    t.text     "notes",                 limit: 65535
   end
 
-  add_index "rehearsals", ["act_id"], name: "index_rehearsals_on_act_id", using: :btree
-  add_index "rehearsals", ["french_scene_id"], name: "index_rehearsals_on_french_scene_id", using: :btree
-  add_index "rehearsals", ["production_id"], name: "index_rehearsals_on_production_id", using: :btree
-  add_index "rehearsals", ["scene_id"], name: "index_rehearsals_on_scene_id", using: :btree
+  add_index "rehearsals", ["rehearsal_schedule_id"], name: "fk_rails_95eeb33c76", using: :btree
   add_index "rehearsals", ["space_id"], name: "index_rehearsals_on_space_id", using: :btree
 
   create_table "scenes", force: :cascade do |t|
@@ -249,6 +277,8 @@ ActiveRecord::Schema.define(version: 20170227223918) do
   add_foreign_key "conflicts", "spaces"
   add_foreign_key "conflicts", "users"
   add_foreign_key "french_scenes", "scenes"
+  add_foreign_key "french_scenes_rehearsals", "french_scenes"
+  add_foreign_key "french_scenes_rehearsals", "rehearsals"
   add_foreign_key "jobs", "productions"
   add_foreign_key "jobs", "specializations"
   add_foreign_key "jobs", "theaters"
@@ -258,10 +288,9 @@ ActiveRecord::Schema.define(version: 20170227223918) do
   add_foreign_key "plays", "authors"
   add_foreign_key "productions", "plays"
   add_foreign_key "productions", "theaters"
-  add_foreign_key "rehearsals", "acts"
-  add_foreign_key "rehearsals", "french_scenes"
-  add_foreign_key "rehearsals", "productions"
-  add_foreign_key "rehearsals", "scenes"
+  add_foreign_key "rehearsal_schedules", "productions"
+  add_foreign_key "rehearsal_schedules", "spaces"
+  add_foreign_key "rehearsals", "rehearsal_schedules"
   add_foreign_key "rehearsals", "spaces"
   add_foreign_key "space_agreements", "spaces"
   add_foreign_key "space_agreements", "theaters"

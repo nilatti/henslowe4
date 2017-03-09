@@ -2,7 +2,7 @@
 
 <h1>Listing Conflicts</h1>
 
-<table>
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th>User or Space</th>
@@ -17,8 +17,8 @@
     <% @conflicts.each do |conflict| %>
       <tr>
         <td><% if conflict.user %><%= conflict.user.name %><% elsif conflict.space %><%= conflict.space.name %><% end %></td>
-        <td><%= conflict.start %></td>
-        <td><%= conflict.end %></td>
+        <td><%= conflict.start_time %></td>
+        <td><%= conflict.end_time %></td>
         <td><%= conflict.category %></td>
         <td><%= link_to 'Show', conflict %></td>
         <td><%= link_to 'Edit', edit_conflict_path(conflict) %></td>

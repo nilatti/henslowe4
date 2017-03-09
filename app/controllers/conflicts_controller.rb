@@ -69,6 +69,6 @@ class ConflictsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conflict_params
-      params.require(:conflict).permit(:user_id, :space_id, :start, :end, :category)
+      params.require(:conflict).permit(:user_id, :space_id, :start_time, :end_time, :category)
     end
 end

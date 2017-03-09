@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rehearsal Schedules</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Production</th>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Interval</th>
+      <th>Sunday</th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th>Saturday</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rehearsal_schedules.each do |rehearsal_schedule| %>
+      <tr>
+        <td><%= rehearsal_schedule.production %></td>
+        <td><%= rehearsal_schedule.start_date %></td>
+        <td><%= rehearsal_schedule.end_date %></td>
+        <td><%= rehearsal_schedule.start_time %></td>
+        <td><%= rehearsal_schedule.end_time %></td>
+        <td><%= rehearsal_schedule.interval %></td>
+        <td><%= rehearsal_schedule.sunday %></td>
+        <td><%= rehearsal_schedule.monday %></td>
+        <td><%= rehearsal_schedule.tuesday %></td>
+        <td><%= rehearsal_schedule.wednesday %></td>
+        <td><%= rehearsal_schedule.thursday %></td>
+        <td><%= rehearsal_schedule.friday %></td>
+        <td><%= rehearsal_schedule.saturday %></td>
+        <td><%= link_to 'Show', rehearsal_schedule %></td>
+        <td><%= link_to 'Edit', edit_rehearsal_schedule_path(rehearsal_schedule) %></td>
+        <td><%= link_to 'Destroy', rehearsal_schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rehearsal schedule', new_rehearsal_schedule_path %>

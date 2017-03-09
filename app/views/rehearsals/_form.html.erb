@@ -1,11 +1,28 @@
 <%= bootstrap_form_for(@rehearsal, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
-  <%= f.time_picker :start_time %>
-  <%= f.time_picker :end_time %>
-  <%= f.input :act %>
-  <%= f.input :scene %>
-  <%= f.input :french_scene %>
-  <%= f.input :space %>
-  <%= f.input :production %>
+<div>
+  <h2>
+    Set date and time.
+  </h2>
+</div>
+  <%= f.datetime_select :start_time %>
+  <%= f.datetime_select :end_time %>
+  <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]}, include_blank: true %>
+<div>
+  <h2>
+    Select material:
+  </h2>
+  <% if @whole_play %>
+    <%= f.select :plays, [["Full Run", @production.play.id ]], include_blank: true, label: "Run whole play?" %>
+  <% else %>
+    Can't do a full run, missing
+    <%= @unavailable_actors.map(&:name).join(", ") %>.
+    <%= f.select :plays, [["Full Run", @production.play.id ]], include_blank: true, label: "Do a run anyway?" %>
+  <% end %>
+  <%= f.collection_check_boxes :acts, @production.play.acts, :id, :pretty_name %>
+  <%= f.collection_check_boxes :scenes, @scenes, :id, :pretty_name %>
+  <%= f.collection_check_boxes :french_scene_group, @french_scenes, :id, :pretty_name %>
+  <%= f.text_field :notes %>
+</div>
 
-    <%= f.action :submit, :as => :input %>
+  <%= f.submit %>
 <% end %>

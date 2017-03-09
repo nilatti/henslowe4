@@ -1,5 +1,7 @@
 <h1>New Rehearsal</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', rehearsals_path %>
+<%= bootstrap_form_for([@rehearsal_schedule, @rehearsal], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+  <%= f.datetime_select :start_time %>
+  <%= f.datetime_select :end_time %>
+  <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]}, include_blank: true %>
+  <%= f.submit %>
+<% end %>

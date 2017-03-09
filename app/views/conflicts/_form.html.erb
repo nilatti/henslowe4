@@ -1,8 +1,8 @@
 <%= bootstrap_form_for @conflict do |f| %>
   <%= f.select :user_id, User.all.collect {|p| [p.name, p.id]}, include_blank: true %>
-  <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]} %>
-  <%= f.datetime_select :start %>
-  <%= f.datetime_select :end %>
+  <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]}, include_blank: true %>
+  <%= f.datetime_select :start_time %>
+  <%= f.datetime_select :end_time %>
   <%= f.text_field :category %>
   <%= f.submit %>
 <% end %>

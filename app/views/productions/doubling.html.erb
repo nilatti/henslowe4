@@ -31,11 +31,11 @@ Cast list by scene:
 <strong>Acts:</strong><br />
   <ul>
   <% for act in @production.play.acts %>
-    <li>Act <%= act.act_number %> <br /><ul>
+    <li>Act <%= link_to "#{act.act_number}", act %> <br /><ul>
     <% for scene in act.scenes %>
-      <li><%= act.act_number %>.<%= scene.scene_number %> -- (<%= scene.start_page %>-<%= scene.end_page %>)<br /><ul>
+      <li><%= act.act_number %>.<%= link_to "#{scene.scene_number}", scene %> -- (<%= scene.start_page %>-<%= scene.end_page %>): <%= scene.actors_called(@production).map(&:name).uniq.join(", ") %><br /><ul>
     <% for french_scene in scene.french_scenes %>
-      <li><%= act.act_number %>.<%= scene.scene_number %>.<%= french_scene.french_scene_number %> (<%= french_scene.start_page %>-<%= french_scene.end_page %>)<ul><% french_scene.actors_called(@production).each do |actor| %><li><%= link_to "#{actor.name}", actor %>
+      <li><%= act.act_number %>.<%= scene.scene_number %>.<%= link_to "#{french_scene.french_scene_number}", french_scene %> (<%= french_scene.start_page %>-<%= french_scene.end_page %>)<ul><% french_scene.actors_called(@production).each do |actor| %><li><%= link_to "#{actor.name}", actor %>
       <% end %></ul></li>
 
       <% end %></ul>

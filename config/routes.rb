@@ -28,9 +28,10 @@ Rails.application.routes.draw do
   resources :plays
 
   resources :theaters, shallow: true do
-    resources :spaces
     resources :productions do
-      resources :rehearsals
+      resources :rehearsal_schedules do
+        resources :rehearsals
+      end
       resources :jobs
       member do
         get 'edit_casting'
@@ -39,10 +40,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :spaces, only: [:index]
-
   resources :specializations
-
+  resources :spaces
   resources :space_agreements, only: [:new, :create, :destroy]
 
   devise_for :users, controllers: {

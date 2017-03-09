@@ -11,29 +11,36 @@
 </p>
 
 <p>
-  <strong>Act:</strong>
-  <%= @rehearsal.act %>
+  <strong>Script:</strong>
+  <%= @rehearsal.material.join(", ") %>
 </p>
-
 <p>
-  <strong>Scene:</strong>
-  <%= @rehearsal.scene %>
-</p>
-
-<p>
-  <strong>French scene:</strong>
-  <%= @rehearsal.french_scene %>
+  <strong>Notes:</strong>
+  <%= @rehearsal.notes %>
 </p>
 
 <p>
   <strong>Space:</strong>
-  <%= @rehearsal.space %>
+  <% if @rehearsal.space %>
+    <%= @rehearsal.space.name %>
+  <% else %>
+    TBD
+  <% end %>
 </p>
-
+<p>
+  <strong>Actors called:</strong>
+  <%= @rehearsal.actors_called.map(&:name).join(", ") %>
+</p>
 <p>
   <strong>Production:</strong>
-  <%= @rehearsal.production %>
+  <%= link_to "#{@rehearsal_schedule.production.play.title} at #{@rehearsal_schedule.production.theater.name}", @production %>
 </p>
-
-<%= link_to 'Edit', edit_rehearsal_path(@rehearsal) %> |
-<%= link_to 'Back', rehearsals_path %>
+<p>
+  <%= link_to 'Edit', edit_rehearsal_path(@rehearsal) %> | <%= link_to "Full Schedule", rehearsal_schedule_path(@rehearsal_schedule) %><br>
+  <% if @rehearsal.find_previous_rehearsal %>
+    <%= link_to "Previous rehearsal block", rehearsal_path(@rehearsal.find_previous_rehearsal) %>
+  <% end %>
+  |
+  <% if @rehearsal.find_next_rehearsal %>
+    <%= link_to "Next rehearsal block", rehearsal_path(@rehearsal.find_next_rehearsal) %>
+  <% end %>
