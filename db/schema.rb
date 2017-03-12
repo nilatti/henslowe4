@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170305032711) do
+ActiveRecord::Schema.define(version: 20170312183050) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -133,6 +133,8 @@ ActiveRecord::Schema.define(version: 20170305032711) do
     t.string   "script_content_type", limit: 255
     t.integer  "script_file_size",    limit: 4
     t.datetime "script_updated_at"
+    t.integer  "start_page",          limit: 4
+    t.integer  "end_page",            limit: 4
   end
 
   add_index "plays", ["author_id"], name: "index_plays_on_author_id", using: :btree
@@ -148,6 +150,32 @@ ActiveRecord::Schema.define(version: 20170305032711) do
 
   add_index "productions", ["play_id"], name: "index_productions_on_play_id", using: :btree
   add_index "productions", ["theater_id"], name: "index_productions_on_theater_id", using: :btree
+
+  create_table "rehearsal_calls", force: :cascade do |t|
+    t.integer  "rehearsal_id", limit: 4
+    t.integer  "user_id",      limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "rehearsal_calls", ["rehearsal_id"], name: "index_rehearsal_calls_on_rehearsal_id", using: :btree
+  add_index "rehearsal_calls", ["user_id"], name: "index_rehearsal_calls_on_user_id", using: :btree
+
+  create_table "rehearsal_materials", force: :cascade do |t|
+    t.integer  "rehearsal_id",    limit: 4
+    t.integer  "play_id",         limit: 4
+    t.integer  "act_id",          limit: 4
+    t.integer  "scene_id",        limit: 4
+    t.integer  "french_scene_id", limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "rehearsal_materials", ["act_id"], name: "index_rehearsal_materials_on_act_id", using: :btree
+  add_index "rehearsal_materials", ["french_scene_id"], name: "index_rehearsal_materials_on_french_scene_id", using: :btree
+  add_index "rehearsal_materials", ["play_id"], name: "index_rehearsal_materials_on_play_id", using: :btree
+  add_index "rehearsal_materials", ["rehearsal_id"], name: "index_rehearsal_materials_on_rehearsal_id", using: :btree
+  add_index "rehearsal_materials", ["scene_id"], name: "index_rehearsal_materials_on_scene_id", using: :btree
 
   create_table "rehearsal_schedules", force: :cascade do |t|
     t.integer  "production_id", limit: 4
@@ -288,6 +316,13 @@ ActiveRecord::Schema.define(version: 20170305032711) do
   add_foreign_key "plays", "authors"
   add_foreign_key "productions", "plays"
   add_foreign_key "productions", "theaters"
+  add_foreign_key "rehearsal_calls", "rehearsals"
+  add_foreign_key "rehearsal_calls", "users"
+  add_foreign_key "rehearsal_materials", "acts"
+  add_foreign_key "rehearsal_materials", "french_scenes"
+  add_foreign_key "rehearsal_materials", "plays"
+  add_foreign_key "rehearsal_materials", "rehearsals"
+  add_foreign_key "rehearsal_materials", "scenes"
   add_foreign_key "rehearsal_schedules", "productions"
   add_foreign_key "rehearsal_schedules", "spaces"
   add_foreign_key "rehearsals", "rehearsal_schedules"

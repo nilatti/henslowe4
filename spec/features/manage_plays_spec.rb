@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "with logged in user" do 
+describe "with logged in user" do
 	def log_in_as(user)
   	visit new_user_session_path
   	fill_in("user_email", with: user.email)
@@ -15,7 +15,7 @@ describe "with logged in user" do
   let(:theater) { FactoryGirl.create(:theater) }
   let(:noncanonical_play) { FactoryGirl.create(:play, :canonical => false) }
   let(:production) { FactoryGirl.create(:production, :theater => theater, :play => noncanonical_play) }
-    
+
 
 #manage play
 
@@ -26,18 +26,17 @@ describe "with logged in user" do
   end
 
   it "does not allow regular user to edit canonical play" do
-   
     log_in_as(user)
     visit(edit_play_path(canonical_play))
     expect(current_path).to eq("/")
-  end	
+  end
 
   it "allows theater manager to edit non-canonical play" do
-    prod = create(:production, :theater => theater, :play => noncanonical_play)
+		prod = create(:production, theater: theater, play: noncanonical_play)
     noncanonical_play.production_id = prod.id
-    specialization = create(:specialization, :executive_director)
+		specialization = create(:specialization, :executive_director)
     Job.create(user: user, specialization: specialization, theater: theater)
-    log_in_as(user)
+	  log_in_as(user)
     visit(edit_play_path(noncanonical_play))
     expect(current_path).to eq(edit_play_path(noncanonical_play))
   end
@@ -45,7 +44,7 @@ describe "with logged in user" do
   it "allows production manager to edit non-canonical play" do
     noncanonical_play.production_id = production.id
     specialization = create(:specialization, :production_manager)
-    production.theater.jobs.create(user: user, specialization: specialization)
+    production.jobs.create(user: user, specialization: specialization)
     log_in_as(user)
     visit(edit_play_path(noncanonical_play))
     expect(current_path).to eq(edit_play_path(noncanonical_play))

@@ -89,7 +89,7 @@
     <ul>
       <% @rehearsal.also_scheduled_today.each do |rehearsal| %>
       <li>
-        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>: <%= rehearsal.material.join(", ") %> (<%= rehearsal.actors_called.map(&:name).join(", ") %>) <%= link_to "Show", rehearsal_path(rehearsal) %>
+        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>: <%= rehearsal.material.join(", ") %> (<%= rehearsal.users.map(&:name).join(", ") %>) <%= link_to "Show", rehearsal_path(rehearsal) %>
       </li>
       <% end %>
     </ul>

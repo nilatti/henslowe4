@@ -7,7 +7,7 @@ class PlaysController < ApplicationController
   def index
     if @author
       @plays = Play.where("author_id = #{@author.id}")
-    else 
+    else
       @plays = Play.all
     end
   end
@@ -51,7 +51,7 @@ class PlaysController < ApplicationController
   # PATCH/PUT /plays/1
   # PATCH/PUT /plays/1.json
   def update
-    
+
     respond_to do |format|
       if @play.update(play_params)
         format.html { redirect_to play_path(@play), notice: 'Play was successfully updated.' }
@@ -87,6 +87,6 @@ class PlaysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def play_params
-      params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, :script, characters_attributes: [:id, :name, :age, :gender, :_destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
+      params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, :script, :start_page, :end_page, characters_attributes: [:id, :name, :age, :gender, :_destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
     end
 end

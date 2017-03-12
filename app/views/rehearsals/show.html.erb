@@ -1,13 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Start time:</strong>
-  <%= @rehearsal.start_time %>
-</p>
-
-<p>
-  <strong>End time:</strong>
-  <%= @rehearsal.end_time %>
+  <strong>Time:</strong>
+  <%= @rehearsal.start_time.strftime("%-l:%M %P") %>-<%= @rehearsal.end_time.strftime("%-l:%M %P") %>
 </p>
 
 <p>
@@ -28,8 +23,14 @@
   <% end %>
 </p>
 <p>
-  <strong>Actors called:</strong>
-  <%= @rehearsal.actors_called.map(&:name).join(", ") %>
+  <strong>Who is called?</strong>
+  <ul>
+  <% @rehearsal.users.each do |user| %>
+    <li>
+      <%= user.name %>
+    </li>
+  <% end %>
+  </ul>
 </p>
 <p>
   <strong>Production:</strong>

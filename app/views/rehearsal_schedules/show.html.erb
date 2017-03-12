@@ -60,9 +60,9 @@
         <% end %>
       </td>
       <td>
-        Actors:
+        People called:
         <ul>
-          <% rehearsal.actors_called.each do |actor| %>
+          <% rehearsal.users.each do |actor| %>
             <li>
               <%= actor.name %>
             </li>
@@ -70,7 +70,7 @@
         </ul>
       </td>
       <td>
-        Pages:<%= rehearsal.pages %>
+        Pages: <%= rehearsal.pages %>
       </td>
       <td>
         <%= link_to "Edit", edit_rehearsal_path(rehearsal) %> | <%= link_to 'Destroy', rehearsal, method: :delete, data: { confirm: 'Are you sure?' } %>

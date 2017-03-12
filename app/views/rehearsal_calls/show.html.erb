@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rehearsal:</strong>
+  <%= @rehearsal_call.rehearsal %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @rehearsal_call.user %>
+</p>
+
+<%= link_to 'Edit', edit_rehearsal_call_path(@rehearsal_call) %> |
+<%= link_to 'Back', rehearsal_calls_path %>

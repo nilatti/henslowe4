@@ -1,0 +1,13 @@
+<%= semantic_form_for @rehearsal_material do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :rehearsal %>
+    <%= f.input :play %>
+    <%= f.input :act %>
+    <%= f.input :scene %>
+    <%= f.input :french_scene %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

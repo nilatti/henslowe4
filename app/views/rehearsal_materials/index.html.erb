@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rehearsal Materials</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rehearsal</th>
+      <th>Play</th>
+      <th>Act</th>
+      <th>Scene</th>
+      <th>French scene</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rehearsal_materials.each do |rehearsal_material| %>
+      <tr>
+        <td><%= rehearsal_material.rehearsal %></td>
+        <td><%= rehearsal_material.play %></td>
+        <td><%= rehearsal_material.act %></td>
+        <td><%= rehearsal_material.scene %></td>
+        <td><%= rehearsal_material.french_scene %></td>
+        <td><%= link_to 'Show', rehearsal_material %></td>
+        <td><%= link_to 'Edit', edit_rehearsal_material_path(rehearsal_material) %></td>
+        <td><%= link_to 'Destroy', rehearsal_material, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rehearsal material', new_rehearsal_material_path %>

@@ -3,10 +3,12 @@
   <%= f.text_field :title %>
   <%= f.check_box :canonical, label: "Is this the canonical version of the play?" %>
   <%= f.date_select :date, :label => "Year", :order => [:year], :start_year => Time.now.year - 1000, :end_year => Time.now.year %>
+  <%= f.number_field :start_page %>
+  <%= f.number_field :end_page %>
 
   <div class="acts">
   <%= f.fields_for :acts do |act| %>
-  
+
     <%= render 'shared_partials/act_fields', f: act %>
   <% end %>
   <%= link_to_add_association 'add act', f, :acts, partial: 'shared_partials/act_fields' %>

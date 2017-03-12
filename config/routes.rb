@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :rehearsal_calls
+  resources :rehearsal_materials
   resources :conflicts
   resources :lines
   authenticated :user do

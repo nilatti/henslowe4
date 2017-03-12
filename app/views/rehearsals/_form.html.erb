@@ -7,20 +7,21 @@
   <%= f.datetime_select :start_time %>
   <%= f.datetime_select :end_time %>
   <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]}, include_blank: true %>
+  <%= f.collection_check_boxes :user_ids, @production.involved_users, :id, :name, label: "Who should be there?" %>
 <div>
   <h2>
     Select material:
   </h2>
   <% if @whole_play %>
-    <%= f.select :plays, [["Full Run", @production.play.id ]], include_blank: true, label: "Run whole play?" %>
+    <%= f.select :play_ids, [["Full Run", @production.play.id ]], include_blank: true, label: "Run whole play?" %>
   <% else %>
     Can't do a full run, missing
     <%= @unavailable_actors.map(&:name).join(", ") %>.
     <%= f.select :plays, [["Full Run", @production.play.id ]], include_blank: true, label: "Do a run anyway?" %>
   <% end %>
-  <%= f.collection_check_boxes :acts, @production.play.acts, :id, :pretty_name %>
-  <%= f.collection_check_boxes :scenes, @scenes, :id, :pretty_name %>
-  <%= f.collection_check_boxes :french_scene_group, @french_scenes, :id, :pretty_name %>
+  <%= f.collection_check_boxes :act_ids, @production.play.acts, :id, :pretty_name %>
+  <%= f.collection_check_boxes :scene_ids, @scenes, :id, :pretty_name %>
+  <%= f.collection_check_boxes :french_scene_ids, @french_scenes, :id, :pretty_name %>
   <%= f.text_field :notes %>
 </div>
 

@@ -2,14 +2,10 @@ class RehearsalSchedulesController < ApplicationController
   before_action :set_rehearsal_schedule, only: [:show, :edit, :update, :destroy]
   before_action :load_production
 
-  # GET /rehearsal_schedules
-  # GET /rehearsal_schedules.json
   def index
     @rehearsal_schedules = RehearsalSchedule.all
   end
 
-  # GET /rehearsal_schedules/1
-  # GET /rehearsal_schedules/1.json
   def show
     respond_to do |format|
       format.html
@@ -21,17 +17,13 @@ class RehearsalSchedulesController < ApplicationController
     end
   end
 
-  # GET /rehearsal_schedules/new
   def new
     @rehearsal_schedule = RehearsalSchedule.new
   end
 
-  # GET /rehearsal_schedules/1/edit
   def edit
   end
 
-  # POST /rehearsal_schedules
-  # POST /rehearsal_schedules.json
   def create
     @rehearsal_schedule = @production.rehearsal_schedules.build(rehearsal_schedule_params)
 
@@ -46,8 +38,6 @@ class RehearsalSchedulesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /rehearsal_schedules/1
-  # PATCH/PUT /rehearsal_schedules/1.json
   def update
     respond_to do |format|
       if @rehearsal_schedule.update(rehearsal_schedule_params)
@@ -60,8 +50,6 @@ class RehearsalSchedulesController < ApplicationController
     end
   end
 
-  # DELETE /rehearsal_schedules/1
-  # DELETE /rehearsal_schedules/1.json
   def destroy
     @rehearsal_schedule.destroy
     respond_to do |format|

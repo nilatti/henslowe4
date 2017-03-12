@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Rehearsal Calls</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rehearsal</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rehearsal_calls.each do |rehearsal_call| %>
+      <tr>
+        <td><%= rehearsal_call.rehearsal %></td>
+        <td><%= rehearsal_call.user %></td>
+        <td><%= link_to 'Show', rehearsal_call %></td>
+        <td><%= link_to 'Edit', edit_rehearsal_call_path(rehearsal_call) %></td>
+        <td><%= link_to 'Destroy', rehearsal_call, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rehearsal call', new_rehearsal_call_path %>

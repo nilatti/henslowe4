@@ -24,6 +24,20 @@
     <% @production.jobs.acting.each do |casting| %>
       <% if casting.character %><li><%= casting.character.name %> &mdash; <% if casting.user %><%= link_to "#{casting.user.name}", casting.user %><% end %><% end %></li><% end %>
   </ul>
+  <% if current_user.production_admin?(@production) || current_user.theater_admin?(@production.theater) %>
+  <p>
+    <strong>Who auditioned:</strong>
+    <ul>
+    <% @production.jobs.each do |job| %>
+      <% if job.specialization.title == "Auditioner" %>
+        <li>
+          <%= link_to "#{job.user.name}", job.user %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+  </p>
+  <% end %>
   <%= link_to "Edit casting", edit_casting_production_path %>
 </p>
 <p>
@@ -31,7 +45,7 @@
 	<ul>
 	<% @production.jobs.each do |job| %>
       <% unless job.acting? %>
-       <li><%= job.specialization.title %> &mdash; <% if job.user %><%= job.user.name %><% end %></li>
+       <li><%= job.specialization.title %> &mdash; <% if job.user %><%= link_to "#{job.user.name}", job.user %><% end %></li>
       <% end %>
     <% end %>
     </ul>
