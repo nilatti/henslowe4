@@ -21,67 +21,83 @@
 
 <p>
   <strong>Default start time:</strong>
-  <%= @rehearsal_schedule.start_time %>
+  <%= @rehearsal_schedule.start_time.strftime("%-l:%M %P") %>
 </p>
 
 <p>
   <strong>Default end time:</strong>
-  <%= @rehearsal_schedule.end_time %>
+  <%= @rehearsal_schedule.end_time.strftime("%-l:%M %P") %>
 </p>
 <p>
   <strong>Default space:</strong>
   <%= @rehearsal_schedule.space.name %>
 </p>
-
+<p>
+  <strong>Default attendees:</strong>
+  <%= @rehearsal_schedule.users.map(&:name).join(", ") %>
 <p>
   <strong>Length of rehearsal block:</strong>
   <%= @rehearsal_schedule.interval %> minutes
 </p>
-<p>
-  <strong>Dailies:</strong>
-  <table class="table table-bordered table-striped">
-  <% @rehearsal_schedule.dailies.each do |day, rehearsals| %>
-    <tr>
-      <td colspan="4">
-        <strong>
-          <%= day %>
-        </strong>
-      </td>
-    </tr>
-    <% rehearsals.each do |rehearsal| %>
-    <tr>
-      <td>
-        <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>
-      </td>
-      <td>
-        Material: <%= rehearsal.material.join(", ") %>
-        <% unless rehearsal.notes.blank? %>
-          (<%= rehearsal.notes %>)
-        <% end %>
-      </td>
-      <td>
-        People called:
-        <ul>
-          <% rehearsal.users.each do |actor| %>
-            <li>
-              <%= actor.name %>
-            </li>
+<% if @rehearsal_schedule.rehearsals.empty? %>
+  <%= link_to "Edit rehearsal schedule", edit_rehearsal_schedule_path %>
+  <%= link_to "Build Schedule", build_rehearsal_schedule_path(id: @rehearsal_schedule.id), class: "btn btn-primary btn-block btn-edit" %>
+<% else %>
+  <p>
+    <strong>Dailies:</strong>
+    <table class="table table-bordered table-striped">
+    <% @rehearsal_schedule.dailies.each do |day, rehearsals| %>
+      <tr>
+        <td colspan="4">
+          <strong>
+            <%= day %>
+          </strong>
+        </td>
+      </tr>
+      <% rehearsals.each do |rehearsal| %>
+      <tr>
+        <td>
+          <%= rehearsal.start_time.strftime("%-l:%M %P") %>-<%= rehearsal.end_time.strftime("%-l:%M %P") %>
+        </td>
+        <td>
+          <% unless rehearsal.title.blank? %>
+            <%= rehearsal.title %>
+            <br>
           <% end %>
-        </ul>
-      </td>
-      <td>
-        Pages: <%= rehearsal.pages %>
-      </td>
-      <td>
-        <%= link_to "Edit", edit_rehearsal_path(rehearsal) %> | <%= link_to 'Destroy', rehearsal, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </td>
-    </tr>
+          <% unless rehearsal.notes.blank? %>
+            (<%= rehearsal.notes %>)
+            <br>
+          <% end %>
+          <% unless rehearsal.material.empty? %>
+            Material: <%= safe_join(rehearsal.material.map { |item| link_to(item.pretty_name, item) }, ", ".html_safe) %>
+          <% end %>
+
+        </td>
+        <td>
+          People called:
+          <ul>
+            <% rehearsal.users.each do |user| %>
+              <li>
+                <%= link_to "#{user.name}", user %>
+              </li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          Pages: <%= rehearsal.pages %>
+        </td>
+        <td>
+          <%= link_to "Edit", edit_rehearsal_path(rehearsal) %> | <%= link_to 'Destroy', rehearsal, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+      <% end %>
     <% end %>
-  <% end %>
-  </table>
-</p>
-<p>
-  <%= link_to "Add rehearsal", new_rehearsal_schedule_rehearsal_path(@rehearsal_schedule) %>
-</p>
-<p>
-  <%= link_to "Download rehearsal schedule pdf", rehearsal_schedule_path(@rehearsal_schedule, format: :pdf) %>
+    </table>
+  </p>
+  <p>
+    <%= link_to "Add rehearsal", new_rehearsal_schedule_rehearsal_path(@rehearsal_schedule) %>
+  </p>
+  <p>
+    <%= link_to "Download rehearsal schedule pdf", rehearsal_schedule_path(@rehearsal_schedule, format: :pdf) %>
+  </p>
+<% end %>

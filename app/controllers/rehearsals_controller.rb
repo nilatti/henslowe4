@@ -17,17 +17,19 @@ class RehearsalsController < ApplicationController
     @production = @rehearsal_schedule.production
     @scenes = @production.play.scenes.sort { |a, b| a.pretty_name <=> b.pretty_name}
     @french_scenes = @production.play.french_scenes.sort { |a, b| a.pretty_name <=> b.pretty_name}
-    f = FindMaterialThatIsNotRehearsable.new(@production, @rehearsal)
-    f.run
-    @unavailable_french_scenes = f.unavailable_french_scenes
-    @available_french_scenes = f.available_french_scenes
-    @unavailable_scenes = f.unavailable_scenes
-    @available_scenes = f.available_scenes
-    @unavailable_acts = f.unavailable_acts
-    @available_acts = f.available_acts
-    @unavailable_actors = f.unavailable_actors
-    @whole_play = f.whole_play
-    @conflicts = f.conflicts
+    unless @rehearsal.actor_conflicts.empty?
+      f = FindMaterialThatIsNotRehearsable.new(@production, @rehearsal)
+      f.run
+      @unavailable_french_scenes = f.unavailable_french_scenes
+      @available_french_scenes = f.available_french_scenes
+      @unavailable_scenes = f.unavailable_scenes
+      @available_scenes = f.available_scenes
+      @unavailable_acts = f.unavailable_acts
+      @available_acts = f.available_acts
+      @unavailable_actors = f.unavailable_actors
+      @whole_play = f.whole_play
+      @conflicts = f.conflicts
+    end
   end
 
   def create
@@ -79,6 +81,6 @@ class RehearsalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rehearsal_params
-      params.require(:rehearsal).permit(:start_time, :end_time, :notes, :space_id, :rehearsal_schedule_id, :play_ids, user_ids: [], act_ids: {}, scene_ids: [], french_scene_ids: [])
+      params.require(:rehearsal).permit(:start_time, :end_time, :title, :notes, :space_id, :rehearsal_schedule_id, :play_ids, user_ids: [], act_ids: {}, scene_ids: [], french_scene_ids: [])
     end
 end

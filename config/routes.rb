@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :default_rehearsal_attendees
   resources :rehearsal_calls
   resources :rehearsal_materials
   resources :conflicts
@@ -63,4 +64,6 @@ Rails.application.routes.draw do
   resources :users do
     resources :jobs
   end
+
+  get :build_rehearsal_schedule, to: 'rehearsal_schedules#build_rehearsal_schedule', as: :build_rehearsal_schedule
 end

@@ -1,5 +1,5 @@
 class RehearsalSchedulesController < ApplicationController
-  before_action :set_rehearsal_schedule, only: [:show, :edit, :update, :destroy]
+  before_action :set_rehearsal_schedule, only: [:show, :edit, :update, :destroy, :build_rehearsal_schedule]
   before_action :load_production
 
   def index
@@ -58,6 +58,13 @@ class RehearsalSchedulesController < ApplicationController
     end
   end
 
+  def build_rehearsal_schedule
+    puts "calling builder for #{@rehearsal_schedule.id}"
+    BuildRehearsalSchedule.new(@rehearsal_schedule).run
+    flash[:notice] = "Rehearsals built"
+    redirect_to @rehearsal_schedule
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def load_production
@@ -74,6 +81,6 @@ class RehearsalSchedulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rehearsal_schedule_params
-      params.require(:rehearsal_schedule).permit(:production_id, :space_id, :start_date, :end_date, :start_time, :end_time, :interval, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
+      params.require(:rehearsal_schedule).permit(:production_id, :space_id, :start_date, :end_date, :start_time, :end_time, :interval, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, user_ids: [])
     end
 end

@@ -1,5 +1,14 @@
 <p id="notice"><%= notice %></p>
-
+<p>
+  <strong>Date:</strong>
+  <%= @rehearsal.start_time.strftime("%B %-d, %Y") %>
+</p>
+<% unless @rehearsal.title.blank? %>
+  <p>
+    <strong>Title:</strong>
+    <%= @rehearsal.title %>
+  </p>
+<% end %>
 <p>
   <strong>Time:</strong>
   <%= @rehearsal.start_time.strftime("%-l:%M %P") %>-<%= @rehearsal.end_time.strftime("%-l:%M %P") %>
@@ -7,17 +16,18 @@
 
 <p>
   <strong>Script:</strong>
-  <%= @rehearsal.material.join(", ") %>
+  <%= safe_join(@rehearsal.material.map { |item| link_to(item.pretty_name, item) }, ", ".html_safe) %>
 </p>
-<p>
-  <strong>Notes:</strong>
-  <%= @rehearsal.notes %>
-</p>
-
+<% unless @rehearsal.notes.blank? %>
+  <p>
+    <strong>Notes:</strong>
+    <%= @rehearsal.notes %>
+  </p>
+<% end %>
 <p>
   <strong>Space:</strong>
   <% if @rehearsal.space %>
-    <%= @rehearsal.space.name %>
+    <%= link_to "#{@rehearsal.space.name}" %>
   <% else %>
     TBD
   <% end %>
@@ -27,7 +37,7 @@
   <ul>
   <% @rehearsal.users.each do |user| %>
     <li>
-      <%= user.name %>
+      <%= link_to "#{user.name}", user %>
     </li>
   <% end %>
   </ul>

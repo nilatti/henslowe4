@@ -1,7 +1,7 @@
 class Play < ActiveRecord::Base
-  
+
   belongs_to :author
-  
+
   has_many :acts, dependent: :destroy
   has_many :scenes, :through => :acts, dependent: :destroy
   has_many :french_scenes, :through => :scenes, dependent: :destroy
@@ -34,6 +34,10 @@ class Play < ActiveRecord::Base
     unless self.production_id.nil?
       Production.find(production_id)
     end
+  end
+
+  def pretty_name
+    title
   end
   def parse_script
     io = StringIO.new(Paperclip.io_adapters.for(self.script).read, 'r')

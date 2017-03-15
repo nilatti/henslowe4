@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312183050) do
+ActiveRecord::Schema.define(version: 20170315190608) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(version: 20170312183050) do
 
   add_index "conflicts", ["space_id"], name: "index_conflicts_on_space_id", using: :btree
   add_index "conflicts", ["user_id"], name: "index_conflicts_on_user_id", using: :btree
+
+  create_table "default_rehearsal_attendees", force: :cascade do |t|
+    t.integer  "rehearsal_schedule_id", limit: 4
+    t.integer  "user_id",               limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "default_rehearsal_attendees", ["rehearsal_schedule_id"], name: "index_default_rehearsal_attendees_on_rehearsal_schedule_id", using: :btree
+  add_index "default_rehearsal_attendees", ["user_id"], name: "index_default_rehearsal_attendees_on_user_id", using: :btree
 
   create_table "french_scenes", force: :cascade do |t|
     t.string   "french_scene_number", limit: 255
@@ -207,6 +217,7 @@ ActiveRecord::Schema.define(version: 20170312183050) do
     t.datetime "updated_at",                          null: false
     t.integer  "rehearsal_schedule_id", limit: 4
     t.text     "notes",                 limit: 65535
+    t.string   "title",                 limit: 255
   end
 
   add_index "rehearsals", ["rehearsal_schedule_id"], name: "fk_rails_95eeb33c76", using: :btree
@@ -304,6 +315,8 @@ ActiveRecord::Schema.define(version: 20170312183050) do
   add_foreign_key "characters", "plays"
   add_foreign_key "conflicts", "spaces"
   add_foreign_key "conflicts", "users"
+  add_foreign_key "default_rehearsal_attendees", "rehearsal_schedules"
+  add_foreign_key "default_rehearsal_attendees", "users"
   add_foreign_key "french_scenes", "scenes"
   add_foreign_key "french_scenes_rehearsals", "french_scenes"
   add_foreign_key "french_scenes_rehearsals", "rehearsals"

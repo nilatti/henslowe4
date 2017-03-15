@@ -54,23 +54,9 @@
 </p>
 
 <p>
-  <strong><%= link_to "Rehearsal schedule", @production.rehearsal_schedules.last %>:</strong>
-  <ul>
-    <% @production.rehearsals.each do |rehearsal| %>
-      <li>
-        <% unless rehearsal.material.blank? %>
-          <%= link_to "#{rehearsal.material.join(", ")}", rehearsal %>
-        <% else %>
-          <%= link_to "Material TBA", rehearsal %>
-        <% end %>:
-        <%= rehearsal.start_time.strftime("%b %d at %-l:%M %P") %>-<%= rehearsal.end_time.strftime("%b %d at %-l:%M %P") %>
-        <% if rehearsal.space %>
-          at <%= link_to "#{rehearsal.space.name}", rehearsal.space %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-  <br />
+  <% unless @production.rehearsal_schedules.empty? %>
+    <strong><%= link_to "Rehearsal schedule", @production.rehearsal_schedules.last %></strong>
+  <% end %>
   <% if @production.rehearsal_schedules.empty? %>
     <%= link_to "Build Rehearsal Schedule", new_production_rehearsal_schedule_path(@production) %>
   <% end %>

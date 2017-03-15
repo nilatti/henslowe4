@@ -4,7 +4,6 @@ class Rehearsal < ActiveRecord::Base
 
   has_many :rehearsal_calls, dependent: :destroy
   has_many :users, through: :rehearsal_calls
-
   has_many :rehearsal_materials, dependent: :destroy
   accepts_nested_attributes_for :rehearsal_materials
   has_many :plays, through: :rehearsal_materials
@@ -14,8 +13,15 @@ class Rehearsal < ActiveRecord::Base
 
   default_scope { order('start_time')}
 
-  before_save :actors_called
+  before_create :add_default_users
 
+  def actor_conflicts
+    a = FindMaterialThatIsNotRehearsable.new(self.rehearsal_schedule.production, self)
+    a.production_actors
+    a.get_conflicts
+    a.get_actors_who_have_conflicts
+    a.conflicts
+  end
   def actors_called
     fs_list = give_me_all_french_scenes
     call = WhoIsOnStage.new(fs_list, rehearsal_schedule.production)
@@ -23,6 +29,13 @@ class Rehearsal < ActiveRecord::Base
     call.actors.each do |actor|
       unless users.include?(actor)
         users << actor
+      end
+    end
+  end
+  def add_default_users
+    unless rehearsal_schedule.default_rehearsal_attendees.empty?
+      rehearsal_schedule.default_rehearsal_attendees.each do |dra|
+        users << dra.user
       end
     end
   end
@@ -86,16 +99,16 @@ class Rehearsal < ActiveRecord::Base
   def material
     material = []
     unless plays.empty?
-      plays.each {|play| material << play.title }
+      plays.each {|play| material << play }
     end
     unless acts.empty?
-      acts.each {|act| material << act.pretty_name }
+      acts.each {|act| material << act }
     end
     unless scenes.empty?
-      scenes.each {|scene| material << scene.pretty_name }
+      scenes.each {|scene| material << scene }
     end
     unless french_scenes.empty?
-      french_scenes.each {|french_scene| material << french_scene.pretty_name }
+      french_scenes.each {|french_scene| material << french_scene }
     end
     material.uniq!
     return material
@@ -120,9 +133,7 @@ class Rehearsal < ActiveRecord::Base
     material.sort! {|a,b| a.first <=> b.first }
     material.each_with_index { |element, index|
       if material[index + 1]
-        puts "next item exists"
         next_item = material[index + 1]
-        puts "next item is #{next_item}"
         if element.overlaps?(next_item)
           puts "#{element} overlaps with #{next_item}"
           material.delete(element)
@@ -134,7 +145,28 @@ class Rehearsal < ActiveRecord::Base
       end
     }
     material.sort! {|a,b| a.first <=> b.first }
-    material.each { |a| page_ranges << "#{a.first}-#{a.last}" }
+    if material.size > 1
+      material.each_with_index { |element, index|
+        if material[index + 1]
+          next_item = material[index + 1]
+          if element.overlaps?(next_item)
+            puts "#{element} overlaps with #{next_item}"
+            material.delete(element)
+            material.delete(next_item)
+
+            new_element = (element.first..next_item.last)
+            material.unshift(new_element)
+          end
+        end
+      }
+    end
+    material.each do |a|
+      if a.first == a.last
+        page_ranges << "#{a.first}"
+      else
+        page_ranges << "#{a.first}-#{a.last}"
+      end
+    end
     return page_ranges.join(", ")
   end
   def rehearsal_in_today_sequence

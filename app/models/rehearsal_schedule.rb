@@ -2,30 +2,33 @@ class RehearsalSchedule < ActiveRecord::Base
   belongs_to :production
   belongs_to :space
   has_many :rehearsals, dependent: :destroy
+  has_many :default_rehearsal_attendees, dependent: :destroy
+  has_many :users, through: :default_rehearsal_attendees
 
   def rehearsal_days
-    @rehearsal_days = []
+    rehearsal_days = []
     if monday
-      @rehearsal_days << "Monday"
+      rehearsal_days << "Monday"
     end
     if tuesday
-      @rehearsal_days << "Tuesday"
+      rehearsal_days << "Tuesday"
     end
     if wednesday
-      @rehearsal_days << "Wednesday"
+      rehearsal_days << "Wednesday"
     end
     if thursday
-      @rehearsal_days << "Thursday"
+      rehearsal_days << "Thursday"
     end
     if friday
-      @rehearsal_days << "Friday"
+      rehearsal_days << "Friday"
     end
     if saturday
-      @rehearsal_days << "Saturdday"
+      rehearsal_days << "Saturday"
     end
     if sunday
-      @rehearsal_days << "Sunday"
+      rehearsal_days << "Sunday"
     end
+    return rehearsal_days
   end
 
   def dailies
