@@ -15,7 +15,9 @@ class WhoIsOnStage
       french_scene.on_stages.each do |on_stage|
         character = on_stage.character
         job = Job.where(character_id: character.id, production_id: @production.id).first
-        @actors << job.user
+        if job
+          @actors << job.user
+        end
       end
     end
   end

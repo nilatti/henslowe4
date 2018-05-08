@@ -83,6 +83,7 @@ class User < ActiveRecord::Base
       return false
     end
   end
+  
   def theater_jobs(theater)
     self.jobs.select { |job| job.theater_id == theater.id }
   end

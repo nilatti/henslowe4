@@ -3,9 +3,9 @@ class FrenchScene < ActiveRecord::Base
   has_many :on_stages, dependent: :destroy
   accepts_nested_attributes_for :on_stages
 
-  has_many :french_scenes_rehearsals, dependent: :destroy
+  # has_many :french_scenes_rehearsals, dependent: :destroy
 
-  has_many :rehearsals, through: :french_scenes_rehearsals, dependent: :destroy
+  # has_many :rehearsals, through: :french_scenes_rehearsals, dependent: :destroy
 
   has_many :characters, through: :on_stages
 

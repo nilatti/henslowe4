@@ -24,7 +24,6 @@ class Production < ActiveRecord::Base
         involved_users << user
       end
     end
-
     return involved_users.uniq!
   end
   def past?
