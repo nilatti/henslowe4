@@ -17,6 +17,8 @@ class WhoIsOnStage
         job = Job.where(character_id: character.id, production_id: @production.id).first
         if job
           @actors << job.user
+        else
+          @actors << User.find_by_first_name("Unassigned")
         end
       end
     end

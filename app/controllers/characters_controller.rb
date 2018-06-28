@@ -55,9 +55,10 @@ class CharactersController < ApplicationController
   # DELETE /characters/1
   # DELETE /characters/1.json
   def destroy
+    @play = @character.play
     @character.destroy
     respond_to do |format|
-      format.html { redirect_to characters_url, notice: 'Character was successfully destroyed.' }
+      format.html { redirect_to play_characters_path(@play), notice: 'Character was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -67,7 +68,7 @@ class CharactersController < ApplicationController
     def set_character
       @character = Character.find(params[:id])
     end
-    
+
     def set_play
        if params[:play_id]
         @play = Play.find(params[:play_id])

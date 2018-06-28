@@ -16,7 +16,7 @@
               <% characters = user.castings_for_production(@production) %>
               <% characters.each do |character| %>
                 <% if fs.characters.include?(character) %>
-                 <%= character.name %>
+                 <% if character.nonspeaking?(fs) %>(<% end %><%= character.name %><% if character.nonspeaking?(fs) %>)<% end %> 
                 <% end %>
               <% end %>
             </td>

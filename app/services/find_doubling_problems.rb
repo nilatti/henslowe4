@@ -9,16 +9,17 @@ class FindDoublingProblems
   end
 
   def find_castings
-    Job.where('user_id = ? AND production_id = ? AND specialization_id = ?', @user.id, @production.id, 2)
+    castings = Job.where('user_id = ? AND production_id = ? AND specialization_id = ?', @user.id, @production.id, 2).to_a
   end
 
   def get_all_characters_for_actor
     @castings.each do |cas|
-      @characters << cas.character
+      if cas.character
+        @characters << cas.character
+      end
+      @characters
     end
   end
-
-
 
   def doubling_problems
     fs = []

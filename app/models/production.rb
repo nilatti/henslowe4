@@ -20,7 +20,6 @@ class Production < ActiveRecord::Base
     involved_users = []
     users.each do |user|
       unless user.production_jobs(self).size == 1 && user.production_jobs(self).first.specialization.title == "Auditioner"
-        puts "users is not an auditioner"
         involved_users << user
       end
     end

@@ -20,6 +20,22 @@
 </p>
 <p>
   <strong>Casting:</strong>
+  By Actor:
+  <ul>
+    <% @production.users.uniq.each do |user| %>
+      <li><%= user.name %>:
+        <ul>
+            <% user.castings_for_production(@production).each do |character| %>
+              <li>
+                <%= character.name %>
+              </li>
+            <% end %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+
+  By Character:
   <ul>
     <% @production.jobs.acting.each do |casting| %>
       <% if casting.character %><li><%= casting.character.name %> &mdash; <% if casting.user %><%= link_to "#{casting.user.name}", casting.user %><% end %><% end %></li><% end %>

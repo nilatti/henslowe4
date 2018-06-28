@@ -17,8 +17,10 @@ class User < ActiveRecord::Base
   default_scope { order('first_name') }
 
   def castings_for_production(production)
-    FindDoublingProblems.new(self, production).characters
+    castings = FindDoublingProblems.new(self, production)
+    castings.characters
   end
+
   def name
   	"#{first_name} #{last_name}"
   end
@@ -83,7 +85,7 @@ class User < ActiveRecord::Base
       return false
     end
   end
-  
+
   def theater_jobs(theater)
     self.jobs.select { |job| job.theater_id == theater.id }
   end
