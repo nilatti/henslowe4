@@ -3,8 +3,8 @@ describe "create new play" do
 	  login_as_superadmin
   end
 
-	let(:author) {FactoryGirl.create(:author)}
-	let(:play) { FactoryGirl.build(:play, author: author)}
+	let(:author) {FactoryBot.create(:author)}
+	let(:play) { FactoryBot.build(:play, author: author)}
 
 	before(:each) do
 		visit new_author_play_path(author)

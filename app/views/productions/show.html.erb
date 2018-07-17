@@ -22,12 +22,12 @@
   <strong>Casting:</strong>
   By Actor:
   <ul>
-    <% @production.users.uniq.each do |user| %>
-      <li><%= user.name %>:
+    <% @production.actors.each do |actor| %>
+      <li><%= actor.name %>:
         <ul>
-            <% user.castings_for_production(@production).each do |character| %>
+            <% actor.castings_for_production(@production).each do |character| %>
               <li>
-                <%= character.name %>
+                <%= character.try(:name) %>
               </li>
             <% end %>
         </ul>
@@ -79,4 +79,5 @@
 </p>
 
 <%= link_to 'Edit', edit_production_path(@production) %> ||
-<%= link_to "See doubling chart", doubling_production_path %>
+<%= link_to "See doubling chart", doubling_production_path %> ||
+<%= link_to "See who is in each scene", who_is_in_and_out_production_path %>

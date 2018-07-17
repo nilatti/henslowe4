@@ -1,0 +1,29 @@
+Cast list by scene:
+  <ul>
+  <% for act in @production.play.acts %>
+    <li>Act <%= act.act_number %> <br /><ul>
+    <% for scene in act.scenes %>
+      <li>
+        <%= act.act_number %>.<%= scene.scene_number %>:
+        <% scene.actors_called(@production).each do |actor, role| %>
+          <%= actor.name %> (<%= role %>),
+        <% end %>
+    </li>
+    <% end %></ul>
+  <% end %></ul>
+* = nonspeaking
+</p>
+
+Not in each scene:
+<ul>
+<% for act in @production.play.acts %>
+  <li>Act <%=act.act_number %> <br /><ul>
+  <% for scene in act.scenes %>
+    <li><%= act.act_number %>.<%= scene.scene_number %>:
+      <%= scene.actors_not_called(@production).map(&:name).uniq.join(", ") %>
+    </li>
+  <% end %></ul>
+<% end %></ul>
+<p>
+<%= link_to "Back to #{@production.play.title}", production_path %>
+<p>

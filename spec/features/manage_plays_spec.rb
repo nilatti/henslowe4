@@ -11,10 +11,10 @@ describe "with logged in user" do
   let(:user) { User.create(email: "test@example.com", password: "password", role: "regular") }
   let(:superuser) { User.create(email: "super@example.com", password: "password", role: "superadmin") }
   let(:user_2) { User.create(email: "stooge@example.com", password: "password", role: "regular")}
-  let(:canonical_play) { FactoryGirl.create(:play, :canonical => true) }
-  let(:theater) { FactoryGirl.create(:theater) }
-  let(:noncanonical_play) { FactoryGirl.create(:play, :canonical => false) }
-  let(:production) { FactoryGirl.create(:production, :theater => theater, :play => noncanonical_play) }
+  let(:canonical_play) { FactoryBot.create(:play, :canonical => true) }
+  let(:theater) { FactoryBot.create(:theater) }
+  let(:noncanonical_play) { FactoryBot.create(:play, :canonical => false) }
+  let(:production) { FactoryBot.create(:production, :theater => theater, :play => noncanonical_play) }
 
 
 #manage play

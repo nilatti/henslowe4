@@ -2,7 +2,7 @@
 
 <p>
   <strong>Name:</strong>
-  <%= @user.name %> 
+  <%= @user.name %>
 </p>
 
 <p>Role:</p>
@@ -18,25 +18,25 @@
 	<ul><% @user.jobs.sort { |a, b| a.specialization_id <=> b.specialization_id } %>
     	<% @user.jobs.each do |job| %>
     	  <li><%= job.specialization.title %>
-          <% if job.specialization.id == 2 && job.character %> 
+          <% if job.specialization.id == 2 && job.character %>
             as <%= job.character.name %> in
           <% else %>
             on
           <% end %>
     	    <% if job.production %>
     	      <%= link_to "#{job.production.play.title}", production_path(job.production) %>
-    	    <% end %> 
-    	    at <%= link_to "#{job.theater.name}", theater_path(job.theater) %>, 
+    	    <% end %>
+    	    at <%= link_to "#{job.theater.name}", theater_path(job.theater) %>,
           <% if job.start_date %>
             <%= job.start_date.strftime("%b %d, %Y") %>
-          <% end %> 
-          - 
+          <% end %>
+          -
           <% if job.end_date %>
             <%= job.end_date.strftime("%b %d, %Y") %>
-          <% end %> <%= link_to "Remove job", job, method: :delete, data: { confirm: "Are you sure?"} %>
+          <% end %> <%= link_to "Edit Job", edit_job_path(job) %>|<%= link_to "Remove job", job, method: :delete, data: { confirm: "Are you sure?"} %>
         </li>
     	<% end %>
-    </ul> 
+    </ul>
     <%= link_to "Add new job", new_job_path(:user_id => @user.id) %>
 </p>
 

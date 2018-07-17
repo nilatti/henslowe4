@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       member do
         get 'edit_casting'
         get 'doubling'
+        get 'who_is_in_and_out'
       end
     end
   end

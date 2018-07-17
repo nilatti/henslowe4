@@ -2,13 +2,13 @@ include Warden::Test::Helpers
 
 module FeatureHelpers
   def login
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     login_as user, scope: :user
     user
   end
 
   def login_as_superadmin
-  	user = FactoryGirl.create(:user, :role => "superadmin")
+  	user = FactoryBot.create(:user, :role => "superadmin")
   	login_as user, scope: :user
     user
   end

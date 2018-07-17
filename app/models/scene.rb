@@ -14,4 +14,8 @@ class Scene < ActiveRecord::Base
       french_scenes = self.french_scenes
       WhoIsOnStage.new(french_scenes, production).run
   end
+  def actors_not_called(production)
+    french_scenes = self.french_scenes
+    WhoIsNotOnStage.new(french_scenes, production).run
+  end
 end

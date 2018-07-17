@@ -36,9 +36,9 @@ describe "with users and roles" do
   end
 
 describe "roles" do 
-  let(:play) { FactoryGirl.create(:play, :canonical => true) }
-  let(:theater) { FactoryGirl.create(:theater) }
-  let(:production) { FactoryGirl.create(:production, :theater => theater, :play => play) }
+  let(:play) { FactoryBot.create(:play, :canonical => true) }
+  let(:theater) { FactoryBot.create(:theater) }
+  let(:production) { FactoryBot.create(:production, :theater => theater, :play => play) }
 
 #manage users
 
@@ -83,7 +83,7 @@ describe "roles" do
 
   it "does not allow a user who is part of another production at the theater but not a theater admin to see the production" do
     specialization = create(:specialization, :actor)
-    job = FactoryGirl.create(:job, user: user, specialization: specialization)
+    job = FactoryBot.create(:job, user: user, specialization: specialization)
     log_in_as(user)
     visit(production_path(production))
     expect(current_path).to eq("/")

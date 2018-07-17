@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :space_agreement do
     theater nil
 space nil

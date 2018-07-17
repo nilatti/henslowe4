@@ -14,7 +14,7 @@ describe "create new author" do
 	before do
 	  login_as_superadmin
   end
-	let(:author) { FactoryGirl.build(:author)}
+	let(:author) { FactoryBot.build(:author)}
 
 	before(:each) do
 		visit new_author_path

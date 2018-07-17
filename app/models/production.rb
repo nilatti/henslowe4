@@ -25,6 +25,16 @@ class Production < ActiveRecord::Base
     end
     return involved_users.uniq!
   end
+  def actors
+    actors = []
+    involved_users.each do |user|
+      puts user.name
+      if user.is_actor?(self)
+        actors << user
+      end
+    end
+    return actors
+  end
   def past?
    	self.end_date < Time.now
   end

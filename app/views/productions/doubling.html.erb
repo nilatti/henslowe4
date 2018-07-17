@@ -1,47 +1,54 @@
 <table border = "1">
-    <tr><td></td>
-    <% @production.play.acts.each do |a| %>
-       <% a.scenes.each do |s| %>
-          <% s.french_scenes.each do |fs| %>
-            <td><%= a.act_number %>.<%= s.scene_number %>.<%= fs.french_scene_number %></td>
-          <% end %>
+  <tr><td></td>
+    <% @play.acts.each do |a| %>
+      <% a.scenes.each do |s| %>
+        <% s.french_scenes.each do |fs| %>
+          <td>
+            <%= a.act_number %>.<%= s.scene_number %>.<%= fs.french_scene_number %>
+          </td>
         <% end %>
       <% end %>
-    </tr>
-<% @production.users.uniq.each do |user| %>
-      <tr><td><%= user.name %><% user_doubling_problems = FindDoublingProblems.new(user, @production).doubling_problems %></td><% @production.play.acts.each do |act| %>
-        <% act.scenes.each do |scene| %>
-          <% scene.french_scenes.each do |fs| %>
+    <% end %>
+  </tr>
+  <% @actors.each do |actor| %>
+    <tr>
+      <td>
+        <%= actor.name %>
+        <% user_doubling_problems = FindDoublingProblems.new(actor, @production).doubling_problems %>
+      </td>
+          <% @play.acts.each do |act| %>
+          <% act.scenes.each do |scene| %>
+            <% scene.french_scenes.each do |fs| %>
             <% if user_doubling_problems.include?(fs) %><td bgcolor = "red"><% else %><td><% end %>
-              <% characters = user.castings_for_production(@production) %>
-              <% characters.each do |character| %>
-                <% if fs.characters.include?(character) %>
-                 <% if character.nonspeaking?(fs) %>(<% end %><%= character.name %><% if character.nonspeaking?(fs) %>)<% end %> 
+              <% characters = actor.castings_for_production(@production) %>
+                <% characters.each do |character| %>
+                  <% if fs.characters.include?(character) %>
+                   <% if character.nonspeaking?(fs) %>(<% end %><%= character.name %><% if character.nonspeaking?(fs) %>)<% end %>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </td>
+              </td>
+            <% end %>
           <% end %>
-        <% end %>
-      <% end %></tr>
-
-<% end %>
+          <% end %>
+      </td>
+    </tr>
+  <% end %>
 </table>
 
-Cast list by scene:
-<strong>Acts:</strong><br />
-  <ul>
-  <% for act in @production.play.acts %>
-    <li>Act <%= link_to "#{act.act_number}", act %> <br /><ul>
-    <% for scene in act.scenes %>
-      <li><%= act.act_number %>.<%= link_to "#{scene.scene_number}", scene %> -- (<%= scene.start_page %>-<%= scene.end_page %>): <%= scene.actors_called(@production).map(&:name).uniq.join(", ") %><br /><ul>
-    <% for french_scene in scene.french_scenes %>
-      <li><%= act.act_number %>.<%= scene.scene_number %>.<%= link_to "#{french_scene.french_scene_number}", french_scene %> (<%= french_scene.start_page %>-<%= french_scene.end_page %>)<ul><% french_scene.actors_called(@production).each do |actor| %><li><%= link_to "#{actor.name}", actor %>
-      <% end %></ul></li>
-
-      <% end %></ul>
-    <% end %></ul>
-  <% end %></ul>
-</p>
-<p>
-<%= link_to "Back to #{@production.play.title}", production_path %>
-<p>
+find doubling problems:
+Actors:
+<ul>
+<% @actors.each do |actor| %>
+  <% doubling_problems = FindDoublingProblems.new(actor, @production).doubling_problems %>
+  <% unless doubling_problems.empty? %>
+    <%= actor.name %>:
+    <ul>
+      <% doubling_problems.uniq.each do |french_scene| %>
+        <li>
+          <%= french_scene.pretty_name %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+  <% end %>
+<% end %>

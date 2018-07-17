@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   ROLES = %i[superadmin regular]
 
   has_many :jobs, dependent: :destroy
+  has_many :characters, through: :jobs
   accepts_nested_attributes_for :jobs, reject_if: :all_blank, allow_destroy: true
   has_many :specializations, through: :jobs
   has_many :productions, through: :jobs
@@ -17,8 +18,17 @@ class User < ActiveRecord::Base
   default_scope { order('first_name') }
 
   def castings_for_production(production)
-    castings = FindDoublingProblems.new(self, production)
-    castings.characters
+    puts self.name
+    jobs = production_jobs(production)
+    acting_jobs = jobs.select { |job| job.specialization.title == "Actor"}
+    puts acting_jobs.size
+    return acting_jobs.map(&:character)
+  end
+
+  def is_actor?(production)
+    unless self.characters.size == 0
+      return true
+    end
   end
 
   def name
@@ -47,18 +57,16 @@ class User < ActiveRecord::Base
     end
   end
   def production_jobs(production)
-    self.jobs.select { |job| job.production_id == production.id }
+    production_jobs = self.jobs.select { |job| job.production_id == production.id }
+    return production_jobs
   end
   def production_job_titles(production)
     jobs = production_jobs(production)
     titles = []
-    jobs do |job|
-      if job.character
-        titles << job.character.name
-      else
+    jobs.each do |job|
         titles << job.specialization.title
       end
-    end
+    return titles
   end
   def regular?
     self.role == "regular"

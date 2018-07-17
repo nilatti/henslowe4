@@ -1,10 +1,8 @@
-FactoryGirl.define do
+FactoryBot.define do
 	factory :rehearsal_schedule do
     production
-    start_date: Date.today
-    end_date: Date.today + 3.months
-    # create_table "rehearsal_schedules", force: :cascade do |t|
-    #   t.integer  "production_id", limit: 4
+    start_date Date.today
+    end_date Date.today + 3.months
     #   t.date     "start_date"
     #   t.date     "end_date"
     #   t.datetime "start_time"
@@ -17,9 +15,6 @@ FactoryGirl.define do
     #   t.boolean  "thursday"
     #   t.boolean  "friday"
     #   t.boolean  "saturday"
-    #   t.datetime "created_at",                null: false
-    #   t.datetime "updated_at",                null: false
     #   t.integer  "space_id",      limit: 4
-    # end
 	end
 end

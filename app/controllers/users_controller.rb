@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 		@generated_password = "ThisIsATemporaryPassword" #Devise.friendly_token.first(8)
 		@user.password = @generated_password
 		@user.password_confirmation = @generated_password
-		
+
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -30,13 +30,25 @@ class UsersController < ApplicationController
     end
 	end
 
+	def update
+		respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { respond_with_bip(@user) }
+      else
+        format.html { render :edit }
+        format.json { respond_with_bip(@user) }
+      end
+    end
+	end
+
 	def destroy
 
     if @user.destroy
       flash[:notice] = "Successfully deleted User."
       redirect_to dashboard_index_path
     end
-  end 
+  end
 
   def resend_invite
     @user.invite!

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 	factory :specialization do
 		trait :actor do
       title 'Actor'

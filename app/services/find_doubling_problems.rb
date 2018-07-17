@@ -3,28 +3,18 @@ class FindDoublingProblems
   def initialize(user, production)
     @user = user
     @production = production
-    @castings = find_castings
     @characters = []
     get_all_characters_for_actor
   end
 
-  def find_castings
-    castings = Job.where('user_id = ? AND production_id = ? AND specialization_id = ?', @user.id, @production.id, 2).to_a
-  end
-
   def get_all_characters_for_actor
-    @castings.each do |cas|
-      if cas.character
-        @characters << cas.character
-      end
-      @characters
-    end
+    @characters = @user.castings_for_production(@production)
   end
 
   def doubling_problems
     fs = []
     problems = []
-    Rails.logger.info "number of characters for #{@user.name} is #{@characters.size}"
+    puts "number of characters for #{@user.name} is #{@characters.size}"
     @characters.each do |character|
       unless character.nil?
         character.french_scenes.each do |french|
@@ -35,7 +25,7 @@ class FindDoublingProblems
           end
         end
       end
-      problems
     end
+    return problems
   end
 end

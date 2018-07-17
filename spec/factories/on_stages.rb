@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :on_stage do
     character nil
 french_scene nil

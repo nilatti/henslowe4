@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 	factory :play do
 
 		title 'A Midsummer Night\'s Dream'

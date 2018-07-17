@@ -2,6 +2,7 @@ class ProductionsController < ApplicationController
   load_and_authorize_resource
   before_action :set_production, only: [:show, :edit, :update, :destroy, :edit_casting, :doubling]
   before_action :set_theater
+  before_action :set_play
 
   # GET /productions
   # GET /productions.json
@@ -15,8 +16,12 @@ class ProductionsController < ApplicationController
   end
 
   def doubling
+    @play = Play.includes(acts: { scenes: { french_scenes: :on_stages}}).find(@production.play.id)
+    @actors = @production.actors
   end
 
+  def who_is_in_and_out
+  end
   # GET /productions/new
   def new
     @production = Production.new
@@ -80,12 +85,20 @@ class ProductionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_production
-      @production = Production.find(params[:id])
+      @production = Production.includes(:play, :users).find(params[:id])
     end
 
     def set_theater
       if params[:theater_id]
         @theater = Theater.find(params[:theater_id])
+      end
+    end
+
+    def set_play
+      if params[:play_id]
+        @play = Play.find(params[:play_id])
+      elsif @production.play
+        @play = Play.find(@production.play.id)
       end
     end
 
