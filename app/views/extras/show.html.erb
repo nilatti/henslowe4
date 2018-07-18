@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>French scene:</strong>
+  <%= @extra.french_scene %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @extra.user %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @extra.name %>
+</p>
+
+<p>
+  <strong>Needs costume:</strong>
+  <%= @extra.needs_costume %>
+</p>
+
+<%= link_to 'Edit', edit_extra_path(@extra) %> |
+<%= link_to 'Back', extras_path %>

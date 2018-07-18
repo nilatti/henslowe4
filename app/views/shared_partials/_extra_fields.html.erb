@@ -1,0 +1,7 @@
+<div class="nested-fields">
+<%= f.text_field :name, label: "What is the job?" %>
+<%= f.collection_select :user_id, @users, :id, :name, label: "Who is doing it?" %>
+<%= f.select :needs_costume, [["Yes", true],["No", false]], label: "Do they need a costume?" %>
+<%= link_to_remove_association "remove extra", f %>
+<hr />
+</div>

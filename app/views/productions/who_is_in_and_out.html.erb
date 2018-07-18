@@ -5,8 +5,8 @@ Cast list by scene:
     <% for scene in act.scenes %>
       <li>
         <%= act.act_number %>.<%= scene.scene_number %>:
-        <% scene.actors_called(@production).each do |actor, role| %>
-          <%= actor.name %> (<%= role %>),
+        <% scene.actors_called(@production.id).each do |actor, roles| %>
+          <%= actor.name %> (<%= roles.join(", ") %>),
         <% end %>
     </li>
     <% end %></ul>
@@ -20,7 +20,7 @@ Not in each scene:
   <li>Act <%=act.act_number %> <br /><ul>
   <% for scene in act.scenes %>
     <li><%= act.act_number %>.<%= scene.scene_number %>:
-      <%= scene.actors_not_called(@production).map(&:name).uniq.join(", ") %>
+      <%= scene.actors_not_called(@production.id).map(&:name).uniq.join(", ") %>
     </li>
   <% end %></ul>
 <% end %></ul>

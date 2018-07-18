@@ -12,10 +12,10 @@ class Scene < ActiveRecord::Base
 
   def actors_called(production)
       french_scenes = self.french_scenes
-      WhoIsOnStage.new(french_scenes, production).run
+      WhoIsOnStage.new(french_scenes, production).actors_on
   end
-  def actors_not_called(production)
+  def actors_not_called(production_id)
     french_scenes = self.french_scenes
-    WhoIsNotOnStage.new(french_scenes, production).run
+    WhoIsOnStage.new(french_scenes, production_id).actors_off
   end
 end

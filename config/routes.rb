@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :extras
   resources :default_rehearsal_attendees
   resources :rehearsal_calls
   resources :rehearsal_materials

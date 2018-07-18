@@ -2,6 +2,11 @@
 <%= f.text_field :french_scene_number %>
 <%= f.number_field :start_page %>
 <%= f.number_field :end_page %>
-<%= f.collection_check_boxes :character_ids, @play.characters.all, :id, :name, label: "Characters" %>
-  <%= link_to_remove_association "remove french scene", f %>
+<%= f.collection_check_boxes :character_ids, @play.characters.all, :id, :name, label: "Characters", control_class: "checkbox" %>
+<div class="extras">
+ <%= f.fields_for :extras do |extra| %>
+    <%= render 'shared_partials/extra_fields', f: extra %>
+  <% end %>
+  <%= link_to_add_association 'add extra', f, :extras, partial: 'shared_partials/extra_fields' %></div>
 </div>
+<%= f.submit %>

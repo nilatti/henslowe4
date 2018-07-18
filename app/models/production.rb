@@ -28,7 +28,6 @@ class Production < ActiveRecord::Base
   def actors
     actors = []
     involved_users.each do |user|
-      puts user.name
       if user.is_actor?(self)
         actors << user
       end

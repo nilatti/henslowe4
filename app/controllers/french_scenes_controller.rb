@@ -18,7 +18,7 @@ class FrenchScenesController < ApplicationController
     french_scenes = @french_scene.scene.act.play.french_scenes
     french_scenes = french_scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
     index = french_scenes.index { |fs| fs.id == @french_scene.id }
-    
+
     @next = french_scenes[index + 1]
     if index > 0
       @previous = french_scenes[index-1]
@@ -32,6 +32,8 @@ class FrenchScenesController < ApplicationController
 
   # GET /french_scenes/1/edit
   def edit
+    @production = Production.find_by(:play_id == @play.id)
+    @users = @production.involved_users
   end
 
   # POST /french_scenes
@@ -92,6 +94,15 @@ class FrenchScenesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def french_scene_params
-      params.require(:french_scene).permit(:french_scene_number, :scene_id,  :start_page, :end_page, character_ids: [], on_stages_attributes: [:id, :necessary, :_destroy])
+      params.require(:french_scene)
+      .permit(
+        :end_page,
+        :french_scene_number,
+        :scene_id,
+        :start_page,
+        character_ids: [],
+        extras_attributes: [:id, :french_scene_id, :name, :needs_costume, :user_id, :_destroy],
+        on_stages_attributes: [:id, :necessary, :_destroy]
+      )
     end
 end

@@ -8,15 +8,24 @@
 <p><%= link_to "Act #{@french_scene.scene.act.act_number}", act_path(@french_scene.scene.act) %>, <%= link_to "Scene #{@french_scene.scene.scene_number}", scene_path(@french_scene.scene) %>, French Scene <%= @french_scene.french_scene_number %>, pages <%= best_in_place @french_scene, :start_page %>-<%= best_in_place @french_scene, :end_page %>
 </p>
 <p>
-	<strong><%= link_to 'Add or remove characters', edit_french_scene_path(@french_scene) %> <br /></strong>
+	<strong><%= link_to 'Add or remove characters and extras', edit_french_scene_path(@french_scene) %> <br /></strong>
 	To edit speaking/nonspeaking, click that word next to the character's name.
 </p>
 <p>
 	<strong>Characters:</strong>
 	<ul>
-	<% @french_scene.on_stages.each do |on_stage| %>
-	<li><% if on_stage.nonspeaking %>(<% end %><%= on_stage.character.name %><% if on_stage.nonspeaking %>)<% end %> <%= best_in_place on_stage, :nonspeaking, as: :checkbox, collection: ["Speaking", "Nonspeaking"] %></li> 
-	<% end %>
-    </ul>
+	   <% @french_scene.on_stages.each do |on_stage| %>
+	    <li><% if on_stage.nonspeaking %>(<% end %><%= on_stage.character.name %><% if on_stage.nonspeaking %>)<% end %> <%= best_in_place on_stage, :nonspeaking, as: :checkbox, collection: ["Speaking", "Nonspeaking"] %></li>
+	       <% end %>
+  </ul>
+</p>
+<p>
+  <strong>Extras and other:</strong>
+  <ul>
+    <% @french_scene.extras.each do |extra| %>
+      <li>
+        <%= extra.user.name %>: <%= extra.name %>
+      </li>
+    <% end %>
 
 <% if @previous %><div class="previous"><%= link_to "#{@previous.pretty_name}", @previous %><% end %></div><% if @next %><div class="next"><%= link_to "#{@next.pretty_name}", @next %></div><% end %>

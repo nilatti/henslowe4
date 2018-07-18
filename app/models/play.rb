@@ -7,7 +7,7 @@ class Play < ActiveRecord::Base
   has_many :french_scenes, :through => :scenes, dependent: :destroy
   has_many :on_stages, through: :french_scenes, dependent: :destroy
   has_many :characters, dependent: :destroy
-  has_many :productions
+  has_one :production
 
   #has_attached_file :script
 

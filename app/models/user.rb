@@ -5,15 +5,15 @@ class User < ActiveRecord::Base
 
   ROLES = %i[superadmin regular]
 
-  has_many :jobs, dependent: :destroy
   has_many :characters, through: :jobs
-  accepts_nested_attributes_for :jobs, reject_if: :all_blank, allow_destroy: true
-  has_many :specializations, through: :jobs
-  has_many :productions, through: :jobs
-  has_many :theaters, through: :jobs
   has_many :conflicts
-
+  has_many :extras
   has_many :invitations, :class_name => self.to_s, :as => :invited_by
+  has_many :jobs, dependent: :destroy
+  accepts_nested_attributes_for :jobs, reject_if: :all_blank, allow_destroy: true
+  has_many :productions, through: :jobs
+  has_many :specializations, through: :jobs
+  has_many :theaters, through: :jobs
 
   default_scope { order('first_name') }
 

@@ -1,6 +1,3 @@
-<%= semantic_form_for [@scene, @french_scene] do |f| %>
-      <%= render 'shared_partials/french_scene_fields', f: f %>
-	  <%= f.actions do %>
-	    <%= f.action :submit, :as => :input %>
-	  <% end %>
+<%= bootstrap_form_for [@scene, @french_scene] do |f| %>
+  <%= render 'shared_partials/french_scene_fields', f: f %>
 <% end %>

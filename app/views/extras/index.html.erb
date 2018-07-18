@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Extras</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>French scene</th>
+      <th>User</th>
+      <th>Name</th>
+      <th>Needs costume</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @extras.each do |extra| %>
+      <tr>
+        <td><%= extra.french_scene %></td>
+        <td><%= extra.user %></td>
+        <td><%= extra.name %></td>
+        <td><%= extra.needs_costume %></td>
+        <td><%= link_to 'Show', extra %></td>
+        <td><%= link_to 'Edit', edit_extra_path(extra) %></td>
+        <td><%= link_to 'Destroy', extra, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Extra', new_extra_path %>

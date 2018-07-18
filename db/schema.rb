@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315190608) do
+ActiveRecord::Schema.define(version: 20180717194248) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 20170315190608) do
 
   add_index "default_rehearsal_attendees", ["rehearsal_schedule_id"], name: "index_default_rehearsal_attendees_on_rehearsal_schedule_id", using: :btree
   add_index "default_rehearsal_attendees", ["user_id"], name: "index_default_rehearsal_attendees_on_user_id", using: :btree
+
+  create_table "extras", force: :cascade do |t|
+    t.integer  "french_scene_id", limit: 4
+    t.integer  "user_id",         limit: 4
+    t.string   "name",            limit: 255
+    t.boolean  "needs_costume"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "extras", ["french_scene_id"], name: "index_extras_on_french_scene_id", using: :btree
+  add_index "extras", ["user_id"], name: "index_extras_on_user_id", using: :btree
 
   create_table "french_scenes", force: :cascade do |t|
     t.string   "french_scene_number", limit: 255
@@ -317,6 +329,8 @@ ActiveRecord::Schema.define(version: 20170315190608) do
   add_foreign_key "conflicts", "users"
   add_foreign_key "default_rehearsal_attendees", "rehearsal_schedules"
   add_foreign_key "default_rehearsal_attendees", "users"
+  add_foreign_key "extras", "french_scenes"
+  add_foreign_key "extras", "users"
   add_foreign_key "french_scenes", "scenes"
   add_foreign_key "french_scenes_rehearsals", "french_scenes"
   add_foreign_key "french_scenes_rehearsals", "rehearsals"

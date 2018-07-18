@@ -1,38 +1,46 @@
 class WhoIsOnStage
-  attr_accessor :french_scenes, :production, :appearances
-  def initialize(french_scenes, production)
-    @production = production
+  attr_accessor :french_scenes, :production, :appearances, :actors_not_on_stage, :actors
+  def initialize(french_scenes, production_id)
+    @production = Production.includes(:users).find(production_id)
     @french_scenes = french_scenes
-    @appearances = {}
+    @appearances = Hash.new { |hash, key| hash[key] = Array.new}
+    @actors_not_on_stage = []
   end
 
-  def run
+  def actors_off
     actors_on
-    return @appearances
+    @production.actors.each do |actor, v|
+      unless @appearances.has_key?(actor)
+        @actors_not_on_stage << actor
+      end
+    end
+    @actors_not_on_stage
   end
+
   def actors_on
     @french_scenes.each do |french_scene|
       french_scene.on_stages.each do |on_stage|
         character = on_stage.character
-
         report_string = "#{on_stage.character.name}"
         if on_stage.nonspeaking
           report_string = "#{report_string}*"
         end
         job = Job.where(character_id: character.id, production_id: @production.id).first
-        if job
-          if @appearances.has_key?(job.user)
-            if @appearances[job.user].match(/\*/)
-              @appearances[job.user] = report_string
-            else
-            end
-          else
-            @appearances[job.user] = report_string
+        if job.user
+          @appearances[job.user].push report_string
+          if @appearances[job.user].index { |i| i == report_string + "*" }
+            @appearances[job.user].delete_at(@appearances[job.user].index { |i| i == report_string + "*" } )
           end
         else
           @appearances[User.find_by_first_name("Unassigned")] << report_string
         end
       end
+      french_scene.extras.each do |extra|
+        @appearances[extra.user] << extra.name
+      end
     end
+    @appearances.each { |k, v| v.uniq! }
+    @appearances = @appearances.sort_by { |k, v| k.name }.to_h
+    return @appearances
   end
 end
