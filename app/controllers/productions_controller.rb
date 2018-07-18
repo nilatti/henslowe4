@@ -16,7 +16,8 @@ class ProductionsController < ApplicationController
   end
 
   def doubling
-    @play = Play.includes(acts: { scenes: { french_scenes: :on_stages}}).find(@production.play.id)
+    @french_scenes = Play.includes(:french_scenes).find(@production.play.id).french_scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
+    # @play = Play.includes(acts: { scenes: { french_scenes: :on_stages}}).find(@production.play.id)
     @actors = @production.actors
   end
 

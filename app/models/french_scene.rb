@@ -11,7 +11,7 @@ class FrenchScene < ActiveRecord::Base
   default_scope { order(:french_scene_number) }
 
   def pretty_name
-    scene.act.act_number.to_s + "." + scene.scene_number.to_s + "." + french_scene_number
+    "%02d" % scene.act.act_number + "." + "%02d" % scene.scene_number + "." + french_scene_number
   end
 
   def actors_called(production)

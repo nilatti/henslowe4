@@ -18,10 +18,8 @@ class User < ActiveRecord::Base
   default_scope { order('first_name') }
 
   def castings_for_production(production)
-    puts self.name
     jobs = production_jobs(production)
     acting_jobs = jobs.select { |job| job.specialization.title == "Actor"}
-    puts acting_jobs.size
     return acting_jobs.map(&:character)
   end
 
@@ -29,6 +27,18 @@ class User < ActiveRecord::Base
     unless self.characters.size == 0
       return true
     end
+  end
+
+  def french_scenes_for_production(production)
+    french_scenes = Hash.new { |hash, key| hash[key] = Array.new }
+    characters = castings_for_production(production)
+    characters.each do |character|
+      character.on_stages.each { |on_stage| french_scenes[on_stage.french_scene].push(character)}
+    end
+    extras.each do |extra|
+      french_scenes[extra.french_scene].push(extra)
+    end
+    return french_scenes #this is a hash of french scenes (keys), with an array of characters as the values
   end
 
   def name

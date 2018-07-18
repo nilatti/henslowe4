@@ -1,31 +1,20 @@
 class FindDoublingProblems
-  attr_accessor :castings, :characters
+  attr_accessor :castings, :characters, :french_scenes, :problems
   def initialize(user, production)
     @user = user
     @production = production
-    @characters = []
-    get_all_characters_for_actor
-  end
-
-  def get_all_characters_for_actor
     @characters = @user.castings_for_production(@production)
+    @french_scenes = user.french_scenes_for_production(@production)
+    @problems = Hash.new { |hash, key| hash[key] = Array.new}
   end
 
-  def doubling_problems
-    fs = []
-    problems = []
-    puts "number of characters for #{@user.name} is #{@characters.size}"
-    @characters.each do |character|
-      unless character.nil?
-        character.french_scenes.each do |french|
-          unless fs.include?(french)
-            fs << french
-          else
-            problems << french
-          end
-        end
-      end
-    end
-    return problems
+  def find_problems
+    @problems = @french_scenes.select{|key, hash| hash.size > 1}
+    @problems.each { |k, v| puts "#{k.pretty_name}: #{v}" }
+    return @problems
+  end
+
+  def run
+    find_problems
   end
 end
