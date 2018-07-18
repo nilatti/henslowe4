@@ -1,4 +1,4 @@
-<table border = "1">
+<table border = "1" class="table">
   <tr><td></td>
     <% @french_scenes.each do |french_scene| %>
       <td>
@@ -10,16 +10,15 @@
     <tr>
       <td>
         <%= actor.name %>
-        <% user_doubling_problems = FindDoublingProblems.new(actor, @production).run %>
       </td>
           <% @french_scenes.each do |fs| %>
-            <% if user_doubling_problems.include?(fs) %>
+            <% if actor.french_scenes_for_production(@production)[fs].size > 1 %>
               <td bgcolor = "red">
             <% else %>
               <td>
             <% end %>
             <% if actor.french_scenes_for_production(@production).has_key?(fs) %>
-              <%= actor.french_scenes_for_production(@production)[fs].map(&:name).join(", ") %>
+              <%= actor.french_scenes_for_production(@production)[fs].join(", ") %>
             <% end %>
             </td>
         <% end %>

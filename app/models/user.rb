@@ -33,10 +33,16 @@ class User < ActiveRecord::Base
     french_scenes = Hash.new { |hash, key| hash[key] = Array.new }
     characters = castings_for_production(production)
     characters.each do |character|
-      character.on_stages.each { |on_stage| french_scenes[on_stage.french_scene].push(character)}
+      character.on_stages.each do |on_stage|
+        report_string = character.name
+        if on_stage.nonspeaking
+          report_string += "*"
+        end
+        french_scenes[on_stage.french_scene].push(report_string)
+      end
     end
     extras.each do |extra|
-      french_scenes[extra.french_scene].push(extra)
+      french_scenes[extra.french_scene].push(extra.name)
     end
     return french_scenes #this is a hash of french scenes (keys), with an array of characters as the values
   end
