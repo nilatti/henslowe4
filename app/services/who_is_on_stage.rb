@@ -27,9 +27,14 @@ class WhoIsOnStage
         end
         job = Job.where(character_id: character.id, production_id: @production.id).first
         if job.user
-          @appearances[job.user].push report_string
-          if @appearances[job.user].index { |i| i == report_string + "*" }
-            @appearances[job.user].delete_at(@appearances[job.user].index { |i| i == report_string + "*" } )
+          if report_string.match?(/\*$/)
+            remove_asterisk = report_string.chomp('*')
+            if @appearances[job.user].index { |i| i.match?(/#{Regexp.quote(remove_asterisk)}(?<!\*)$/) }
+            else
+              @appearances[job.user].push report_string
+            end
+          else
+              @appearances[job.user].push report_string
           end
         else
           @appearances[User.find_by_first_name("Unassigned")] << report_string
