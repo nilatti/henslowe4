@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180717194248) do
+ActiveRecord::Schema.define(version: 20181219182858) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -36,12 +36,15 @@ ActiveRecord::Schema.define(version: 20180717194248) do
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "age",        limit: 255
-    t.text     "gender",     limit: 65535
-    t.integer  "play_id",    limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "name",        limit: 255
+    t.string   "age",         limit: 255
+    t.string   "gender",      limit: 255
+    t.integer  "play_id",     limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "description", limit: 65535
+    t.string   "xml_id",      limit: 255
+    t.string   "group_id",    limit: 255
   end
 
   add_index "characters", ["play_id"], name: "index_characters_on_play_id", using: :btree
@@ -124,10 +127,11 @@ ActiveRecord::Schema.define(version: 20180717194248) do
     t.string   "text",            limit: 255
     t.integer  "french_scene_id", limit: 4
     t.integer  "character_id",    limit: 4
-    t.string   "type",            limit: 255
+    t.string   "category",        limit: 255
     t.boolean  "cut"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "line_number",     limit: 255
   end
 
   create_table "on_stages", force: :cascade do |t|

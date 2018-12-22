@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   def castings_for_production(production)
     jobs = production_jobs(production)
     acting_jobs = jobs.select { |job| job.specialization.title == "Actor"}
-    return acting_jobs.map(&:character)
+    return acting_jobs.map(&:character).sort {|a, b| a.name <=> b.name}
   end
 
   def is_actor?(production)

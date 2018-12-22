@@ -1,5 +1,5 @@
 class LinesController < ApplicationController
-  before_action :set_line, only: [:show, :edit, :update, :destroy]
+  before_action :set_line, only: %i[show edit update destroy]
 
   # GET /lines
   # GET /lines.json
@@ -9,8 +9,7 @@ class LinesController < ApplicationController
 
   # GET /lines/1
   # GET /lines/1.json
-  def show
-  end
+  def show; end
 
   # GET /lines/new
   def new
@@ -18,8 +17,7 @@ class LinesController < ApplicationController
   end
 
   # GET /lines/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /lines
   # POST /lines.json
@@ -62,13 +60,14 @@ class LinesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_line
-      @line = Line.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def line_params
-      params.require(:line).permit(:text, :belongs_to, :belongs_to, :type, :cut)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_line
+    @line = Line.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def line_params
+    params.require(:line).permit(:belongs_to, :belongs_to, :category, :character_id, :cut, :french_scene_id, :line_number, :text)
+  end
 end

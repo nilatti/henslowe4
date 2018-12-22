@@ -1,23 +1,21 @@
 class PlaysController < ApplicationController
   load_and_authorize_resource
-  before_action :set_play, only: [:show, :edit, :update, :destroy]
+  before_action :set_play, only: %i[show edit update destroy]
   before_action :set_author
   # GET /plays
   # GET /plays.json
   def index
-    if @author
-      @plays = Play.where("author_id = #{@author.id}")
-    else
-      @plays = Play.all
-    end
+    @plays = if @author
+               Play.where("author_id = #{@author.id}")
+             else
+               Play.all
+             end
   end
 
   # GET /plays/1
   # GET /plays/1.json
   def show
-    if @play.production_id
-      @production = Production.find(@play.production_id)
-    end
+    @production = Production.find(@play.production_id) if @play.production_id
   end
 
   # GET /plays/new
@@ -27,9 +25,7 @@ class PlaysController < ApplicationController
 
   # GET /plays/1/edit
   def edit
-    if @play.production_id
-      @production = Production.find(@play.production_id)
-    end
+    @production = Production.find(@play.production_id) if @play.production_id
   end
 
   # POST /plays
@@ -44,6 +40,7 @@ class PlaysController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @play.errors, status: :unprocessable_entity }
+
       end
     end
   end
@@ -51,7 +48,6 @@ class PlaysController < ApplicationController
   # PATCH/PUT /plays/1
   # PATCH/PUT /plays/1.json
   def update
-
     respond_to do |format|
       if @play.update(play_params)
         format.html { redirect_to play_path(@play), notice: 'Play was successfully updated.' }
@@ -75,18 +71,18 @@ class PlaysController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_play
-      @play = Play.find(params[:id])
-    end
-    def set_author
-      if params[:author_id]
-        @author = Author.find(params[:author_id])
-      end
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def play_params
-      params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, :script, :start_page, :end_page, characters_attributes: [:id, :name, :age, :gender, :_destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_play
+    @play = Play.find(params[:id])
+  end
+
+  def set_author
+    @author = Author.find(params[:author_id]) if params[:author_id]
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def play_params
+    params.require(:play).permit(:title, :date, :author_id, :canonical, :summary, :text_notes, :script, :start_page, :end_page, characters_attributes: %i[id name age gender _destroy], acts_attributes: [:id, :act_number, :summary, :start_page, :end_page, :_destroy, scenes_attributes: [:id, :scene_number, :start_page, :end_page, :summary, :_destroy, french_scenes_attributes: [:id, :french_scene_number, :start_page, :end_page, :_destroy, character_ids: []]]])
+  end
 end

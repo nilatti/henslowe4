@@ -15,13 +15,18 @@ class ScenesController < ApplicationController
   # GET /scenes/1
   # GET /scenes/1.json
   def show
+
     scenes = @scene.act.play.scenes
     scenes = scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
     index = scenes.index { |s| s.id == @scene.id }
-    
+
     @next = scenes[index + 1]
     if index > 0
       @previous = scenes[index-1]
+    end
+    @production = @scene.act.play.production
+    if @production
+      @actors = @scene.actors_called(@production.id)
     end
   end
 
@@ -32,13 +37,15 @@ class ScenesController < ApplicationController
 
   # GET /scenes/1/edit
   def edit
+    @production = Production.find_by(:play_id == @play.id)
+    @users = @production.involved_users
   end
 
   # POST /scenes
   # POST /scenes.json
   def create
     @scene = @act.scenes.build(scene_params)
-    
+
     respond_to do |format|
       if @scene.save
         format.html { redirect_to @act, notice: 'Scene was successfully created.' }
@@ -55,6 +62,10 @@ class ScenesController < ApplicationController
   def update
     respond_to do |format|
       if @scene.update(scene_params)
+        puts "scene params: #{scene_params}"
+        if scene_params["character_ids"]
+          
+        end
         format.html { redirect_to @scene.act, notice: 'Scene was successfully updated.' }
         format.json { respond_with_bip(@scene) }
       else
@@ -91,6 +102,6 @@ class ScenesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def scene_params
-      params.require(:scene).permit(:scene_number, :summary,  :start_page, :end_page, :play_id, french_scenes_attributes: [:id,  :start_page, :end_page, :french_scene_number, :_destroy, character_ids: []])
+      params.require(:scene).permit(:scene_number, :summary,  :start_page, :end_page, :play_id, character_ids: [], french_scenes_attributes: [:id,  :start_page, :end_page, :french_scene_number, :_destroy, :extras_attributes, character_ids: []])
     end
 end

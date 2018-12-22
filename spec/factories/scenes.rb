@@ -1,6 +1,12 @@
 FactoryBot.define do
 	factory :scene do
-		scene_number 1
-		association :act
+		sequence :scene_number do |n|
+			"#{n}"
+		end
+		act
+
+		after :create do |scene|
+			create_list :french_scene, 4, scene: scene
+		end
 	end
 end

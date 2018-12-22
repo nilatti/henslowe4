@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: abb381cd3183d3f94718c0ccb6a0e82302501f39
+  branch: master
+  specs:
+    faker (1.9.1)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -280,6 +288,7 @@ DEPENDENCIES
   devise_invitable (~> 1.5.2)
   execjs
   factory_bot_rails
+  faker!
   formtastic (~> 3.0)
   formtastic-bootstrap
   jbuilder (~> 2.0)

@@ -8,13 +8,14 @@ class FrenchScene < ActiveRecord::Base
   has_many :extras, dependent: :destroy
   accepts_nested_attributes_for :extras, allow_destroy: true
 
-  default_scope { order(:french_scene_number) }
+  has_many :lines, dependent: :destroy
+  default_scope { includes(:scene).order('scenes.act_id, scenes.scene_number, french_scene_number') }
 
   def pretty_name
-    "%02d" % scene.act.act_number + "." + "%02d" % scene.scene_number + "." + french_scene_number
+    format('%01d', scene.act.act_number) + '.' + format('%01d', scene.scene_number) + '.' + french_scene_number
   end
 
-  def actors_called(production)
+  def actors_called(_production)
     WhoIsOnStage.new([self], production_id).actors_on
   end
 end

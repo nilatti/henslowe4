@@ -8,6 +8,19 @@
 <p>
 	<strong>Summary:</strong>
 	<%= best_in_place @scene, :summary, :as => :textarea, :place_holder => "Click here to add summary." %>
+</p>
+<% unless @scene.act.play.canonical %>
+	<p>
+		<strong>Actors on stage:</strong>
+		<ul>
+			<% @actors.each do |actor, characters| %>
+				<li>
+					<%= actor.name %> (<%= characters.join(", ") %>)
+				</li>
+			<% end %>
+		</ul>
+	</p>
+<% end %>
 <p>
 	<strong>French Scenes:</strong>
 	<ul>
@@ -20,6 +33,19 @@
 		</li>
 		<% end %>
 	</ul>
-
-<%= link_to 'Edit', edit_scene_path(@scene) %>
-<% if @previous %><div class="previous"><%= link_to "#{@previous.pretty_name}", @previous %><% end %></div><% if @next %><div class="next"><%= link_to "#{@next.pretty_name}", @next %></div><% end %>
+</p>
+<p>
+	<%= link_to 'Edit', edit_scene_path(@scene) %>
+</p>
+<p>
+	<% if @previous %>
+		<div class="previous">
+			<%= link_to "#{@previous.pretty_name}", @previous %>
+		</div>
+	<% end %>
+	<% if @next %>
+		<div class="next">
+				<%= link_to "#{@next.pretty_name}", @next %>
+		</div>
+	<% end %>
+</p>

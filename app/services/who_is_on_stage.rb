@@ -26,7 +26,7 @@ class WhoIsOnStage
           report_string = "#{report_string}*"
         end
         job = Job.where(character_id: character.id, production_id: @production.id).first
-        if job.user
+        if job && job.user
           if report_string.match?(/\*$/)
             remove_asterisk = report_string.chomp('*')
             if @appearances[job.user].index { |i| i.match?(/#{Regexp.quote(remove_asterisk)}(?<!\*)$/) }

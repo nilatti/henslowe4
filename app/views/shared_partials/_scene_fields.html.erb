@@ -1,11 +1,12 @@
-<div class="nested-fields"> 
+<div class="nested-fields">
 <%= f.number_field :scene_number %>
 <%= f.text_area :summary %>
 <%= f.number_field :start_page %>
 <%= f.number_field :end_page %>
+<hr size="10" />
 <div class="french-scenes">
  <%= f.fields_for :french_scenes do |french_scene| %>
-  
+
     <%= render 'shared_partials/french_scene_fields', f: french_scene %>
   <% end %>
     <%= link_to_add_association 'add french scene', f, :french_scenes, partial: 'shared_partials/french_scene_fields' %></div>

@@ -4,7 +4,9 @@ FactoryBot.define do
 		title 'A Midsummer Night\'s Dream'
 		date '1599-01-01'
 		author
-		
-		#script ActionDispatch::Http::UploadedFile.new(:tempfile => File.new("#{Rails.root}/spec/data/test_script.html"), :filename => "test_script.html")
+
+		after :create do |play|
+			create_list :act, 2, play: play
+		end
 	end
 end

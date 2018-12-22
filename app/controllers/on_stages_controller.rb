@@ -13,11 +13,11 @@ class OnStagesController < ApplicationController
 
   def create
     @on_stage = OnStage.new(on_stage_params)
-    
+
 
     respond_to do |format|
       if @on_stage.save
-        format.html { redirect_to @on_stage.french_scene, notice: 'Space was successfully created.' }
+        format.html { redirect_to @on_stage.french_scene, notice: 'Appearance was successfully created.' }
         format.json { render :show, status: :created, location: @on_stage }
       else
         format.html { render :new }
@@ -31,7 +31,7 @@ class OnStagesController < ApplicationController
   def update
     respond_to do |format|
       if @on_stage.update(on_stage_params)
-        format.html { redirect_to @on_stage.french_scene, notice: 'Space was successfully updated.' }
+        format.html { redirect_to @on_stage.french_scene, notice: 'Appearance was successfully updated.' }
         format.json { respond_with_bip(@on_stage) }
       else
         format.html { render :edit }
@@ -45,7 +45,7 @@ class OnStagesController < ApplicationController
   def destroy
     @on_stage.destroy
     respond_to do |format|
-      format.html { redirect_to @on_stage.french_scene, notice: 'Space was successfully destroyed.' }
+      format.html { redirect_to @on_stage.french_scene, notice: 'Appearance was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

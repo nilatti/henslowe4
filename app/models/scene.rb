@@ -1,13 +1,13 @@
 class Scene < ActiveRecord::Base
+  default_scope { includes(:act).order('acts.act_number, scene_number') }
   belongs_to :act
   has_many :french_scenes, dependent: :destroy
+  has_many :characters, through: :french_scenes
 
   accepts_nested_attributes_for :french_scenes, allow_destroy: true
-  #validates :act, presence: true
-  default_scope { order(:scene_number) }
 
   def pretty_name
-  	act.act_number.to_s + "." + scene_number.to_s
+    "%01d" % act.act_number + "." + "%01d" % self.scene_number
   end
 
   def actors_called(production)

@@ -1,6 +1,7 @@
 class Act < ActiveRecord::Base
   belongs_to :play
   has_many :scenes
+  has_many :french_scenes, through: :scenes
   accepts_nested_attributes_for :scenes, allow_destroy: true
   has_many :french_scenes, through: :scenes
 
