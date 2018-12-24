@@ -27,13 +27,15 @@ class Production < ActiveRecord::Base
   end
   def actors
     actors = []
-    involved_users.each do |user|
-      if user.is_actor?(self)
-        actors << user
+    if involved_users
+      involved_users.each do |user|
+        if user.is_actor?(self)
+          actors << user
+        end
       end
-    end
-    return actors
+      return actors
   end
+end
   def past?
    	self.end_date < Time.now
   end

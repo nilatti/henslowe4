@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181219182858) do
+ActiveRecord::Schema.define(version: 20181224215628) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20181219182858) do
   end
 
   add_index "characters", ["play_id"], name: "index_characters_on_play_id", using: :btree
+  add_index "characters", ["xml_id"], name: "index_characters_on_xml_id", using: :btree
 
   create_table "conflicts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -142,6 +143,7 @@ ActiveRecord::Schema.define(version: 20181219182858) do
     t.boolean  "nonspeaking"
   end
 
+  add_index "on_stages", ["character_id", "french_scene_id"], name: "index_on_stages_on_character_id_and_french_scene_id", unique: true, using: :btree
   add_index "on_stages", ["character_id"], name: "index_on_stages_on_character_id", using: :btree
   add_index "on_stages", ["french_scene_id"], name: "index_on_stages_on_french_scene_id", using: :btree
 

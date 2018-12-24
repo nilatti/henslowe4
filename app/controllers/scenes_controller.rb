@@ -28,6 +28,7 @@ class ScenesController < ApplicationController
     if @production
       @actors = @scene.actors_called(@production.id)
     end
+    @characters = @scene.characters.uniq.reject {|character| character.play_id != @scene.act.play_id}
   end
 
   # GET /scenes/new
@@ -64,7 +65,7 @@ class ScenesController < ApplicationController
       if @scene.update(scene_params)
         puts "scene params: #{scene_params}"
         if scene_params["character_ids"]
-          
+
         end
         format.html { redirect_to @scene.act, notice: 'Scene was successfully updated.' }
         format.json { respond_with_bip(@scene) }

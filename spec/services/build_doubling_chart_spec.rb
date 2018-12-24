@@ -3,43 +3,82 @@ require 'rails_helper'
 describe BuildDoublingChart do # all based on the text_xml.xml doc which is the first 2 acts of Richard III from Folger digital texts
   before(:context) do
     @play = create(:play)
+    @richard = create(:richard, play: @play)
+    @scene = @play.scenes.first
+     @scene.french_scenes.each do |french_scene|
+      create_list(:line, 5, french_scene: french_scene, character: @richard)
+      create_list(:line, 8, french_scene: french_scene)
+    end
+
   end
   context 'initial setup' do
 
-    it 'generates correct headers for act depth' do
-      chart = BuildDoublingChart.new(play: @play, depth: 'act')
-      chart.build_headers
-      expect(chart.table).to match(/Character,Act \d,Act \d/)
-    end
-
-    it 'generates correct headers for french scene depth (implied)' do
-      chart = BuildDoublingChart.new(play: @play, depth: 'french_scene')
-      chart.build_headers
-      expect(chart.table).to eq("Character,1.1.a,1.1.b,1.1.c,1.1.d,1.1.e,1.2.a,1.2.b,1.2.c,1.2.d,2.1.a,2.1.b,2.1.c,2.1.d,2.2.a,2.2.b,2.2.c,2.2.d")
-    end
-
-    it 'generates correct headers for scene depth (explicit)' do
-      chart = BuildDoublingChart.new(play: @play, depth: 'scene')
-      chart.build_headers
-      expect(chart.table).to eq("Character,1.1,1.2,2.1,2.2")
-    end
-    it 'generates correct headers for scene depth (implied)' do
-      chart = BuildDoublingChart.new(play: @play)
-      chart.build_headers
-      expect(chart.table).to eq("Character,1.1,1.2,2.1,2.2")
-    end
     it 'gets total lines per character for french scene' do
       chart = BuildDoublingChart.new(play: @play)
-      puts "chart"
-      character = Character.find_by(name: 'Richard')
-      puts "#{character.name}"
-      act = Act.find_by(act_number: 1)
-      scene = Scene.find_by(act: act, scene_number: 1)
-      french_scene = FrenchScene.find_by(scene: scene, french_scene_number: 'b')
-      puts "starting the count in test"
-      french_scenes = [french_scene]
-      total_lines = chart.line_total(character: character, french_scenes: french_scenes)
-      expect(total_lines).to eq(43)
+      french_scenes = [@scene.french_scenes.first]
+      total_lines = chart.line_total(character: @richard, french_scenes: french_scenes)
+      expect(total_lines).to eq(5)
+    end
+
+    it 'gets total lines per character for scene' do
+      chart = BuildDoublingChart.new(play: @play)
+      french_scenes = @scene.french_scenes
+      total_lines = chart.line_total(character: @richard, french_scenes: french_scenes)
+      expect(total_lines).to eq(20)
+    end
+
+    it 'gets total lines per character for scene' do
+      chart = BuildDoublingChart.new(play: @play)
+      other_scene = @play.scenes[1]
+      other_scene.french_scenes.each do |french_scene|
+       create_list(:line, 5, french_scene: french_scene, character: @richard)
+       create_list(:line, 8, french_scene: french_scene)
+      end
+      act = @play.acts.first
+      french_scenes = []
+      act.scenes.each { |scene| french_scenes << scene.french_scenes}
+      french_scenes.flatten!
+      total_lines = chart.line_total(character: @richard, french_scenes: french_scenes)
+      expect(total_lines).to eq(40)
+    end
+
+    it 'returns correct french scene arrays' do
+      other_character = Character.find(2)
+      another_character = Character.find(3)
+      @scene = @play.scenes.first
+       @scene.french_scenes.each do |french_scene|
+        create_list(:line, 5, french_scene: french_scene, character: other_character)
+        create_list(:line, 8, french_scene: french_scene, character: another_character)
+      end
+      chart = BuildDoublingChart.new(play: @play, depth: 'french_scene')
+      rows = chart.build_rows
+      expect(rows).to include('Richard,5,5,5,5,,,,,,,,,,,,,,,,,,,,,,,,')
+    end
+
+    it 'returns correct scene arrays' do
+      other_character = Character.find(2)
+      another_character = Character.find(3)
+      @scene = @play.scenes.first
+       @scene.french_scenes.each do |french_scene|
+        create_list(:line, 5, french_scene: french_scene, character: other_character)
+        create_list(:line, 8, french_scene: french_scene, character: another_character)
+      end
+      chart = BuildDoublingChart.new(play: @play, depth: 'scene')
+      rows = chart.build_rows
+      expect(rows).to include('Richard,20,,,,,,')
+    end
+
+    it 'returns correct act arrays' do
+      other_character = Character.find(2)
+      another_character = Character.find(3)
+      @scene = @play.scenes.first
+       @scene.french_scenes.each do |french_scene|
+        create_list(:line, 5, french_scene: french_scene, character: other_character)
+        create_list(:line, 8, french_scene: french_scene, character: another_character)
+      end
+      chart = BuildDoublingChart.new(play: @play, depth: 'act')
+      rows = chart.build_rows
+      expect(rows).to include('Richard,20,,')
     end
   end
 end

@@ -15,8 +15,18 @@
 	<strong>Characters:</strong>
 	<ul>
 	   <% @french_scene.on_stages.each do |on_stage| %>
-	    <li><% if on_stage.nonspeaking %>(<% end %><%= on_stage.character.name %><% if on_stage.nonspeaking %>)<% end %> <%= best_in_place on_stage, :nonspeaking, as: :checkbox, collection: ["Speaking", "Nonspeaking"] %></li>
-	       <% end %>
+	    <li>
+        <% if on_stage.nonspeaking %>
+          (
+        <% end %>
+        <%= on_stage.character.name %>
+        <% if on_stage.nonspeaking %>
+          )
+        <% end %>
+        <%= best_in_place on_stage, :nonspeaking, as: :checkbox, collection: ["Speaking", "Nonspeaking"] %>
+        <%= on_stage.french_scene.id %> <%= on_stage.french_scene.scene.id %> <%= on_stage.french_scene.scene.act.id %> <%= on_stage.french_scene.scene.act.play.id %>
+      </li>
+	   <% end %>
   </ul>
 </p>
 <p>

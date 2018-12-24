@@ -37,6 +37,7 @@ gem 'devise_invitable', '~> 1.5.2'
 gem 'cancancan', '~> 1.13.0'
 
 gem 'seed-fu', '~> 2.3'
+gem 'activerecord-import'
 
 gem 'bootstrap_form'
 gem 'bootstrap-sass', '~> 3.2.0'

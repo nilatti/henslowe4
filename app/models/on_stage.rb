@@ -4,5 +4,4 @@ class OnStage < ActiveRecord::Base
 
   validates :french_scene, presence: true
   validates :character, presence: true
-  validates :french_scene, uniqueness: { scope: :character }
 end

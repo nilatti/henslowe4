@@ -12,13 +12,24 @@
 <% unless @scene.act.play.canonical %>
 	<p>
 		<strong>Actors on stage:</strong>
-		<ul>
-			<% @actors.each do |actor, characters| %>
-				<li>
-					<%= actor.name %> (<%= characters.join(", ") %>)
-				</li>
-			<% end %>
-		</ul>
+		<% if @actors %>
+			<ul>
+				<% @actors.each do |actor, characters| %>
+					<li>
+						<%= actor.name %> (<%= characters.join(", ") %>)
+					</li>
+				<% end %>
+			</ul>
+		<% else %>
+			<ul>
+				<%= @scene.act.id %> <%= @scene.act.play.id %>
+				<% @characters.each do |character| %>
+					<li>
+						<%= character.name %> (<%= character.id %> <%= character.play.id %>)
+					</li>
+				<% end %>
+			</ul>
+		<% end %>
 	</p>
 <% end %>
 <p>

@@ -68,6 +68,6 @@ class LinesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def line_params
-    params.require(:line).permit(:belongs_to, :belongs_to, :category, :character_id, :cut, :french_scene_id, :line_number, :text)
+    params.require(:line).permit(:category, :character, :cut, :french_scene, :line_number, :text)      
   end
 end

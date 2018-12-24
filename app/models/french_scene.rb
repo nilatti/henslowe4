@@ -9,7 +9,7 @@ class FrenchScene < ActiveRecord::Base
   accepts_nested_attributes_for :extras, allow_destroy: true
 
   has_many :lines, dependent: :destroy
-  default_scope { includes(:scene).order('scenes.act_id, scenes.scene_number, french_scene_number') }
+  # default_scope { includes(:scene).order('scenes.act_id, scenes.scene_number, french_scene_number') }
 
   def pretty_name
     format('%01d', scene.act.act_number) + '.' + format('%01d', scene.scene_number) + '.' + french_scene_number
