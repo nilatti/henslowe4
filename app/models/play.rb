@@ -5,6 +5,7 @@ class Play < ActiveRecord::Base
   has_many :scenes, through: :acts, dependent: :destroy
   has_many :french_scenes, through: :scenes, dependent: :destroy
   has_many :on_stages, through: :french_scenes, dependent: :destroy
+  has_many :lines, through: :french_scenes, dependent: :destroy
   has_many :characters, dependent: :destroy
   has_one :production
 

@@ -2,8 +2,8 @@ class Act < ActiveRecord::Base
   belongs_to :play
   has_many :scenes
   has_many :french_scenes, through: :scenes
+  has_many :on_stages, through: :french_scenes
   accepts_nested_attributes_for :scenes, allow_destroy: true
-  has_many :french_scenes, through: :scenes
 
   validates :play, presence: true
 
@@ -16,5 +16,9 @@ class Act < ActiveRecord::Base
 
   def pretty_name
     "Act #{act_number}"
+  end
+
+  def self.play_order(arr)
+    arr.sort { |a, b| a.act_number <=> b.act_number}
   end
 end

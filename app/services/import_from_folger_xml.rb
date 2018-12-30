@@ -25,7 +25,8 @@ class ImportFromFolgerXml
     @parsed_xml = Nokogiri::XML.parse(xml_doc)
     build_dictionary
     create_play
-    # write_to_db
+    commit_lines
+    review_on_stages
   end
 
   def add_value_to_dictionary(value)
@@ -110,23 +111,19 @@ class ImportFromFolgerXml
     @current_scene = Scene.create(scene_number: scene_number, act: act)
     @current_french_scene_number = 'a'
     @on_last_french_scene = false
-    scene.children.each do |child|
+    scene_xml_nodes = scene.children
+    scene_xml_nodes.pop
+    scene_xml_nodes.each do |child|
       if child.matches?('stage')
-        if scene.children.index(child) == scene.children.length - 2
-          @on_last_french_scene = true
-        end
         if child.attr('type') == 'mixed'
           unmix_stage_direction(stage: child)
-          commit_lines
         elsif child.attr('xml:id')
           process_stage_direction(stage: child)
-          commit_lines
         else
           puts 'no xml id found'
         end
       elsif child.matches?('sp')
         process_speech(speech: child, character: child.attr('who'))
-        commit_lines
       end
     end
   end
@@ -196,6 +193,7 @@ def process_line(characters:, speech:)
           character = @characters.find {|character| character.xml_id == character_xml_id }
           if character
             new_line = Line.new(
+              ana: child.attr('ana'),
               category: 'text',
               character: character,
               french_scene: @current_french_scene,
@@ -263,6 +261,21 @@ def process_line(characters:, speech:)
     line.delete!("\n")
     line.delete!("\r")
     line
+  end
+
+  def review_on_stages
+    @french_scenes.each do |french_scene|
+      french_scene.on_stages.each do |on_stage|
+        speaking = french_scene.lines.select {|line| line.character == on_stage.character && line.category != /^stage/}
+        if speaking.size > 0
+          on_stage.nonspeaking = false
+          on_stage.save
+        else
+          on_stage.nonspeaking = true
+          on_stage.save
+        end
+      end
+    end
   end
 
   def unmix_stage_direction(stage:)

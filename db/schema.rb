@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181224215628) do
+ActiveRecord::Schema.define(version: 20181227204229) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20181224215628) do
     t.datetime "updated_at",                      null: false
     t.integer  "start_page",          limit: 4
     t.integer  "end_page",            limit: 4
+    t.string   "starting_xml_id",     limit: 255
   end
 
   add_index "french_scenes", ["scene_id"], name: "index_french_scenes_on_scene_id", using: :btree
@@ -133,6 +134,7 @@ ActiveRecord::Schema.define(version: 20181224215628) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.string   "line_number",     limit: 255
+    t.string   "ana",             limit: 255
   end
 
   create_table "on_stages", force: :cascade do |t|
