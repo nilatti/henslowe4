@@ -1,10 +1,10 @@
 <%= bootstrap_form_for(@production, inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
-  <% @production.jobs.acting.each do |casting| %>
-    <% if casting.character %>
-	    <%= f.fields_for :jobs, casting do |c| %>
-	      <%= c.select :user_id, @production.theater.users.uniq.collect {|u| [u.name, u.id]}, :label => casting.character.name, include_blank: true %>
-	      <% end %>
-	    <% end %>
-    <% end %>
-  <%= f.submit %>
+<% @production.jobs.acting.each do |casting| %>
+  <% if casting.character %>
+    <%= f.fields_for :jobs, casting do |c| %>
+    <%= c.select :user_id, @production.theater.users.uniq.collect {|u| [u.name, u.id]}, :label => casting.character.identifier, include_blank: true %>
+  <% end %>
+<% end %>
+<% end %>
+<%= f.submit %>
 <% end %>

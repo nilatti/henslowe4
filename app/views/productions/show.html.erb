@@ -6,7 +6,13 @@
 
 <p>
   <strong>Dates:</strong>
-  <% if @production.start_date && @production.end_date %><%= best_in_place @production, :start_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %> - <%= best_in_place @production, :end_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %><% else %><%= best_in_place @production, :start_date, :as => :date %> - <%= best_in_place @production, :end_date, :as => :date %><% end %>
+  <% if @production.start_date && @production.end_date %><%= best_in_place @production, :start_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %>
+    -
+    <%= best_in_place @production, :end_date, :as => :date, :display_with => Proc.new { |f| f.strftime("%b %d, %Y") } %>
+  <% else %><%= best_in_place @production, :start_date, :as => :date %>
+    -
+    <%= best_in_place @production, :end_date, :as => :date %>
+  <% end %>
 </p>
 
 <p>
@@ -27,49 +33,61 @@
       <% @production.actors.each do |actor| %>
         <li><%= actor.name %>:
           <ul>
-              <% actor.castings_for_production(@production).each do |character| %>
-                <li>
-                  <%= character.try(:name) %>
-                </li>
-              <% end %>
+            <% actor.castings_for_production(@production).each do |character| %>
+              <li>
+                <%= character.identifier %>
+              </li>
+            <% end %>
           </ul>
         </li>
       <% end %>
     </ul>
-    <% end %>
+  <% end %>
 
   By Character:
   <ul>
     <% @production.jobs.acting.each do |casting| %>
-      <% if casting.character %><li><%= casting.character.name %> &mdash; <% if casting.user %><%= link_to "#{casting.user.name}", casting.user %><% end %><% end %></li><% end %>
-  </ul>
-  <% if current_user.production_admin?(@production) || current_user.theater_admin?(@production.theater) %>
-  <p>
-    <strong>Who auditioned:</strong>
-    <ul>
-    <% @production.jobs.each do |job| %>
-      <% if job.specialization.title == "Auditioner" %>
+      <% if casting.character %>
         <li>
-          <%= link_to "#{job.user.name}", job.user %>
-        </li>
-      <% end %>
+          <%= casting.character.identifier %>
+          &mdash;
+          <% if casting.user %><%= link_to "#{casting.user.name}", casting.user %>
+          <% end %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
-  </p>
+  <% if current_user.production_admin?(@production) || current_user.theater_admin?(@production.theater) %>
+    <p>
+      <strong>Who auditioned:</strong>
+      <ul>
+        <% @production.jobs.each do |job| %>
+          <% if job.specialization.title == "Auditioner" %>
+            <li>
+              <%= link_to "#{job.user.name}", job.user %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </p>
   <% end %>
   <%= link_to "Edit casting", edit_casting_production_path %>
 </p>
 <p>
-	<strong>Tech and directing:</strong>
-	<ul>
-	<% @production.jobs.each do |job| %>
+  <strong>Tech and directing:</strong>
+  <ul>
+    <% @production.jobs.each do |job| %>
       <% unless job.acting? %>
-       <li><%= job.specialization.title %> &mdash; <% if job.user %><%= link_to "#{job.user.name}", job.user %><% end %></li>
+        <li><%= job.specialization.title %>
+          &mdash;
+          <% if job.user %><%= link_to "#{job.user.name}", job.user %>
+          <% end %>
+        </li>
       <% end %>
     <% end %>
-    </ul>
+  </ul>
 
-    <%= link_to "Add new job", new_job_path(production_id: @production.id) %>
+  <%= link_to "Add new job", new_job_path(production_id: @production.id) %>
 </p>
 
 <p>
@@ -81,6 +99,8 @@
   <% end %>
 </p>
 
-<%= link_to 'Edit', edit_production_path(@production) %> ||
-<%= link_to "See doubling chart", doubling_production_path %> ||
+<%= link_to 'Edit', edit_production_path(@production) %>
+||
+<%= link_to "See doubling chart", doubling_production_path %>
+||
 <%= link_to "See who is in each scene", who_is_in_and_out_production_path %>

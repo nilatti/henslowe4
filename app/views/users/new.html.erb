@@ -1,4 +1,12 @@
 <h1>New User</h1>
 
-<%= render 'shared_partials/user_form' %>
+<%= bootstrap_form_for User.new, url: create_user_path do |f| %>
+<%= f.text_field :first_name %>
+<%= f.text_field :last_name %>
+<%= f.email_field :email %>
+<%= f.select :role, User::ROLES %>
+<%= f.password_field :password %>
+<%= f.password_field :password_confirmation %>
 
+<%= f.submit %>
+<% end %>

@@ -1,8 +1,9 @@
-<table border = "1" class="table">
-  <tr><td></td>
+<table border="1" class="table table-striped">
+  <tr>
+    <td></td>
     <% @french_scenes.each do |french_scene| %>
       <td>
-        <%= french_scene.pretty_name %>
+        <%= link_to "#{french_scene.pretty_name}", french_scene %>
       </td>
     <% end %>
   </tr>
@@ -11,16 +12,16 @@
       <td>
         <%= actor.name %>
       </td>
-          <% @french_scenes.each do |fs| %>
-            <% if actor.french_scenes_for_production(@production)[fs].size > 1 %>
-              <td bgcolor = "red">
-            <% else %>
-              <td>
+      <% @french_scenes.each do |fs| %>
+        <% if actor.french_scenes_for_production(@production)[fs].size > 1 %>
+          <td bgcolor="red">
+          <% else %>
+            <td>
             <% end %>
             <% if actor.french_scenes_for_production(@production).has_key?(fs) %>
               <%= actor.french_scenes_for_production(@production)[fs].join(", ") %>
             <% end %>
-            </td>
+          </td>
         <% end %>
       </td>
     </tr>

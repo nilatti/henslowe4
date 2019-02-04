@@ -1,7 +1,6 @@
 <%= bootstrap_form_for([@play, @character], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
-    <%= f.text_field :name %>
-    <%= f.select :age, ["Baby","Child","Teen","Young Adult","Adult","Senior"] %>
-    <%= f.select :gender, ["Male","Female","Neutral"] %>
-
-    <%= f.submit %>
+<%= f.text_field :name %>
+<%= f.select :age, ["Baby","Child","Teen","Young Adult","Adult","Senior"] %>
+<%= f.select :gender, ["Male","Female","Neutral", "Group"] %>
+<%= f.submit %>
 <% end %>

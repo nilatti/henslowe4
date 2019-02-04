@@ -3,27 +3,40 @@
 <% end %>
 <p id="notice"><%= notice %></p>
 <p>
-  <%= link_to "#{@act.play.title}", play_path(@act.play) %> by <%= link_to "#{@act.play.author.name}", author_path(@act.play.author) %>
+  <%= link_to "#{@act.play.title}", play_path(@act.play) %>
+  by
+  <%= link_to "#{@act.play.author.name}", author_path(@act.play.author) %>
 </p>
 <p>
-  <strong>Act <%= @act.act_number %></strong>, pages <%= best_in_place @act, :start_page %>-<%= best_in_place @act, :end_page %>
+  <strong>Act
+    <%= @act.act_number %></strong>, pages
+  <%= best_in_place @act, :start_page %>-<%= best_in_place @act, :end_page %>
 </p>
 <p>
   <strong>Summary:</strong>
   <%= best_in_place @act, :summary, :as => :textarea, :place_holder => "Click here to add summary" %>
-<p>
-	<strong>Scenes:</strong>
-	<ul>
-	<% @act.scenes.each do |scene| %>
-		<li><%= link_to "#{scene.pretty_name}", scene_path(scene) %> &mdash; <%= scene.try(:summary) %></li>
-      <ul>
-        <% scene.french_scenes.each do |french_scene| %>
-        <li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>
-        <% end %>
+  <p>
+    <strong>Scenes:</strong>
+    <ul>
+      <% @act.scenes.each do |scene| %>
+        <li><%= link_to "#{scene.pretty_name}", scene_path(scene) %>
+          &mdash;
+          <%= scene.try(:summary) %></li>
+        <ul>
+          <% ordered_scene = FrenchScene.play_order(scene.french_scenes) %>
+            <% ordered_scene.each do |french_scene| %>
+              <li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>
+              <% end %>
+            </ul>
+          <% end %>
       </ul>
-    <% end %>
-    </ul>
-</p>
+    </p>
 
-<%= link_to 'Edit', edit_act_path(@act, @play) %>
-<% if @previous %><div class="previous"><%= link_to "Act #{@previous.act_number}", @previous %><% end %></div><% if @next %><div class="next"><%= link_to "Act #{@next.act_number}", @next %></div><% end %>
+    <%= link_to 'Edit', edit_act_path(@act, @play) %>
+    <% if @previous %>
+      <div class="previous"><%= link_to "Act #{@previous.act_number}", @previous %>
+      <% end %>
+    </div>
+    <% if @next %>
+      <div class="next"><%= link_to "Act #{@next.act_number}", @next %></div>
+    <% end %>

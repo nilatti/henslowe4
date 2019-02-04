@@ -1,10 +1,11 @@
 <li>
 	<%= link_to "#{author.name}", author_path(author) %>
 	<ul>
-		<% author.plays.each do |play| %>
-			<% if play.canonical %>
-				<li><%= link_to "#{play.title}", play_path(play) %></li>
+		<% sorted_plays = author.plays.sort {|a, b| a.title <=> b.title } %>
+			<% sorted_plays.each do |play| %>
+				<% if play.canonical %>
+					<li><%= link_to "#{play.title}", play_path(play) %></li>
+				<% end %>
 			<% end %>
-		<% end %>
-	</ul>
-</li>
+		</ul>
+	</li>

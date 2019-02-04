@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181227204229) do
+ActiveRecord::Schema.define(version: 20190107210748) do
 
   create_table "acts", force: :cascade do |t|
     t.integer  "act_number", limit: 4
@@ -35,18 +35,31 @@ ActiveRecord::Schema.define(version: 20181227204229) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "characters", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "age",         limit: 255
-    t.string   "gender",      limit: 255
-    t.integer  "play_id",     limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.text     "description", limit: 65535
-    t.string   "xml_id",      limit: 255
-    t.string   "group_id",    limit: 255
+  create_table "character_groups", force: :cascade do |t|
+    t.text     "name",       limit: 65535
+    t.integer  "play_id",    limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "xml_id",     limit: 255
+    t.string   "corresp",    limit: 255
   end
 
+  add_index "character_groups", ["play_id"], name: "index_character_groups_on_play_id", using: :btree
+
+  create_table "characters", force: :cascade do |t|
+    t.string   "name",               limit: 255
+    t.string   "age",                limit: 255
+    t.string   "gender",             limit: 255
+    t.integer  "play_id",            limit: 4
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "description",        limit: 65535
+    t.string   "xml_id",             limit: 255
+    t.string   "group_id",           limit: 255
+    t.integer  "character_group_id", limit: 4
+  end
+
+  add_index "characters", ["character_group_id"], name: "index_characters_on_character_group_id", using: :btree
   add_index "characters", ["play_id"], name: "index_characters_on_play_id", using: :btree
   add_index "characters", ["xml_id"], name: "index_characters_on_xml_id", using: :btree
 
@@ -126,13 +139,13 @@ ActiveRecord::Schema.define(version: 20181227204229) do
   add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
   create_table "lines", force: :cascade do |t|
-    t.string   "text",            limit: 255
+    t.text     "text",            limit: 65535
     t.integer  "french_scene_id", limit: 4
     t.integer  "character_id",    limit: 4
     t.string   "category",        limit: 255
     t.boolean  "cut"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "line_number",     limit: 255
     t.string   "ana",             limit: 255
   end
@@ -332,6 +345,7 @@ ActiveRecord::Schema.define(version: 20181227204229) do
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "character_groups", "plays"
   add_foreign_key "characters", "plays"
   add_foreign_key "conflicts", "spaces"
   add_foreign_key "conflicts", "users"

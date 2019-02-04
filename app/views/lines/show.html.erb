@@ -6,24 +6,29 @@
 </p>
 
 <p>
-  <strong>Belongs to:</strong>
-  <%= @line.belongs_to %>
+  <strong>Character:</strong>
+  <% if @line.character %>
+    <%= link_to "#{@line.character.identifier}", character_path(@line.character) %>
+  <% end %>
 </p>
 
 <p>
-  <strong>Belongs to:</strong>
-  <%= @line.belongs_to %>
+  <strong>French Scene:</strong>
+  <%= link_to "#{@line.french_scene.pretty_name}", french_scene_path(@line.french_scene) %>
 </p>
 
 <p>
-  <strong>Type:</strong>
-  <%= @line.type %>
+  <strong>Category:</strong>
+  <%= @line.category %>
 </p>
 
 <p>
   <strong>Cut:</strong>
   <%= @line.cut %>
 </p>
+<p>
+  <strong>Line Number:</strong>
+  <%= @line.line_number %>
+</p>
 
-<%= link_to 'Edit', edit_line_path(@line) %> |
-<%= link_to 'Back', lines_path %>
+<%= link_to 'Edit', edit_line_path(@line) %>

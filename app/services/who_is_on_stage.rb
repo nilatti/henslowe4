@@ -1,10 +1,13 @@
 class WhoIsOnStage
-  attr_accessor :french_scenes, :production, :appearances, :actors_not_on_stage, :actors
+  attr_accessor :actors_on_stage, :appearances, :characters, :french_scenes, :jobs, :production, :appearances, :actors_not_on_stage, :actors
   def initialize(french_scenes, production_id)
-    @production = Production.includes(:users).find(production_id)
-    @french_scenes = french_scenes
-    @appearances = Hash.new { |hash, key| hash[key] = Array.new}
+    @actors_on_stage = []
     @actors_not_on_stage = []
+    @appearances = []
+    @characters = []
+    @french_scenes = french_scenes
+    @jobs = []
+    @production = Production.includes(:users).find(production_id)
   end
 
   def actors_off
@@ -18,34 +21,72 @@ class WhoIsOnStage
   end
 
   def actors_on
-    @french_scenes.each do |french_scene|
-      french_scene.on_stages.each do |on_stage|
-        character = on_stage.character
-        report_string = "#{on_stage.character.name}"
-        if on_stage.nonspeaking
-          report_string = "#{report_string}*"
-        end
-        job = Job.where(character_id: character.id, production_id: @production.id).first
-        if job && job.user
-          if report_string.match?(/\*$/)
-            remove_asterisk = report_string.chomp('*')
-            if @appearances[job.user].index { |i| i.match?(/#{Regexp.quote(remove_asterisk)}(?<!\*)$/) }
-            else
-              @appearances[job.user].push report_string
-            end
-          else
-              @appearances[job.user].push report_string
-          end
-        else
-          @appearances[User.find_by_first_name("Unassigned")] << report_string
-        end
+    get_characters
+    process_characters
+    get_actors
+    create_actors_hash
+    @appearances
+  end
+
+  def create_actors_hash
+    actors = @jobs.map {|item| item[:actor]} #array of actor objects
+    actors.each do |actor|
+      actor_characters = []
+      actor_jobs = @jobs.select {|item| item[:actor] == actor } #find jobs where actor is the actor
+      actor_jobs.each do |actor_job|
+        actor_character = @characters.find {|item| item[:character_id] == actor_job[:character].id}
+        actor_characters << actor_character[:report_string]
       end
-      french_scene.extras.each do |extra|
-        @appearances[extra.user] << extra.name
+      actor_object = {
+        actor: actor,
+        characters: actor_characters,
+      }
+      @appearances << actor_object
+    end
+  end
+
+  def get_actors
+    @characters.each do |character|
+      job = Job.find_by(character_id: character[:character_id], production_id: @production.id)
+      if job
+        job_hash = {
+          actor: job.user,
+          character: job.character,
+        }
+        @jobs << job_hash
+      else
+        puts "not found"
       end
     end
-    @appearances.each { |k, v| v.uniq! }
-    @appearances = @appearances.sort_by { |k, v| k.name }.to_h
-    return @appearances
+  end
+
+  def get_characters
+    @french_scenes.each do |french_scene|
+      french_scene.characters.each do |character|
+        puts character.identifier
+        report_string = "#{character.identifier}"
+        on_stage = OnStage.find_by(french_scene: french_scene, character: character)
+        if on_stage.nonspeaking
+          report_string << "*"
+        end
+        character_hash_object = {
+          character_id: character.id,
+          report_string: report_string,
+          french_scene: french_scene,
+        }
+        @characters << character_hash_object
+      end
+    end
+  end
+
+  def process_characters  # trying to make sure that there is only an * if the character is nonspeaking in ALL french scenes in question
+    @characters.each do |item|
+      if item[:report_string] =~ /(.*)\*$/
+        matches = @characters.select { |character| character[:report_string] =~ /#{$1}$/}
+        if matches.size > 0
+          @characters.delete(item)
+        end
+      end
+    end
   end
 end

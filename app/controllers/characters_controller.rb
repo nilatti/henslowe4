@@ -64,18 +64,18 @@ class CharactersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_character
-      @character = Character.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_character
+    @character = Character.find(params[:id])
+  end
 
-    def set_play
-       if params[:play_id]
-        @play = Play.find(params[:play_id])
-      end
+  def set_play
+    if params[:play_id]
+      @play = Play.find(params[:play_id])
     end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def character_params
-      params.require(:character).permit(:name, :age, :gender, :play_id)
-    end
+  end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def character_params
+    params.require(:character).permit(:name, :age, :gender, :character_group, :xml_id, :play_id)
+  end
 end

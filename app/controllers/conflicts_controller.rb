@@ -15,6 +15,10 @@ class ConflictsController < ApplicationController
   # GET /conflicts/new
   def new
     @conflict = Conflict.new
+
+    if params[:user_id]
+      @conflict.user = User.find(params[:user_id])
+    end
   end
 
   # GET /conflicts/1/edit

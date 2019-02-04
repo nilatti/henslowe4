@@ -1,5 +1,5 @@
 <?xml-stylesheet type="text/xsl" href="fdt.xsl"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
+<root>
 <teiHeader>
 <fileDesc>
 <titleStmt>
@@ -324,7 +324,7 @@ The <att>ana</att> attribute may provide information such as the specific type o
 <person xml:id="SPIRITS.1_Mac" corresp="#SPIRITS_Mac"/>
 <person xml:id="SPIRITS.2_Mac" corresp="#SPIRITS_Mac"/>
 <person xml:id="SPIRITS.3_Mac" corresp="#SPIRITS_Mac"/>
-<personGrp xml:id="SPIRITS.KINGS_Mac" corresp="#SPIRITS_Mac"/>
+<person xml:id="SPIRITS.KINGS_Mac" corresp="#SPIRITS_Mac"/>
 </listPerson>
 <listPerson>
 <head>Three Messengers, Three Servants, a Lord, a Soldier</head>
@@ -343,10 +343,10 @@ The <att>ana</att> attribute may provide information such as the specific type o
 <listPerson>
 <head>Attendants, a Sewer, Servants, Lords, Thanes, Soldiers (all nonspeaking)</head>
 <personGrp xml:id="ATTENDANTS_Mac"/>
-<personGrp xml:id="ATTENDANTS.0_Mac" corresp="#ATTENDANTS_Mac"/>
+<person xml:id="ATTENDANTS.0_Mac" corresp="#ATTENDANTS_Mac"/>
 <personGrp xml:id="SOLDIERS_Mac"/>
-<personGrp xml:id="SOLDIERS.MACBETH_Mac" corresp="#SOLDIERS_Mac"/>
-<personGrp xml:id="SOLDIERS.MALCOLM_Mac" corresp="#SOLDIERS_Mac"/>
+<person xml:id="SOLDIERS.MACBETH_Mac" corresp="#SOLDIERS_Mac"/>
+<person xml:id="SOLDIERS.MALCOLM_Mac" corresp="#SOLDIERS_Mac"/>
 </listPerson>
 </particDesc>
 </profileDesc>
@@ -47316,7 +47316,4 @@ The <att>ana</att> attribute may provide information such as the specific type o
 </ab></div>
 </back>
 </text>
-</TEI>
-
-
-
+</root>

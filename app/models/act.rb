@@ -11,7 +11,7 @@ class Act < ActiveRecord::Base
 
   def actors_called(production)
       french_scenes = self.french_scenes
-      WhoIsOnStage.new(french_scenes, production).run
+      WhoIsOnStage.new(french_scenes, production).actors_on
   end
 
   def pretty_name

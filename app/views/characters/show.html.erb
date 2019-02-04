@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <title><%= "#{@character.name} from #{@character.play.title}" %></title>
+  <title><%= "#{@character.identifier} from #{@character.play.title}" %></title>
 <% end %>
 <p id="notice"><%= notice %></p>
 
@@ -22,7 +22,17 @@
   <strong>Play:</strong>
   <%= link_to "#{@character.play.title}", play_path(@character.play) %>
 </p>
-
 <p>
-	<%= link_to "Edit", edit_character_path(@character) %>
-</p>
+  <strong>Lines:</strong>
+  <ul>
+    <% @character.lines.each do |line| %>
+      <li><%= line.line_number %>:
+        <%= line.text %></li>
+    <% end %>
+  </ul>
+
+  <p>
+    <%= link_to "Edit", edit_character_path(@character) %>
+    |
+    <%= link_to "Destroy", character_path(@character), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </p>

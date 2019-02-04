@@ -18,7 +18,7 @@
   <tbody>
     <% @characters.each do |character| %>
       <tr>
-        <td><%= link_to "#{character.name}", character_path(character) %></td>
+        <td><%= link_to "#{character.identifier}", character_path(character) %></td>
         <td><%= character.age %></td>
         <td><%= character.gender %></td>
         <td><%= link_to 'Show', character %></td>

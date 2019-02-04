@@ -14,30 +14,49 @@
 </p>
 
 <p>
-	<strong>Jobs:</strong>
-	<ul><% @user.jobs.sort { |a, b| a.specialization_id <=> b.specialization_id } %>
-    	<% @user.jobs.each do |job| %>
-    	  <li><%= job.specialization.title %>
+  <strong>Jobs:</strong>
+  <ul>
+    <% @user.jobs.sort { |a, b| a.specialization_id <=> b.specialization_id } %>
+      <% @user.jobs.each do |job| %>
+        <li><%= job.specialization.title %>
           <% if job.specialization.id == 2 && job.character %>
-            as <%= job.character.name %> in
+            as
+            <%= job.character.identifier %>
+            in
           <% else %>
             on
           <% end %>
-    	    <% if job.production %>
-    	      <%= link_to "#{job.production.play.title}", production_path(job.production) %>
-    	    <% end %>
-    	    at <%= link_to "#{job.theater.name}", theater_path(job.theater) %>,
+          <% if job.production %>
+            <%= link_to "#{job.production.play.title}", production_path(job.production) %>
+          <% end %>
+          at
+          <%= link_to "#{job.theater.name}", theater_path(job.theater) %>,
           <% if job.start_date %>
             <%= job.start_date.strftime("%b %d, %Y") %>
           <% end %>
           -
           <% if job.end_date %>
             <%= job.end_date.strftime("%b %d, %Y") %>
-          <% end %> <%= link_to "Edit Job", edit_job_path(job) %>|<%= link_to "Remove job", job, method: :delete, data: { confirm: "Are you sure?"} %>
+          <% end %>
+          <%= link_to "Edit Job", edit_job_path(job) %>|<%= link_to "Remove job", job, method: :delete, data: { confirm: "Are you sure?"} %>
         </li>
-    	<% end %>
+      <% end %>
     </ul>
     <%= link_to "Add new job", new_job_path(:user_id => @user.id) %>
-</p>
+  </p>
+  <p>
+    <strong>Conflicts:</strong>
+    <ul>
+      <% conflicts = @user.conflicts.sort { |a, b| a.start_date <=> b.start_date } %>
+        <% conflicts.each do |job| %>
+          <li><%= conflict.start_date %>
+            -
+            <%= conflict.end_date %>(<%= conflict.category %>)
+            <%= link_to "Edit Conflict", edit_conflict_path(conflict) %>|<%= link_to "Remove conflict", conflict, method: :delete, data: { confirm: "Are you sure?"} %>
+          </li>
+        <% end %>
+      </ul>
+      <%= link_to "Add new conflict", new_conflict_path(:user_id => @user.id) %>
+    </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %>
+    <%= link_to 'Edit', edit_user_path(@user) %>

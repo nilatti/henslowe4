@@ -1,5 +1,6 @@
 class LinesController < ApplicationController
   before_action :set_line, only: %i[show edit update destroy]
+  before_action :set_play, only: [:edit]
 
   # GET /lines
   # GET /lines.json
@@ -13,7 +14,9 @@ class LinesController < ApplicationController
 
   # GET /lines/new
   def new
-    @line = Line.new
+    @french_scene = FrenchScene.find(params[:french_scene_id])
+    @line = @french_scene.lines.build
+    @play = @line.french_scene.scene.act.play
   end
 
   # GET /lines/1/edit
@@ -52,9 +55,10 @@ class LinesController < ApplicationController
   # DELETE /lines/1
   # DELETE /lines/1.json
   def destroy
+    french_scene = @line.french_scene
     @line.destroy
     respond_to do |format|
-      format.html { redirect_to lines_url, notice: 'Line was successfully destroyed.' }
+      format.html { redirect_to french_scene_url(french_scene), notice: 'Line was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -66,8 +70,12 @@ class LinesController < ApplicationController
     @line = Line.find(params[:id])
   end
 
+  def set_play
+    @play = @line.french_scene.scene.act.play
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def line_params
-    params.require(:line).permit(:category, :character, :cut, :french_scene, :line_number, :text)      
+    params.require(:line).permit(:category, :character_id, :cut, :french_scene_id, :line_number, :text)
   end
 end

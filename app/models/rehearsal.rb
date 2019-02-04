@@ -16,7 +16,7 @@ class Rehearsal < ActiveRecord::Base
   before_create :add_default_users
 
   def actor_conflicts
-    a = FindMaterialThatIsNotRehearsable.new(self.rehearsal_schedule.production, self)
+    a = FindMaterialThatIsNotRehearsable.new(rehearsal_schedule.production, self)
     a.production_actors
     a.get_conflicts
     a.get_actors_who_have_conflicts
@@ -24,17 +24,19 @@ class Rehearsal < ActiveRecord::Base
   end
   def actors_called
     fs_list = give_me_all_french_scenes
-    call = WhoIsOnStage.new(fs_list, rehearsal_schedule.production)
-    call.run
-    call.actors.each do |actor|
-      unless users.include?(actor)
-        users << actor
+    call = WhoIsOnStage.new(fs_list, rehearsal_schedule.production).actors_on
+    call.each do |actor_character|
+      unless users.include?(actor_character[:actor])
+        users << actor_character[:actor]
       end
     end
   end
   def add_default_users
+    puts "inside add default users"
     unless rehearsal_schedule.default_rehearsal_attendees.empty?
+      puts "found some users"
       rehearsal_schedule.default_rehearsal_attendees.each do |dra|
+        puts "adding users #{dra.user.name}"
         users << dra.user
       end
     end

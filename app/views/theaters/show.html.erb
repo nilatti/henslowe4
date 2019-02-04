@@ -48,9 +48,10 @@
 <p>
   <strong>Spaces:</strong>
   <ul>
-  <% @theater.space_agreements.each do |space_agreement| %>
-    <li><%= link_to "#{space_agreement.space.name}", space_url(space_agreement.space) %> <%= link_to "Remove space from this theater", space_agreement, method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
+    <% @theater.space_agreements.each do |space_agreement| %>
+      <li><%= link_to "#{space_agreement.space.name}", space_url(space_agreement.space) %>
+        <em>(<%= link_to "Remove space from this theater", space_agreement, method: :delete, data: { confirm: 'Are you sure?' } %>)</em>
+      <% end %>
   </ul>
   <%= link_to "Add new space", new_space_agreement_path(:theater_id => @theater.id) %>
 </p>
@@ -59,18 +60,23 @@
   <strong>Productions:</strong>
   <ul>
     <% @theater.productions.each do |prod| %>
-    <li><%= link_to "#{prod.play.title}", production_url(prod) %>, <% if prod.start_date %><%= prod.start_date.strftime("%Y") %><% end %> <em><%= link_to "Remove production", prod, method: :delete, data: { confirm: 'Are you sure?' } %></em></li>
-      <% end %>
+      <li><%= link_to "#{prod.play.title}", production_url(prod) %>,
+        <% if prod.start_date %><%= prod.start_date.strftime("%Y") %>
+        <% end %>
+        <em><%= link_to "Remove production", prod, method: :delete, data: { confirm: 'Are you sure?' } %></em>
+      </li>
+    <% end %>
   </ul>
   <%= link_to 'Add new production', new_theater_production_path(@theater) %>
-<p>
-  <strong>Associated users:</strong>
-  <ul>
-  <% @theater.users.uniq.each do |user| %>
-    <li><%= link_to "#{user.name}", user_path(user) %></li>
-  <% end %>
-  </ul>
-  <% if current_user.theater_admin?(@theater) || current_user.superadmin? %><%= link_to "Invite new user", new_user_invitation_path %><% end %>
-</p>
+  <p>
+    <strong>Associated users:</strong>
+    <ul>
+      <% @theater.users.uniq.each do |user| %>
+        <li><%= link_to "#{user.name}", user_path(user) %></li>
+      <% end %>
+    </ul>
+    <% if current_user.theater_admin?(@theater) || current_user.superadmin? %><%= link_to "Invite new user", new_user_invitation_path %>
+    <% end %>
+  </p>
 
-<%= link_to 'Edit', edit_theater_path(@theater) %>
+  <%= link_to 'Edit', edit_theater_path(@theater) %>

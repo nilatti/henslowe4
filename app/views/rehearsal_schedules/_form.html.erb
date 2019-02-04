@@ -1,4 +1,3 @@
-<%= bootstrap_form_for(@rehearsal_schedule, layout: :inline) do |f| %>
 <div>
   <div>
     What are the dates of your rehearsal process?
@@ -30,17 +29,16 @@
   <div>
     Which days of the week do you rehearse?
   </div>
-    <%= f.check_box :sunday %>
-    <%= f.check_box :monday %>
-    <%= f.check_box :tuesday %>
-    <%= f.check_box :wednesday %>
-    <%= f.check_box :thursday %>
-    <%= f.check_box :friday %>
-    <%= f.check_box :saturday %>
+  <%= f.check_box :sunday %>
+  <%= f.check_box :monday %>
+  <%= f.check_box :tuesday %>
+  <%= f.check_box :wednesday %>
+  <%= f.check_box :thursday %>
+  <%= f.check_box :friday %>
+  <%= f.check_box :saturday %>
 </div>
 <div>
   <div>Is anyone from your company expected to attend nearly all rehearsals?</div>
   <%= f.collection_check_boxes :user_ids, @production.theater.users.uniq, :id, :name %>
 </div>
-    <%= f.submit %>
-<% end %>
+<%= f.submit %>

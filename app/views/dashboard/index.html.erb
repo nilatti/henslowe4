@@ -1,80 +1,104 @@
-<h1>Welcome <%= current_user.name %></h1>
+<h1>Welcome
+	<%= current_user.name %></h1>
 
-<p><strong>Current Productions:</strong>
+<p>
+	<strong>Current Productions:</strong>
 	<% current_user.productions.each do |production| %>
-	<ul>
-		<% if production.current? %><li><%= link_to "#{production.pretty_name}", production %></li><% end %>
-	</ul>
-	<% end %>
-</p>
-
-<p><strong>Upcoming Productions:</strong>
-	<% current_user.productions.each do |production| %>
-	<ul>
-		<% if production.future? %><li><%= link_to "#{production.pretty_name}", production %><% if current_user.production_admin?(production) %>USER IS PRODUCTION ADMIN<% end %></li><% end %>
-	</ul>
-	<% end %>
-</p>
-
-<p><strong>Past Productions:</strong>
-	<% current_user.productions.each do |production| %>
-	<ul>
-		<% if production.past? %><li><%= link_to "#{production.pretty_name}", production %></li><% end %>
-	</ul>
-	<% end %>
-</p>
-
-<p><strong>Theaters:</strong>
-
-<div class="theater_and_user_list">
-	<h3><% if current_user.superadmin? %>Theaters and<% end %> Users:</h3>
-	<ul>
-	<% @theaters.each do |t| %>
-	  <% if can? :read, t %><li><%= link_to "#{t.name}", theater_path(t) %> &mdash; <% if can? :destroy, t %><%= link_to "Delete theater", t, method: :delete, data: { confirm: 'Are you sure?' } %> <% end %>
-	    <ul>
-		  	<% t.users.uniq.each do |user| %>
-		  	  <li>
-		  	  	<%= link_to "#{user.name}", user %>&mdash;  <% if can? :destroy, user %><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %><% end %>
-		  		</li>
-		  	<% end %>
-	  	</ul>
-	  </li>
-	  <% end %>
-	<% end %>
-	</ul>
-	<% if can? :manage, Theater %><%= link_to "Create New Theater", new_theater_path %><% end %>
-</div>
-
-<% if current_user.superadmin? %>
-	<%= link_to "Manage Users", users_path %>
-<% end %>
-<div class="invited_users_list">
-<h3><% if can? :manage, User %>Users invited (not yet accepted)</h3><% end %>
-	<ul>
-		<% current_user.invitations.each do |invitation| %>
-			<li><%= "#{invitation.try(:name)} #{invitation.email}" %>&mdash;
-				<% if can? :destroy, invitation %>
-				  <%= link_to 'Uninvite', invitation, method: :delete, data: { confirm: 'Are you sure?' } %>
-			  <% end %>
-			  | <%= link_to 'Resend Invitation', resend_invite_user_path(invitation) %></li>
-		<% end %>
-	</ul>
-</div>
-<div>
-	<% if can? :manage, User %><%= link_to "Invite New User", new_user_invitation_path %><% end %>
-</div>
-<% if current_user.superadmin? %>
-	<div>
-		<h2>Authors and Plays</h2>
 		<ul>
-		  <%= render @authors %>
+			<% if production.current? %>
+				<li><%= link_to "#{production.pretty_name}", production %></li>
+			<% end %>
 		</ul>
+	<% end %>
+</p>
+
+<p>
+	<strong>Upcoming Productions:</strong>
+	<% current_user.productions.each do |production| %>
+		<ul>
+			<% if production.future? %>
+				<li><%= link_to "#{production.pretty_name}", production %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</p>
+
+<p>
+	<strong>Past Productions:</strong>
+	<% current_user.productions.each do |production| %>
+		<ul>
+			<% if production.past? %>
+				<li><%= link_to "#{production.pretty_name}", production %></li>
+			<% end %>
+		</ul>
+	<% end %>
+</p>
+
+<p>
+	<strong>Theaters:</strong>
+
+	<div class="theater_and_user_list">
+		<h3>
+			<% if current_user.superadmin? %>Theaters and<% end %>
+			Users:</h3>
+		<ul>
+			<% @theaters.each do |t| %>
+				<% if can? :read, t %>
+					<li><%= link_to "#{t.name}", theater_path(t) %>
+						&mdash;
+						<% if can? :destroy, t %><%= link_to "Delete theater", t, method: :delete, data: { confirm: 'Are you sure?' } %>
+						<% end %>
+						<ul>
+							<% t.users.uniq.each do |user| %>
+								<li>
+									<%= link_to "#{user.name}", user %>&mdash;
+									<% if can? :destroy, user %><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %>
+									<% end %>
+								</li>
+							<% end %>
+						</ul>
+					</li>
+				<% end %>
+			<% end %>
+		</ul>
+		<% if can? :manage, Theater %><%= link_to "Create New Theater", new_theater_path %>
+		<% end %>
 	</div>
 
-<div>
-	<h2>Specializations and Jobs</h2>
-	<ul>
-		<%= render @specializations %>
-	</ul>
-	<%= link_to "Add Specialization", new_specialization_path %>
-<% end %>
+	<% if current_user.superadmin? %>
+		<%= link_to "Manage Users", users_path %>
+	<% end %>
+	<div class="invited_users_list">
+		<h3>
+			<% if can? :manage, User %>Users invited (not yet accepted)</h3>
+		<% end %>
+		<ul>
+			<% current_user.invitations.each do |invitation| %>
+				<li><%= "#{invitation.try(:name)} #{invitation.email}" %>&mdash;
+					<% if can? :destroy, invitation %>
+						<%= link_to 'Uninvite', invitation, method: :delete, data: { confirm: 'Are you sure?' } %>
+					<% end %>
+					|
+					<%= link_to 'Resend Invitation', resend_invite_user_path(invitation) %></li>
+			<% end %>
+		</ul>
+	</div>
+	<div>
+		<% if can? :manage, User %><%= link_to "Invite New User", new_user_invitation_path %>
+		<% end %>
+	</div>
+	<% if current_user.superadmin? %>
+		<div>
+			<h2>Authors and Plays</h2>
+			<ul>
+				<%= render @authors %>
+			</ul>
+		</div>
+
+		<div>
+			<h2>Specializations and Jobs</h2>
+			<ul>
+				<%= render @specializations %>
+			</ul>
+			<%= link_to "Add Specialization", new_specialization_path %>
+		<% end %>

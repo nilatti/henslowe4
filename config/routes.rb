@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-
-  resources :extras
-  resources :default_rehearsal_attendees
-  resources :rehearsal_calls
-  resources :rehearsal_materials
-  resources :conflicts
-  resources :lines
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root
   end
@@ -13,28 +6,31 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :dashboard, only: :index
+  resources :jobs
+  resources :conflicts
 
   resources :authors, shallow: true do
-    resources :plays do
+    resources :plays, shallow: true do
       resources :characters
+      resources :character_groups
       resources :productions
-      resources :acts do
-        resources :scenes do
-          resources :french_scenes do
+      resources :acts, shallow: true do
+        resources :scenes, shallow: true do
+          resources :french_scenes, shallow: true do
             resources :on_stages
+            resources :extras
+            resources :lines, shallow: true
           end
         end
       end
     end
   end
 
-  resources :jobs, only: [:edit, :update, :new, :create]
-  resources :plays
-
   resources :theaters, shallow: true do
     resources :productions do
       resources :rehearsal_schedules do
         resources :rehearsals
+        resources :default_rehearsal_attendees
       end
       resources :jobs
       member do
@@ -45,6 +41,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :rehearsals do
+    resources :rehearsal_materials
+    resources :rehearsal_calls
+  end
   resources :specializations
   resources :spaces
   resources :space_agreements, only: [:new, :create, :destroy]
@@ -63,9 +63,9 @@ Rails.application.routes.draw do
     get 'resend_invite', on: :member
   end
 
-  resources :users do
-    resources :jobs
-  end
+  resources :users, except: :create
+
+  post 'create_user' => 'users#create', as: :create_user
 
   get :build_rehearsal_schedule, to: 'rehearsal_schedules#build_rehearsal_schedule', as: :build_rehearsal_schedule
 end

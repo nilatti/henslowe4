@@ -17,7 +17,6 @@ class BuildRehearsalSchedule
 
   def get_weekdays
     @rehearsal_schedule.rehearsal_days.each do |day|
-      puts day
       day.downcase!
       if day == "sunday"
         @weekdays << 0
@@ -38,20 +37,11 @@ class BuildRehearsalSchedule
   end
 
   def get_dates
-    puts "weekdays: #{@weekdays}"
-    puts "rehearsal schedule: #{@rehearsal_schedule.updated_at}"
-    puts "rehearsal schedule class #{@rehearsal_schedule.class}"
-    puts "start date: #{@rehearsal_schedule.start_date}"
-    puts "end date: #{@rehearsal_schedule.end_date}"
     @rehearsal_schedule.start_date.upto(@rehearsal_schedule.end_date).each do |date|
-      puts "date: #{date}"
-      puts "weekday: #{date.wday}"
-      puts "#{date.wday.class}"
       if @weekdays.include?(date.wday)
         @rehearsal_dates << date
       end
     end
-    puts "rehearsal dates: #{@rehearsal_dates}"
   end
 
   def set_rehearsal_times
@@ -63,19 +53,17 @@ class BuildRehearsalSchedule
         current_time = current_time + @rehearsal_schedule.interval.to_i.minutes
       end
     end
-    puts "rehearsal times #{@rehearsal_times}"
   end
 
   def make_and_save_rehearsals
+    rehearsals_to_save = []
     @rehearsal_times.each do |rehearsal_time|
-      new_rehearsal = Rehearsal.new
-      new_rehearsal.space = @rehearsal_schedule.space
-      new_rehearsal.start_time = rehearsal_time
-      new_rehearsal.end_time = rehearsal_time + @rehearsal_schedule.interval.to_i.minutes
-      new_rehearsal.rehearsal_schedule = @rehearsal_schedule
-      @rehearsal_schedule.default_rehearsal_attendees.each { |dra| new_rehearsal.users << dra.user }
+      new_rehearsal = Rehearsal.new(rehearsal_schedule: @rehearsal_schedule,
+        space: @rehearsal_schedule.space,
+        start_time: rehearsal_time,
+        end_time: rehearsal_time + @rehearsal_schedule.interval.to_i.minutes,
+      )
       new_rehearsal.save
-      puts "new rehearsal id #{new_rehearsal.id}"
     end
   end
 end

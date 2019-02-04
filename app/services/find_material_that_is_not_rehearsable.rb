@@ -49,6 +49,7 @@ class FindMaterialThatIsNotRehearsable
     end
   end
   def get_conflicts
+    @actors = @actors.reject! {|a| a.nil?}
     @actors.each do |actor|
       actor.conflicts.each do |conflict|
         if during_rehearsal?(conflict)
@@ -88,9 +89,6 @@ class FindMaterialThatIsNotRehearsable
   end
   def run
     production_actors
-    @actors.uniq!
-    @actors.reject! {|a| a.nil? }
-
     get_conflicts
     get_actors_who_have_conflicts
     get_french_scenes_unavailable

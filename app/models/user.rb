@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = %i[superadmin regular]
 
@@ -19,8 +19,9 @@ class User < ActiveRecord::Base
 
   def castings_for_production(production)
     jobs = production_jobs(production)
-    acting_jobs = jobs.select { |job| job.specialization.title == "Actor"}
-    return acting_jobs.map(&:character).sort {|a, b| a.name <=> b.name}
+    acting_jobs = jobs.select { |job| job.specialization.title == "Actor" && job.character }
+
+    return acting_jobs.map(&:character).sort {|a, b| a.identifier <=> b.identifier}
   end
 
   def is_actor?(production)
@@ -34,7 +35,7 @@ class User < ActiveRecord::Base
     characters = castings_for_production(production)
     characters.each do |character|
       character.on_stages.each do |on_stage|
-        report_string = character.name
+        report_string = character.identifier
         if on_stage.nonspeaking
           report_string += "*"
         end
@@ -47,8 +48,15 @@ class User < ActiveRecord::Base
     return french_scenes #this is a hash of french scenes (keys), with an array of characters as the values
   end
 
+  def lines_for_production(production)
+    total_lines = 0
+    characters = castings_for_production(production)
+    characters.each { |character| total_lines += character.line_count}
+    total_lines
+  end
+
   def name
-  	"#{first_name} #{last_name}"
+    "#{first_name} #{last_name}"
   end
   def name_and_production_job_titles(production)
     "#{name} (#{production_job_titles(production).join(", ")})"
@@ -80,8 +88,8 @@ class User < ActiveRecord::Base
     jobs = production_jobs(production)
     titles = []
     jobs.each do |job|
-        titles << job.specialization.title
-      end
+      titles << job.specialization.title
+    end
     return titles
   end
   def regular?

@@ -1,9 +1,14 @@
 <p id="notice"><%= notice %></p>
 <p>
-	<%= link_to "#{@scene.act.play.title}", play_path(@scene.act.play) %>, by <%= link_to "#{@scene.act.play.author.name}", author_path(@scene.act.play.author) %>
+	<%= link_to "#{@scene.act.play.title}", play_path(@scene.act.play) %>, by
+	<%= link_to "#{@scene.act.play.author.name}", author_path(@scene.act.play.author) %>
 </p>
 <p>
-	<strong><%= link_to "Act #{@scene.act.act_number}", act_path(@scene.act) %>, Scene <%= @scene.pretty_name %></strong>, pages <%= best_in_place @scene, :start_page %> - <%= best_in_place @scene, :end_page %>
+	<strong><%= link_to "Act #{@scene.act.act_number}", act_path(@scene.act) %>, Scene
+		<%= @scene.pretty_name %></strong>, pages
+	<%= best_in_place @scene, :start_page %>
+	-
+	<%= best_in_place @scene, :end_page %>
 </p>
 <p>
 	<strong>Summary:</strong>
@@ -14,18 +19,18 @@
 		<strong>Actors on stage:</strong>
 		<% if @actors %>
 			<ul>
-				<% @actors.each do |actor, characters| %>
+				<% @actors.each do |job| %>
 					<li>
-						<%= actor.name %> (<%= characters.join(", ") %>)
+						<%= job[:actor] %>:
+						<%= job[:characters].join(", ") %>
 					</li>
 				<% end %>
 			</ul>
 		<% else %>
 			<ul>
-				<%= @scene.act.id %> <%= @scene.act.play.id %>
-				<% @characters.each do |character| %>
+				<% @characters.uniq.each do |character| %>
 					<li>
-						<%= character.name %> (<%= character.id %> <%= character.play.id %>)
+						<%= character.identifier %>
 					</li>
 				<% end %>
 			</ul>
@@ -35,28 +40,36 @@
 <p>
 	<strong>French Scenes:</strong>
 	<ul>
-		<% @scene.french_scenes.each do |french_scene| %>
-		<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>, pages <%= best_in_place french_scene, :start_page %> - <%= best_in_place french_scene, :end_page %>
-			<ul>
-              <% french_scene.on_stages.each do |on_stage| %>
-                <li><% if on_stage.nonspeaking %>(<% end %><%= link_to "#{on_stage.character.name}", edit_on_stage_path(on_stage) %><% if on_stage.nonspeaking %>)<% end %></li>
-              <% end %></ul>
-		</li>
+		<% ordered_scene = FrenchScene.play_order(@scene.french_scenes) %>
+			<% ordered_scene.each do |french_scene| %>
+				<li><%= link_to "#{french_scene.pretty_name}", french_scene_path(french_scene) %>, pages
+					<%= best_in_place french_scene, :start_page %>
+					-
+					<%= best_in_place french_scene, :end_page %><%= link_to "Destroy", french_scene_path(french_scene), method: :delete, data: { confirm: 'Are you sure?' } %>
+					<ul>
+						<% french_scene.on_stages.uniq.each do |on_stage| %>
+							<li>
+								<% if on_stage.nonspeaking %>(<% end %><%= link_to "#{on_stage.character.identifier}", edit_on_stage_path(on_stage) %>
+								<% if on_stage.nonspeaking %>)<% end %>
+							</li>
+						<% end %>
+					</ul>
+				</li>
+			<% end %>
+		</ul>
+	</p>
+	<p>
+		<%= link_to 'Edit', edit_scene_path(@scene) %>
+	</p>
+	<p>
+		<% if @previous %>
+			<div class="previous">
+				<%= link_to "#{@previous.pretty_name}", @previous %>
+			</div>
 		<% end %>
-	</ul>
-</p>
-<p>
-	<%= link_to 'Edit', edit_scene_path(@scene) %>
-</p>
-<p>
-	<% if @previous %>
-		<div class="previous">
-			<%= link_to "#{@previous.pretty_name}", @previous %>
-		</div>
-	<% end %>
-	<% if @next %>
-		<div class="next">
+		<% if @next %>
+			<div class="next">
 				<%= link_to "#{@next.pretty_name}", @next %>
-		</div>
-	<% end %>
-</p>
+			</div>
+		<% end %>
+	</p>

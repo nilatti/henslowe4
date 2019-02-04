@@ -1,3 +1,4 @@
 <h1>Editing Rehearsal Schedule</h1>
-
-<%= render 'form' %>
+<%= bootstrap_form_for(@rehearsal_schedule, layout: :inline) do |f| %>
+<%= render 'form', f: f %>
+<% end %>

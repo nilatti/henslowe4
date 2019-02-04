@@ -11,8 +11,8 @@ class FrenchScene < ActiveRecord::Base
   has_many :lines, dependent: :destroy
   # default_scope { includes(:scene).order('scenes.act_id, scenes.scene_number, french_scene_number') }
 
-  def actors_called(_production)
-    WhoIsOnStage.new([self], production_id).actors_on
+  def actors_called(production)
+    WhoIsOnStage.new([self], production.id).actors_on
   end
 
   def pretty_name

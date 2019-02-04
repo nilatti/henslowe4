@@ -1,8 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= best_in_place @play, :title %></strong> by <%= link_to "#{@play.author.name}", author_path(@play.author) %><br />
-  <% if @play.date %><%= @play.date.strftime("%Y") %><% end %><br />
+  <strong><%= best_in_place @play, :title %></strong>
+  by
+  <%= link_to "#{@play.author.name}", author_path(@play.author) %><br/>
+  <% if @play.date %><%= @play.date.strftime("%Y") %>
+  <% end %><br/>
   <% if @play.canonical %>This is the canonical version of the play.<% end %>
 </p>
 <p>
@@ -16,31 +19,41 @@
 </p>
 
 <p>
-	<strong>Acts:</strong>
-	<ul>
+  <strong>Acts:</strong>
+  <ul>
     <% @play.acts.each do |act| %>
-	  <li><%= link_to "#{act.act_number}", act_path(act) %> &mdash; <%= act.try(:summary) %>
-	  	<ul>
-	  	<% act.scenes.each do |scene| %>
-        	<li><%= link_to "#{scene.pretty_name}", scene_path(scene) %> &mdash; <%= scene.try(:summary) %></li>
-        <% end %>
-    	</ul>
-	  </li>
+      <li><%= link_to "#{act.act_number}", act_path(act) %>
+        &mdash;
+        <%= act.try(:summary) %>
+        <ul>
+          <% act.scenes.each do |scene| %>
+            <li><%= link_to "#{scene.pretty_name}", scene_path(scene) %>
+              &mdash;
+              <%= scene.try(:summary) %></li>
+          <% end %>
+        </ul>
+      </li>
 
-	<% end %>
-</ul>
+    <% end %>
+  </ul>
 </p>
 
 <p>
-    <strong>Characters:</strong>
-    <% if @play.characters %>
-      <ul>
+  <strong>Characters:</strong>
+  <% if @play.characters %>
+    <ul>
       <% @play.characters.each do |character| %>
-        <li><%= link_to "#{character.name}", character_path(character) %><% if character.gender == "Female" %> (F) <% elsif character.gender == "Male" %> (M) <% end %></li>
-      <% end %>
-    </ul>
+        <li><%= link_to "#{character.identifier}", character_path(character) %>
+          <% if character.gender == "Female" || character.gender == 'female'%>
+            (F)
+            <% elsif character.gender == "Male" || character.gender == 'male' %>
+              (M)
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
     <%= link_to "Add Character", new_play_character_path(@play) %>
     <%= link_to "Edit Character List", play_characters_path(@play) %>
-</p>
-<%= link_to 'Edit', edit_play_path(@play) %>
+  </p>
+  <%= link_to 'Edit', edit_play_path(@play) %>

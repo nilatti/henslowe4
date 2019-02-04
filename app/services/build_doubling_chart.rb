@@ -53,7 +53,7 @@ class BuildDoublingChart
 
   def build_row_act(character:)
     character_row = []
-    character_row << generate_name(character)
+    character_row << character.identifier
     @acts.each do |act|
       if act.on_stages.select {|on_stage| on_stage.character == character}.size > 0
         character_lines = line_total(character: character, french_scenes: [act.french_scenes])
@@ -71,11 +71,11 @@ class BuildDoublingChart
 
   def build_row_french_scene(character:)
     character_row = []
-    character_row << generate_name(character)
+    character_row << generate_name(character: character)
     @french_scenes.each do |french_scene|
       if french_scene.on_stages.select {|on_stage| on_stage.character == character}.size > 0
         character_lines = line_total(character: character, french_scenes: [french_scene])
-        if character_lines > 1
+        if character_lines > 0
           character_row << character_lines
         else
           character_row << '(X)'
@@ -89,7 +89,7 @@ class BuildDoublingChart
 
   def build_row_scene(character:)
     character_row = []
-    character_row << generate_name(character)
+    character_row << generate_name(character: character)
     @scenes.each do |scene|
       if scene.on_stages.select {|on_stage| on_stage.character == character}.size > 0
         character_lines = line_total(character: character, french_scenes: [scene.french_scenes])
@@ -103,14 +103,6 @@ class BuildDoublingChart
       end
     end
     printable_row = character_row.join(@delimiter) + "\n"
-  end
-
-  def generate_name(character)
-    if !character.name.empty?
-      return "#{character.name}"
-    else
-      return "#{character.xml_id}"
-    end
   end
 
   def line_total(character:, french_scenes:) #array of french scenes
@@ -130,7 +122,7 @@ class BuildDoublingChart
     total_lines.round
   end
 
-  def name(character:)
+  def generate_name(character:)
     if !character.name.empty?
       character.name
     else

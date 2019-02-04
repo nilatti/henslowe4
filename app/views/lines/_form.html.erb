@@ -1,13 +1,9 @@
-<%= semantic_form_for @line do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :text %>
-    <%= f.input :belongs_to %>
-    <%= f.input :belongs_to %>
-    <%= f.input :type %>
-    <%= f.input :cut %>
-  <% end %>
-
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
-  <% end %>
+<%= bootstrap_form_for([@french_scene, @line], inline_errors: false, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10" ) do |f| %>
+<%= f.text_field :text %>
+<%= f.collection_select :character_id, @play.characters, :id, :name, {:include_blank => ''} %>
+<%= f.collection_select :french_scene_id, FrenchScene.play_order(@play.french_scenes), :id, :pretty_name %>
+<%= f.select :category, ["text", "stage direction"] %>
+<%= f.text_field :line_number %>
+<%= f.check_box :cut %>
+<%= f.submit %>
 <% end %>

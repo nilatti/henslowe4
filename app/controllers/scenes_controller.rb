@@ -4,7 +4,7 @@ class ScenesController < ApplicationController
 
   before_action :set_scene, only: [:show, :edit, :update, :destroy]
   before_action :set_act
-  before_action :set_play, only: [:edit]
+  before_action :set_play
 
   # GET /scenes
   # GET /scenes.json
@@ -19,16 +19,16 @@ class ScenesController < ApplicationController
     scenes = @scene.act.play.scenes
     scenes = scenes.sort { |a, b| a.pretty_name <=> b.pretty_name }
     index = scenes.index { |s| s.id == @scene.id }
-
+    @play = @scene.act.play
     @next = scenes[index + 1]
     if index > 0
       @previous = scenes[index-1]
     end
-    @production = @scene.act.play.production
+    @production = Production.find_by(play: @play)
     if @production
       @actors = @scene.actors_called(@production.id)
     end
-    @characters = @scene.characters.uniq.reject {|character| character.play_id != @scene.act.play_id}
+    @characters = @scene.characters.uniq
   end
 
   # GET /scenes/new
@@ -39,7 +39,9 @@ class ScenesController < ApplicationController
   # GET /scenes/1/edit
   def edit
     @production = Production.find_by(:play_id == @play.id)
-    @users = @production.involved_users
+    if @production
+      @users = @production.involved_users
+    end
   end
 
   # POST /scenes
@@ -87,22 +89,34 @@ class ScenesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_scene
-      @scene = Scene.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_scene
+    @scene = Scene.find(params[:id])
+  end
 
-    def set_act
-      if params[:act_id]
-        @act = Act.find(params[:act_id])
-      end
+  def set_act
+    if params[:act_id]
+      @act = Act.find(params[:act_id])
     end
-    def set_play
-      @play = @scene.act.play
-    end
+  end
+  def set_play
+    @play = @scene.act.play
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def scene_params
-      params.require(:scene).permit(:scene_number, :summary,  :start_page, :end_page, :play_id, character_ids: [], french_scenes_attributes: [:id,  :start_page, :end_page, :french_scene_number, :_destroy, :extras_attributes, character_ids: []])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def scene_params
+    params.require(:scene).permit(:scene_number,
+      :summary,
+      :start_page,
+      :end_page,
+      :play_id,
+      french_scenes_attributes: [:id,
+        :start_page,
+        :end_page,
+        :french_scene_number,
+        :_destroy,
+        :extras_attributes,
+      character_ids: []]
+    )
+  end
 end

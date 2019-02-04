@@ -7,6 +7,7 @@ class Play < ActiveRecord::Base
   has_many :on_stages, through: :french_scenes, dependent: :destroy
   has_many :lines, through: :french_scenes, dependent: :destroy
   has_many :characters, dependent: :destroy
+  has_many :character_groups, dependent: :destroy
   has_one :production
 
   # has_attached_file :script
@@ -18,7 +19,7 @@ class Play < ActiveRecord::Base
   # before_save :parse_script
 
   default_scope { joins(:author).order('authors.last_name') }
-  scope :canonical, -> { where(canonical: true) }
+  scope :canonical, -> { where(canonical: true).order('title') }
 
   accepts_nested_attributes_for :acts, allow_destroy: true
   accepts_nested_attributes_for :scenes, allow_destroy: true

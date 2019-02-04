@@ -1,6 +1,4 @@
-<%= semantic_form_for @act do |f| %>
-      <%= render 'shared_partials/act_fields', f: f %>
-	  <%= f.actions do %>
-	    <%= f.action :submit, :as => :input %>
-	  <% end %>
+<%= bootstrap_form_for @act do |f| %>
+<%= render 'shared_partials/act_fields', f: f %>
+<%= f.submit %>
 <% end %>

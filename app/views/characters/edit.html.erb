@@ -1,9 +1,10 @@
 <% content_for :head do %>
-  <title><%= "Editing #{@character.name}" %></title>
+  <title><%= "Editing #{@character.identifier}" %></title>
 <% end %>
-<h1>Editing Character</h1>
-
+<h1>Editing
+  <%= @character.identifier %></h1>
 <%= render 'form' %>
 
-<%= link_to 'Show', @character %> |
+<%= link_to 'Show', @character %>
+|
 <%= link_to 'Back', play_path(@character.play) %>

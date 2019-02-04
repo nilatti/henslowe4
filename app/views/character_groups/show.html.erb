@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @character_group.name %>
+</p>
+
+<p>
+  <strong>Play:</strong>
+  <%= @character_group.play %>
+</p>
+
+<%= link_to 'Edit', edit_character_group_path(@character_group) %> |
+<%= link_to 'Back', character_groups_path %>

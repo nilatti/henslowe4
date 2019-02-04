@@ -7,13 +7,9 @@ class RehearsalSchedulesController < ApplicationController
   end
 
   def show
+
     respond_to do |format|
       format.html
-      format.pdf do
-        date = Date.today
-        render pdf: "#{@rehearsal_schedule.production.play.title}_schedule_#{date}", layout: 'pdf.html.erb'   # Excluding ".pdf" extension.
-
-      end
     end
   end
 

@@ -13,7 +13,11 @@
 
 <p>
   <strong>Dates:</strong>
-  b. <%= best_in_place @author, :birth_date, :as => :date %><% if @author.death_date %>, d. <%= best_in_place @author, :death_date, :as => :date %> <% end %>
+  b.
+  <%= best_in_place @author, :birth_date, :as => :date %>
+  <% if @author.death_date %>, d.
+    <%= best_in_place @author, :death_date, :as => :date %>
+  <% end %>
 </p>
 
 <p>
@@ -24,9 +28,10 @@
 <p>
   <strong>Plays:</strong>
   <ul>
-    <% @author.plays.canonical.each do |play| %>
-      <li><%= link_to "#{play.title}", play_path(play) %></li>
-    <% end %>
-  </ul>
-  <%= link_to "Add a play", new_author_play_path(@author) %>
-</p>
+    <% ordered_plays = @author.plays.canonical.sort {|a, b| a.title <=> b.title } %>
+      <% ordered_plays.each do |play| %>
+        <li><%= link_to "#{play.title}", play_path(play) %></li>
+      <% end %>
+    </ul>
+    <%= link_to "Add a play", new_author_play_path(@author) %>
+  </p>

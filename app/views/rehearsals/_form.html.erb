@@ -8,10 +8,10 @@
     Set date and time.
   </h2>
 </div>
-  <%= f.datetime_select :start_time %>
-  <%= f.datetime_select :end_time %>
-  <%= f.select :space_id, Space.all.collect {|p| [p.name, p.id]}, include_blank: true %>
-  <%= f.collection_check_boxes :user_ids, @production.involved_users, :id, :name, label: "Who should be there?" %>
+<%= f.datetime_select :start_time %>
+<%= f.datetime_select :end_time %>
+<%= f.select :space_id, @production.theater.spaces.collect {|p| [p.name, p.id]}, include_blank: true %>
+<%= f.collection_check_boxes :user_ids, @production.involved_users, :id, :name, label: "Who should be there?" %>
 <div>
   <h2>
     Select material:
@@ -23,5 +23,5 @@
   <%= f.text_field :notes %>
 </div>
 
-  <%= f.submit %>
+<%= f.submit %>
 <% end %>
