@@ -40,7 +40,7 @@ gem 'seed-fu', '~> 2.3'
 gem 'activerecord-import'
 
 gem 'bootstrap_form'
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'autoprefixer-rails'
 gem 'bootstrap-datepicker-rails'
 
